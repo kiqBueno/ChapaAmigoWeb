@@ -9,6 +9,20 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleNavClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    const targetId = event.currentTarget.getAttribute("href")?.substring(1);
+    if (targetId) {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    setMenuOpen(false); // Close the menu when a link is clicked
+  };
+
   return (
     <header className="header">
       <div className="headerContainer">
@@ -21,22 +35,38 @@ const Header = () => {
           <nav className={`nav ${menuOpen ? "open" : ""}`}>
             <ul className="nav-links">
               <li>
-                <a href="#home">Home</a>
+                <a href="#homeContainer" onClick={handleNavClick}>
+                  Home
+                </a>
               </li>
               <li>
-                <a href="#FaleConosco">Contato</a>
+                <a href="#FaleConosco" onClick={handleNavClick}>
+                  Contato
+                </a>
               </li>
               <li>
-                <a href="#TermosCondições">Termos e Condições</a>
+                <a href="#TermosCondições" onClick={handleNavClick}>
+                  Termos e Condições
+                </a>
               </li>
               <li>
-                <a href="#Cadastrar">Cadastrar</a>
+                <a href="#Cadastrar" onClick={handleNavClick}>
+                  Cadastrar
+                </a>
               </li>
               <li>
-                <a href="#Planos">Planos</a>
+                <a href="#Planos" onClick={handleNavClick}>
+                  Planos
+                </a>
               </li>
               <li>
-                <button className="downloadBtn">Download</button>
+                <a
+                  href="#footerContainer"
+                  className="downloadBtn"
+                  onClick={handleNavClick}
+                >
+                  Download
+                </a>
               </li>
             </ul>
           </nav>
