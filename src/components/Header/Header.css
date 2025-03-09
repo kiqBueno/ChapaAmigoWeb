@@ -87,11 +87,6 @@ html {
   color: #ffca00;
 }
 
-.nav {
-  display: none;
-  width: 100%;
-}
-
 .nav.open {
   display: flex;
   flex-direction: column;
@@ -101,7 +96,7 @@ html {
   width: 100%;
   background-color: white;
   padding: 1rem 0;
-  z-index: 1001; /* Ajuste o z-index para garantir que o menu apareça acima de outros elementos */
+  z-index: 1001;
 }
 
 @media (max-width: 925px) {
