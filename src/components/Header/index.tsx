@@ -15,19 +15,23 @@ const Header = () => {
     event.preventDefault();
     const targetId = event.currentTarget.getAttribute("href")?.substring(1);
     if (targetId) {
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
+      if (targetId === "homeContainer") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth" });
+        }
       }
     }
-    setMenuOpen(false); // Close the menu when a link is clicked
+    setMenuOpen(false);
   };
 
   return (
     <header className="header">
-      <div className="headerContainer">
+      <div id="headerContainer">
         <div className="logo">
-          <a href="#home">
+          <a href="#homeContainer" onClick={handleNavClick}>
             <img src="/Logo.png" alt="Logo" id="Logo" />
           </a>
         </div>

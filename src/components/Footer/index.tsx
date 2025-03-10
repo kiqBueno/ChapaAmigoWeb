@@ -14,14 +14,14 @@ const Footer = () => {
             <FaInstagram />
           </a>
           <a
-            href="https://wa.me/yourwhatsappnumber"
+            href="https://api.whatsapp.com/send?phone=5512982882941"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaWhatsapp />
           </a>
           <a
-            href="mailto:youremail@example.com"
+            href="mailto:contato@chapaamigo.com.br"
             target="_blank"
             rel="noopener noreferrer"
           >

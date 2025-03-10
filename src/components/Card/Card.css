@@ -1,0 +1,19 @@
+.card {
+  background-color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease; /* Adiciona transição suave */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Expande o card suavemente */
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #0f3558;
+}

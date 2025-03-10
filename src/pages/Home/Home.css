@@ -3,3 +3,27 @@
   color: #000;
   margin-top: 5rem;
 }
+
+#homeContainer .downloadBtn {
+  display: none;
+}
+
+.homeText {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 2rem;
+}
+
+@media (max-width: 925px) {
+  #homeContainer .downloadBtn {
+    display: block;
+  }
+}
