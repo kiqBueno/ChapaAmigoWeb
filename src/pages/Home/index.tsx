@@ -1,73 +1,47 @@
 import "./Home.css";
-import React from "react";
 import Card from "../../components/Card/Card";
-
-const handleNavClick = (
-  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-) => {
-  event.preventDefault();
-  const targetId = event.currentTarget.getAttribute("href")?.substring(1);
-  if (targetId) {
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-};
 
 const Home = () => {
   return (
     <div id="homeContainer">
       <main className="homeContent">
         <div className="homeText">
-          <h1>Cansado de burocracia e taxas abusivas?</h1>
+          <h1>Descarga Sem Complicações!</h1>
           <h3>
-            A Plataforma{" "}
-            <strong style={{ color: "#ffca00" }}> Chapa Amigo</strong> é a sua
-            parceria na estrada.
+            Chega de dificuldades e taxas abusivas! A Plataforma{" "}
+            <strong style={{ color: "#ffca00" }}> Chapa Amigo</strong> é a
+            solução completa para chapas e transportadoras que buscam liberdade,
+            oportunidades e eficiência.
           </h3>
-          <p>
-            Criada pensando em você, Chapa, caminhoneiro e transportador, que
-            busca mais liberdade, controle e oportunidades no mundo dos fretes.
-          </p>
-          <p>
-            Com a gente, você tem mais do que uma plataforma de fretes, você tem
-            uma ferramenta completa para gerenciar seu trabalho de forma
-            eficiente, encontrar as melhores oportunidades e aumentar seus
-            ganhos.
-          </p>
-          <a
-            href="#footerContainer"
-            className="downloadBtn"
-            onClick={handleNavClick}
-          >
-            Download
-          </a>
+          <h4>
+            Conecte-se diretamente com os melhores profissionais de descarga,
+            negocie seus preços e tenha total controle na palma das mãos.
+          </h4>
         </div>
         <div className="cardsContainer">
           <Card
-            title="Conexão direta"
-            content="Conectamos você diretamente com empresas e transportadoras que precisam dos seus serviços. Sem intermediários, a negociação é feita de forma transparente e você tem total controle sobre os valores."
+            title="Conexão Direta"
+            content="Na Plataforma Chapa Amigo, a conexão é direta e eficiente. Converse diretamente com caminhoneiros e transportadoras, eliminando intermediários e garantindo negociações transparentes. Com suporte eficiente, organização de serviços, localização precisa e comunicação direta, proporcionando praticidade e confiabilidade em sua rotina."
           />
           <Card
-            title="Liberdade para negociar"
-            content="Defina seus próprios preços, negocie diretamente com os clientes e encontre as melhores oportunidades que se encaixam na sua rota e disponibilidade."
+            title="Negociação Transparente"
+            content="Defina seus preços, encontre as melhores oportunidades para sua rota e disponibilidade, e tenha controle total do valor combinado. Seu negócio, suas regras!"
           />
           <Card
-            title="Sem surpresas"
+            title="Segurança em Primeiro Lugar"
+            content="A Plataforma Chapa Amigo oferece um ambiente seguro e profissional para a realização de negociações. A verificação de perfis, o canal de comunicação exclusivo e o registro de Ordens de Serviços garantem a proteção dos usuários e a integridade das transações."
+          />
+          <Card
+            title="Flexibilidade Total, Seu Tempo, Suas Escolhas!"
+            content="Amigo Chapa, aqui você decide quando e como quer trabalhar. A plataforma está sempre disponível para te conectar com novas oportunidades, mas a decisão de aceitar ou não é sempre sua."
+          />
+          <Card
+            title="Acesso Total por um Preço Justo"
+            content="Com uma mensalidade acessível, você tem acesso ilimitado a todas as funcionalidades do nosso aplicativo e pode participar quando e como quiser."
+          />
+          <Card
+            title="Sem Surpresas Desagradáveis, Seu Dinheiro na Mão!"
             content="Na Plataforma Chapa Amigo, você sabe exatamente quanto vai receber pelo seu trabalho. Sem taxas escondidas ou comissões inesperadas, o valor combinado é seu!"
-          />
-          <Card
-            title="Mensalidade fixa"
-            content="Com uma mensalidade acessível, você tem acesso ilimitado a todas as funcionalidades da plataforma e pode participar quando e como quiser. Sem taxas adicionais por frete ou comissão sobre seus ganhos."
-          />
-          <Card
-            title="Flexibilidade"
-            content="Você decide quando e como quer trabalhar. A plataforma está sempre disponível para te conectar com novas oportunidades, mas a decisão de aceitar ou não é sempre sua."
-          />
-          <Card
-            title="Segurança"
-            content="A Plataforma Chapa Amigo oferece um ambiente seguro para você realizar suas negociações e encontrar parceiros confiáveis."
           />
         </div>
       </main>
