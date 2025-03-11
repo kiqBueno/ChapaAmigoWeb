@@ -1,28 +1,19 @@
 import "./Header.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleNavClick = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    const targetId = event.currentTarget.getAttribute("href")?.substring(1);
-    if (targetId) {
-      if (targetId === "homeContainer") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: "smooth" });
-        }
-      }
+  const handleHomeClick = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
     setMenuOpen(false);
   };
@@ -31,35 +22,35 @@ const Header = () => {
     <header className="header">
       <div id="headerContainer">
         <div className="logo">
-          <a href="#homeContainer" onClick={handleNavClick}>
+          <Link to="/" onClick={handleHomeClick}>
             <img src="/Logo.png" alt="Logo" id="Logo" />
-          </a>
+          </Link>
         </div>
         <div className="navbarCenter">
           <nav className={`nav ${menuOpen ? "open" : ""}`}>
             <ul className="nav-links">
               <li>
-                <a href="#homeContainer" onClick={handleNavClick}>
+                <Link to="/" onClick={handleHomeClick}>
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#FaleConosco" onClick={handleNavClick}>
+                <a href="#FaleConosco" onClick={() => setMenuOpen(false)}>
                   Contato
                 </a>
               </li>
               <li>
-                <a href="#TermosCondições" onClick={handleNavClick}>
+                <Link to="/termos-condicoes" onClick={() => setMenuOpen(false)}>
                   Termos e Condições
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#Cadastrar" onClick={handleNavClick}>
+                <a href="#Cadastrar" onClick={() => setMenuOpen(false)}>
                   Cadastrar
                 </a>
               </li>
               <li>
-                <a href="#Planos" onClick={handleNavClick}>
+                <a href="#Planos" onClick={() => setMenuOpen(false)}>
                   Planos
                 </a>
               </li>
@@ -67,7 +58,7 @@ const Header = () => {
                 <a
                   href="#footerContainer"
                   className="downloadBtn"
-                  onClick={handleNavClick}
+                  onClick={() => setMenuOpen(false)}
                 >
                   Download
                 </a>

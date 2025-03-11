@@ -22,6 +22,11 @@
   padding: 2rem;
 }
 
+.cards {
+  display: flex;
+  gap: 1rem;
+}
+
 @media (max-width: 925px) {
   #homeContainer .downloadBtn {
     display: block;
@@ -29,5 +34,13 @@
 
   .homeText {
     padding: 1rem;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .cardsContainer {
+    padding: 0;
   }
 }

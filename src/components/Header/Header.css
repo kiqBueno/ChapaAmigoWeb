@@ -59,7 +59,7 @@ html {
   cursor: pointer;
   background-color: #ffca00;
   color: #242424;
-  border-radius: 0.75rem;
+  border-radius: 10px;
   border: none;
   padding: 0.5rem 1rem;
   font-family: inherit;

@@ -1,0 +1,53 @@
+#termosCondicoesContainer {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+  margin-top: 5rem;
+  position: relative;
+}
+
+#termosCondicoesContainer h1 {
+  text-align: center;
+  color: #0f3558;
+}
+
+#termosCondicoesContainer h3 {
+  margin-top: 1.5rem;
+  background-color: #ffca00;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+#termosCondicoesContainer p {
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+.icon {
+  margin-left: 10px;
+}
+
+.downloadBtn2 {
+  cursor: pointer;
+  background-color: #0f3558;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.5;
+  font-size: 1.5rem;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none; /* Add this line */
+}
+
+.downloadBtn2:hover {
+  background-color: #ffca00;
+  color: #242424;
+}
