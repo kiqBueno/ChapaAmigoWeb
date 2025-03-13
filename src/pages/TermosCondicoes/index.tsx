@@ -27,7 +27,9 @@ const Section = ({ title, sectionKey, children }: SectionProps) => {
           <FaPlus className="icon" />
         )}
       </h3>
-      {openSections[sectionKey] && <div>{children}</div>}
+      {openSections[sectionKey] && (
+        <div className="sectionContent">{children}</div>
+      )}
     </div>
   );
 };
@@ -68,22 +70,43 @@ const TermosCondicoes = () => {
           </p>
         </Section>
 
-        <Section title="3. Cadastro e Uso" sectionKey="cadastro">
+        <Section
+          title="3. Cadastro, Verificação de Dados e Segurança"
+          sectionKey="cadastro"
+        >
           <p>
-            3.1 Cadastro e Verificação de Dados: Para utilizar a Plataforma, o
-            Usuário deverá se cadastrar, fornecendo informações verdadeiras,
-            completas e atualizadas. A fim de garantir a segurança e a
-            integridade dos dados, a Empresa poderá submeter as informações
-            fornecidas pelo Usuário a uma verificação por meio de serviços de
-            terceiros especializados, tendo como parceiro para este fim uma
-            empresa especializada, que utiliza uma API para detectar fraudes,
-            óbitos, filiação e antecedentes criminais. O Usuário autoriza
-            expressamente a realização dessa verificação e concorda que os dados
-            fornecidos poderão ser compartilhados com a empresa EXATO para essa
-            finalidade.
+            3.1. Cadastro e Precisão das Informações: Para utilizar a
+            Plataforma, o Chapa deverá realizar um cadastro completo, fornecendo
+            informações verdadeiras, precisas e atualizadas. A precisão e
+            veracidade dos dados fornecidos são de responsabilidade exclusiva do
+            Chapa.
           </p>
           <p>
-            3.2 Responsabilidade do Usuário: O Usuário é responsável pela
+            3.2. Verificação de Dados e Segurança: Visando garantir a máxima
+            segurança e confiabilidade da Plataforma para todos os usuários, a
+            Plataforma realizará verificações abrangentes dos dados fornecidos
+            pelo Chapa. Essas verificações poderão incluir, mas não se limitar a
+            consultas a bancos de dados públicos e privados, análise de
+            antecedentes criminais, verificação de identidade (incluindo foto),
+            confirmação de endereços e telefones, e outras análises relevantes.
+          </p>
+          <p>
+            3.3. Consentimento e Responsabilidade: Ao se cadastrar na
+            Plataforma, o Chapa expressamente consente com a realização das
+            verificações de dados descritas nesta cláusula. O Chapa reconhece e
+            concorda que a responsabilidade pela precisão e veracidade das
+            informações fornecidas é exclusivamente sua, e que a Plataforma
+            poderá utilizar os dados fornecidos para as finalidades de
+            verificação e segurança descritas neste documento.
+          </p>
+          <p>
+            3.4. Proteção de Dados: A Plataforma compromete-se a tratar os dados
+            pessoais do Chapa em conformidade com a legislação aplicável e com a
+            sua Política de Privacidade, garantindo a confidencialidade e
+            segurança das informações coletadas.
+          </p>
+          <p>
+            3.5 Responsabilidade do Usuário: O Usuário é responsável pela
             segurança de sua senha e por todas as atividades realizadas em sua
             conta. O Usuário se compromete a notificar imediatamente a Empresa
             sobre qualquer uso não autorizado de sua conta ou qualquer outra

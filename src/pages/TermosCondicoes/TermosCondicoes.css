@@ -28,6 +28,10 @@
   line-height: 1.6;
 }
 
+#termosCondicoesContainer .sectionContent {
+  padding: 0 1rem;
+}
+
 .icon {
   margin-left: 10px;
 }
