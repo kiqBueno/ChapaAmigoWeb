@@ -55,6 +55,11 @@ const Header = () => {
                 </a>
               </li>
               <li>
+                <a href="#Planos" onClick={() => setMenuOpen(false)}>
+                  Comercial
+                </a>
+              </li>
+              <li>
                 <a
                   href="#footerContainer"
                   className="downloadBtn"

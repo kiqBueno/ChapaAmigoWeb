@@ -1,0 +1,48 @@
+.iconWithText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 10rem;
+}
+
+.iconWithText h3,
+p {
+  margin: 0;
+}
+
+.iconWithText h3 {
+  color: #0f3558;
+  margin-top: 1rem;
+}
+
+.iconWithText .iconContainer {
+  background-color: #0f3558;
+  padding: 1.5rem;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconWithText .icon {
+  font-size: 3rem;
+  margin: 0;
+  color: white;
+}
+
+.iconsWithText {
+  display: flex;
+  gap: 10rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+@media (max-width: 925px) {
+  .iconsWithText {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+}

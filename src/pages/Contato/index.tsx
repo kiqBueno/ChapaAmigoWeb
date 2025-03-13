@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import IconWithText from "../../components/IconWithText";
 import "./Contato.css";
 
 const Contato = () => {
@@ -17,13 +19,26 @@ const Contato = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Form submitted:", formData);
   };
 
   return (
     <div id="contatoContainer">
       <h1>Contato</h1>
+      <div className="iconsWithText">
+        <IconWithText
+          href="https://api.whatsapp.com/send?phone=5512982882941"
+          icon={FaWhatsapp}
+          title="WhatsApp:"
+          text="+55 12 98288-2941"
+        />
+        <IconWithText
+          href="mailto:contato@chapaamigo.com.br"
+          icon={FaEnvelope}
+          title="E-Mail:"
+          text="contato@chapaamigo.com.br"
+        />
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="formGroup">
           <label htmlFor="name">Nome:</label>

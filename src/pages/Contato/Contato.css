@@ -4,10 +4,27 @@
   color: #333;
   margin-top: 5rem;
   width: 50%;
+  height: auto;
 }
 
 #contatoContainer h1 {
   text-align: center;
+  color: #ffca00;
+}
+
+.iconsGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.icon {
+  font-size: 2rem;
+  color: #0f3558;
+}
+
+.icon:hover {
   color: #ffca00;
 }
 
