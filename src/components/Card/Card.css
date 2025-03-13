@@ -21,3 +21,9 @@
   margin-top: 0;
   color: #0f3558;
 }
+
+@media (max-width: 925px) {
+  .card {
+    width: auto;
+  }
+}
