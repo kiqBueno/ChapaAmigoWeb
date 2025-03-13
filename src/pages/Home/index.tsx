@@ -19,6 +19,7 @@ const Home = () => {
           </h4>
         </div>
         <Cards />
+        <div className="videoContainer"></div>
       </main>
     </div>
   );

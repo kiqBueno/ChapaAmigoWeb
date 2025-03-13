@@ -35,9 +35,9 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <a href="#FaleConosco" onClick={() => setMenuOpen(false)}>
+                <Link to="/contato" onClick={() => setMenuOpen(false)}>
                   Contato
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to="/termos-condicoes" onClick={() => setMenuOpen(false)}>
@@ -46,7 +46,7 @@ const Header = () => {
               </li>
               <li>
                 <a href="#Cadastrar" onClick={() => setMenuOpen(false)}>
-                  Cadastrar
+                  Cadastro
                 </a>
               </li>
               <li>

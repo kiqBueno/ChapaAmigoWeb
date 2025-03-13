@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import TermosCondicoes from "./pages/TermosCondicoes";
+import Contato from "./pages/Contato";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/contato" element={<Contato />} />
           <Route path="/termos-condicoes" element={<TermosCondicoes />} />
         </Routes>
         <Footer />
