@@ -17,6 +17,10 @@ body {
   overflow-x: hidden;
 }
 
+p {
+  font-size: 1.15rem;
+}
+
 /* 
 Matiz (adicionando branco)
 #ffca00

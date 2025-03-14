@@ -99,6 +99,11 @@ html {
   z-index: 1001;
 }
 
+#headerContainer li,
+.downloadBtn {
+  font-size: 1.25rem;
+}
+
 @media (max-width: 925px) {
   .header {
     padding: 1rem;

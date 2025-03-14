@@ -1,5 +1,4 @@
 #contatoContainer {
-  /* padding: 0; */
   margin: 0 auto;
   color: #333;
   margin-top: 5rem;
@@ -33,21 +32,32 @@
 }
 
 .formGroup label {
-  /* display: block; */
   margin-bottom: 0.5rem;
   font-weight: bold;
+  font-size: 1.25rem;
 }
 
 .formGroup input,
 .formGroup textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: black;
+  font-size: 1.25rem;
+}
+
+.formGroup input:-webkit-autofill,
+.formGroup textarea:-webkit-autofill {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #ccc !important;
 }
 
 .formGroup textarea {
   resize: vertical;
-  border: 1px solid #ccc;
 }
 
 .submitBtn {
@@ -62,9 +72,26 @@
   line-height: 1.5;
   font-size: 1.5rem;
   transition: background-color 0.2s, color 0.2s;
+  width: 75%;
 }
 
 .submitBtn:hover {
   background-color: #ffca00;
   color: #242424;
+}
+
+.submitBtnContainer {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 3rem;
+}
+
+@media (max-width: 925px) {
+  #contatoContainer {
+    margin: 0 auto;
+    color: #333;
+    margin-top: 5rem;
+    width: 75%;
+    height: auto;
+  }
 }

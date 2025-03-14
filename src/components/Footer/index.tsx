@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="footerLogos">
         <div id="socialIcons">
           <a
-            href="https://www.instagram.com"
+            href="https://www.instagram.com/chapaamigo"
             target="_blank"
             rel="noopener noreferrer"
           >
