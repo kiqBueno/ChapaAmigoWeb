@@ -19,12 +19,33 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  padding: 2rem;
 }
 
 .cards {
   display: flex;
   gap: 1rem;
+}
+
+.videoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 66.5vh;
+  margin: auto;
+  padding: 2rem;
+}
+
+.videoContainer iframe {
+  height: 100%;
+  width: 50%;
+}
+
+.videoContainer h1 {
+  color: #ffca00;
+}
+
+#priceContainer {
+  color: #0f3558;
 }
 
 @media (max-width: 925px) {
@@ -42,5 +63,15 @@
 
   .cardsContainer {
     padding: 0.75rem;
+  }
+
+  .videoContainer {
+    height: 50vh;
+    width: 75vw;
+    margin: auto;
+  }
+
+  .videoContainer iframe {
+    width: 100%;
   }
 }

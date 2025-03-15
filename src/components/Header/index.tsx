@@ -1,11 +1,12 @@
 import "./Header.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -15,6 +16,14 @@ const Header = () => {
     if (location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    setMenuOpen(false);
+  };
+
+  const handleAnchorClick = (anchor: string) => {
+    navigate("/");
+    setTimeout(() => {
+      window.location.hash = anchor;
+    }, 0);
     setMenuOpen(false);
   };
 
@@ -45,17 +54,26 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <a href="#Cadastrar" onClick={() => setMenuOpen(false)}>
+                <a
+                  href="#videoContainerCadastro"
+                  onClick={() => handleAnchorClick("Cadastrar")}
+                >
                   Cadastro
                 </a>
               </li>
               <li>
-                <a href="#Planos" onClick={() => setMenuOpen(false)}>
+                <a
+                  href="#priceContainer"
+                  onClick={() => handleAnchorClick("priceContainer")}
+                >
                   Planos
                 </a>
               </li>
               <li>
-                <a href="#Planos" onClick={() => setMenuOpen(false)}>
+                <a
+                  href="#videoContainerComercial"
+                  onClick={() => handleAnchorClick("Planos")}
+                >
                   Comercial
                 </a>
               </li>
@@ -63,7 +81,7 @@ const Header = () => {
                 <a
                   href="#footerContainer"
                   className="downloadBtn"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => handleAnchorClick("footerContainer")}
                 >
                   Download
                 </a>

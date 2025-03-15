@@ -22,25 +22,27 @@ const Contato = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
+      name: formData.name,
+      email: formData.email,
       phone: formData.phone,
       message: formData.message,
     };
 
+    console.log("Sending email with the following parameters:", templateParams);
+
     emailjs
       .send(
-        "YOUR_SERVICE_ID", // Replace with your EmailJS service ID
-        "YOUR_TEMPLATE_ID", // Replace with your EmailJS template ID
+        "service_astwwp5",
+        "template_2zfwt9g",
         templateParams,
-        "YOUR_USER_ID" // Replace with your EmailJS user ID
+        "KoMk7cCEYEznfIzsy"
       )
       .then(
         (result) => {
-          console.log("Email successfully sent!", result.text);
+          console.log("Email successfully sent!", result.text, templateParams);
         },
         (error) => {
-          console.error("Error sending email:", error.text);
+          console.error("Error sending email:", error.text, templateParams);
         }
       );
   };
