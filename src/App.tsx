@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/HomePage";
 import TermosCondicoes from "./pages/TermsConditionsPage";
 import Contato from "./pages/ContactPage";
+import AccessPage from "./pages/AccessPage";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -21,31 +22,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-declare global {
-  interface Window {
-    Tawk_API: {
-      [key: string]: unknown;
-    };
-  }
-}
-
 function App() {
-  useEffect(() => {
-    const Tawk_API = window.Tawk_API || {};
-    window.Tawk_API = Tawk_API;
-    (function () {
-      const s1 = document.createElement("script");
-      const s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = "https://embed.tawk.to/YOUR_PROPERTY_ID/default";
-      s1.charset = "UTF-8";
-      s1.setAttribute("crossorigin", "*");
-      if (s0.parentNode) {
-        s0.parentNode.insertBefore(s1, s0);
-      }
-    })();
-  }, []);
-
   return (
     <Router>
       <ScrollToTop />
@@ -55,6 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="/termos-condicoes" element={<TermosCondicoes />} />
+          <Route path="/access" element={<AccessPage />} />
         </Routes>
         <Footer />
       </div>

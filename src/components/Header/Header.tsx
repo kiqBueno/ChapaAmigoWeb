@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Header.css";
 import Logo from "../../assets/Logo.png";
-import Button from "../Button/Button";
+import Button from "../Button";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);

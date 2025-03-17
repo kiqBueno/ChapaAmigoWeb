@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./TermsConditionsPage.css";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import termosCondicoes from "../../assets/Termos_de_Uso_Chapa_Amigo.pdf";
-import Button from "../../components/Button/Button";
+import Button from "../../components/Button";
 
 const TermsConditionsPage = () => {
   const [isOpen1, setIsOpen1] = useState(false);
