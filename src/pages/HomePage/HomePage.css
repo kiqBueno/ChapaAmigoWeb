@@ -2,6 +2,7 @@
   height: auto;
   color: #000;
   margin-top: 5rem;
+  margin-bottom: 5rem;
 }
 
 #homeContainer .downloadBtn {
@@ -37,7 +38,7 @@
 
 .videoContainer iframe {
   height: 100%;
-  width: 50%;
+  width: 75%;
 }
 
 .videoContainer h1 {
@@ -48,7 +49,7 @@
   color: #0f3558;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1175px) {
   #homeContainer .downloadBtn {
     display: block;
   }
@@ -69,6 +70,7 @@
     height: 50vh;
     width: 75vw;
     margin: auto;
+    text-align: center;
   }
 
   .videoContainer iframe {

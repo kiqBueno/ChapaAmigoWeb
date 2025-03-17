@@ -22,7 +22,7 @@
   color: #0f3558;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1175px) {
   .card {
     width: auto;
   }

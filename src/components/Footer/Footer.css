@@ -63,8 +63,11 @@
   flex-direction: column;
   align-items: center;
   color: #ffffff80;
-  font-size: 0.75rem;
   margin-bottom: 0.5rem;
+}
+
+.footerRights p {
+  font-size: 0.75rem;
 }
 
 .footerRights hr {
@@ -107,7 +110,7 @@
   padding: 1rem;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1175px) {
   .footerLogoImage {
     width: 10rem;
   }

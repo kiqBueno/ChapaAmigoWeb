@@ -8,24 +8,27 @@
   justify-content: center;
   gap: 2rem;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
-.plan {
-  border: 1px solid #ccc;
+.planCard {
+  border: 1px solid #ffca00;
   padding: 1rem;
   border-radius: 8px;
   width: 250px;
+  background-color: white;
 }
 
-.plan h3 {
+.planCard h2 {
   margin-bottom: 0.5rem;
 }
 
-.plan p {
+.planCard p {
   margin-bottom: 1rem;
+  color: black;
 }
 
-.plan button {
+.planCard button {
   background-color: #007bff;
   color: white;
   padding: 0.5rem 1rem;
@@ -34,6 +37,10 @@
   cursor: pointer;
 }
 
-.plan button:hover {
+.planCard button:hover {
   background-color: #0056b3;
+}
+
+.importantInfo {
+  color: black;
 }

@@ -29,16 +29,28 @@ const Footer = () => {
           </a>
         </div>
         <div className="footerLogosImages">
-          <img
-            src="/AppStore.png"
-            alt="Logo App Store"
-            className="footerLogoImage"
-          />
-          <img
-            src="/GooglePlay.png"
-            alt="Logo Google Play"
-            className="footerLogoImage"
-          />
+          <a
+            href="https://apps.apple.com/br/app/chapa-amigo/id6720754868"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/AppStore.png"
+              alt="Logo App Store"
+              className="footerLogoImage"
+            />
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.kxp.chapa_amigo&pcampaignid=web_share"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/GooglePlay.png"
+              alt="Logo Google Play"
+              className="footerLogoImage"
+            />
+          </a>
         </div>
       </div>
       <div className="footerRights">

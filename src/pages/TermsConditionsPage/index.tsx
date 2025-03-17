@@ -1,5 +1,5 @@
 import { useState, ReactNode } from "react";
-import "./TermosCondicoes.css";
+import "./TermsConditionsPage.css";
 import { FaPlus, FaTimes } from "react-icons/fa";
 
 interface SectionProps {

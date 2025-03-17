@@ -86,7 +86,7 @@
   margin: 0 0 3rem;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1175px) {
   #contatoContainer {
     margin: 0 auto;
     color: #333;

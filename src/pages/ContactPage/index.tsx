@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import IconWithText from "../../components/IconWithText";
-import "./Contato.css";
+import "./ContactPage.css";
 import emailjs from "emailjs-com";
 
 const Contato = () => {
@@ -40,6 +40,12 @@ const Contato = () => {
       .then(
         (result) => {
           console.log("Email successfully sent!", result.text, templateParams);
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+          });
         },
         (error) => {
           console.error("Error sending email:", error.text, templateParams);

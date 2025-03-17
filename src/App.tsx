@@ -7,9 +7,9 @@ import {
 import { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import TermosCondicoes from "./pages/TermosCondicoes";
-import Contato from "./pages/Contato";
+import Home from "./pages/HomePage";
+import TermosCondicoes from "./pages/TermsConditionsPage";
+import Contato from "./pages/ContactPage";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

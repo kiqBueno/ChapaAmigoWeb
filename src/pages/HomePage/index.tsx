@@ -1,6 +1,6 @@
-import "./Home.css";
+import "./HomePage.css";
 import Cards from "../../components/Card/Cards";
-import Price from "../../components/Price";
+import Price from "../../components/PlansSection";
 
 const Home = () => {
   return (
@@ -8,7 +8,7 @@ const Home = () => {
       <main className="homeContent">
         <div className="homeText">
           <h1>Descarga Sem Complicações!</h1>
-          <h3>
+          <h3 style={{ color: "#0f3558" }}>
             Chega de dificuldades e taxas abusivas! A Plataforma{" "}
             <strong style={{ color: "#ffca00" }}> Chapa Amigo</strong> é a
             solução completa para chapas e transportadoras que buscam liberdade,
