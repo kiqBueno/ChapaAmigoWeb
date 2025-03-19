@@ -44,21 +44,11 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/contato" onClick={() => setMenuOpen(false)}>
-                  Contato
-                </Link>
-              </li>
-              <li>
-                <Link to="/termos-condicoes" onClick={() => setMenuOpen(false)}>
-                  Termos e Condições
-                </Link>
-              </li>
-              <li>
                 <a
-                  href="#videoContainerCadastro"
-                  onClick={() => handleAnchorClick("Cadastrar")}
+                  href="#videoContainerComercial"
+                  onClick={() => handleAnchorClick("Planos")}
                 >
-                  Cadastro
+                  Comercial
                 </a>
               </li>
               <li>
@@ -71,11 +61,21 @@ const Header = () => {
               </li>
               <li>
                 <a
-                  href="#videoContainerComercial"
-                  onClick={() => handleAnchorClick("Planos")}
+                  href="#videoContainerCadastro"
+                  onClick={() => handleAnchorClick("Cadastrar")}
                 >
-                  Comercial
+                  Cadastro
                 </a>
+              </li>
+              <li>
+                <Link to="/termos-condicoes" onClick={() => setMenuOpen(false)}>
+                  Termos e Condições
+                </Link>
+              </li>
+              <li>
+                <Link to="/contato" onClick={() => setMenuOpen(false)}>
+                  Contato
+                </Link>
               </li>
               <li>
                 <a

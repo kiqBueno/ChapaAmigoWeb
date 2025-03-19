@@ -20,10 +20,10 @@ const Home = () => {
           </h4>
         </div>
         <Cards />
-        <div id="videoContainerCadastro" className="videoContainer">
-          <h1>Veja Como se Cadastrar</h1>
+        <div id="videoContainerComercial" className="videoContainer">
+          <h1>Assista nosso Comercial</h1>
           <iframe
-            src="https://www.youtube.com/embed/vbh_pOCsX4E?si=lddg59uBCy548O-v"
+            src="https://www.youtube.com/embed/QPgrInVhKT4?si=q1Uph-IC1VV_YdUz"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -32,10 +32,10 @@ const Home = () => {
           />
         </div>
         <Price />
-        <div id="videoContainerComercial" className="videoContainer">
-          <h1>Assista nosso Comercial</h1>
+        <div id="videoContainerCadastro" className="videoContainer">
+          <h1>Veja Como se Cadastrar</h1>
           <iframe
-            src="https://www.youtube.com/embed/QPgrInVhKT4?si=q1Uph-IC1VV_YdUz"
+            src="https://www.youtube.com/embed/vbh_pOCsX4E?si=lddg59uBCy548O-v"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
