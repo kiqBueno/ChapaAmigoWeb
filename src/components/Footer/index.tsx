@@ -55,6 +55,10 @@ const Footer = () => {
       </div>
       <div className="footerRights">
         <hr />
+        <p>
+          A Plataforma de serviços online Chapa Amigo é gerida por Romicam do
+          Brasil LTDA CNPJ: 51.560.854/0001-63
+        </p>
         <p>Copyright 2025 © Todos os direitos reservados.</p>
       </div>
     </footer>
