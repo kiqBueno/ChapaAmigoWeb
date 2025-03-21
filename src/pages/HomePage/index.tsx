@@ -1,6 +1,6 @@
 import "./HomePage.css";
 import Cards from "../../components/Card/Cards";
-import Price from "../../components/PlansSection";
+import PlansSection from "../../components/PlansSection";
 
 const Home = () => {
   return (
@@ -31,7 +31,7 @@ const Home = () => {
             allowFullScreen
           />
         </div>
-        <Price />
+        <PlansSection />
         <div id="videoContainerCadastro" className="videoContainer">
           <h1>Veja Como se Cadastrar</h1>
           <iframe

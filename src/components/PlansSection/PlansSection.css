@@ -7,26 +7,24 @@
 }
 
 .importantInfoToggle {
-  margin-top: 1.5rem;
   background-color: #ffca00;
   padding: 1rem;
   border-radius: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
   cursor: pointer;
   font-size: 1.375rem;
-  margin: 1.5rem auto;
-  width: 50%;
-  text-align: center;
+  margin: 2rem auto 0 auto;
+  width: 80%;
   border: none;
-  text-decoration: none;
   color: #003366;
   font-weight: bold;
 }
 
 .importantInfoToggle:hover {
-  background-color: #e6b800;
+  background-color: #003366;
+  color: #ffca00;
+  transition: 0.5s;
 }
 
 .pricingTable {
@@ -37,7 +35,13 @@
 }
 
 .pricingTable h2 {
+  color: black;
+  margin: 1rem;
+}
+
+.pricingPlan h2 {
   color: #003366;
+  margin: 0;
 }
 
 .pricingTable p {
@@ -47,39 +51,45 @@
 
 .planCardsContainer {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
 }
 
 .pricingPlan {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: #e6b800 2px solid;
-  border-radius: 10px;
-  text-align: center;
-  width: 40%;
-  height: auto;
-  max-width: 400px;
-  padding: 0.5rem;
-  background-color: white;
-}
-
-.pricingPlan2 {
-  border: #e6b800 2px solid;
-  border-radius: 10px;
-  width: 90%;
-  height: 90%;
-  padding: 1rem;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
+  border: #e6b800 2px double;
+  border-radius: 10px;
+  text-align: start;
+  width: 25vw;
+  max-width: 400px;
+  background-color: white;
+  padding: 1.5rem;
+  position: relative;
+  padding-bottom: 3.5rem;
 }
 
-.pricingHeader + hr {
+.pricingPlan button {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.pricingPlan hr {
   width: 100%;
   border: 1px solid #003366;
   margin: 0;
+}
+
+.pricingPlan h3 {
+  margin-bottom: 0;
 }
 
 .pricingPrice {
@@ -118,18 +128,17 @@
   color: black;
 }
 
-@media (max-width: 1175px) {
-  .importantInfoToggle {
-    width: 75%;
-  }
+.pricingPlan2 h1,
+h2 {
+  margin: 0;
 }
 
-@media (max-width: 700px) {
-  .planCardsContainer {
-    flex-direction: column;
-    align-items: center;
-  }
+.pricingTable h3 a {
+  color: #003366;
+}
+
+@media (max-width: 1175px) {
   .pricingPlan {
-    width: 80%;
+    width: 80vw;
   }
 }

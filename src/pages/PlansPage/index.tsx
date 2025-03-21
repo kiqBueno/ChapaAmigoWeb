@@ -7,10 +7,11 @@ const PlansPage = () => {
 
   return (
     <div id="priceContainer" style={{ marginTop: "5rem" }}>
-      <PlansSection showMoreButton={false} />
+      <PlansSection hideButton={true} />
       <h3
         className="importantInfoToggle"
         onClick={() => setIsInfoVisible(!isInfoVisible)}
+        style={{ margin: "0.5rem auto 2rem" }}
       >
         Informações Importantes
         <span>{isInfoVisible ? "▲" : "▼"}</span>

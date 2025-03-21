@@ -1,21 +1,22 @@
 import "./PlansSection.css";
 import PlanCard from "./PlanCard";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 interface PlansSectionProps {
-  showMoreButton?: boolean;
+  hideButton?: boolean; // New prop to control button visibility
 }
 
-const PlansSection: React.FC<PlansSectionProps> = ({
-  showMoreButton = true,
-}) => {
-  const navigate = useNavigate();
+const PlansSection: React.FC<PlansSectionProps> = ({ hideButton = false }) => {
   const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">("anual");
+
+  const calculatePrice = (monthlyPrice: number) =>
+    selectedPlan === "mensal"
+      ? monthlyPrice.toFixed(2)
+      : (monthlyPrice / 2).toFixed(2);
 
   return (
     <div id="priceContainer">
-      <h1>Nossos planos</h1>
+      <h1>Planos</h1>
       <div className="buttonGroup">
         <button
           style={{
@@ -40,23 +41,56 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       </div>
       <div className="pricingTable">
         <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>
-        <p>30 dias Grátis!</p>
         <div className="planCardsContainer">
           <PlanCard
-            title="Caminhoneiro ou Transportadora"
-            selectedPlan={selectedPlan}
+            title="Chapa"
+            price={calculatePrice(27)}
+            description="Trabalhe primeiro, assine depois!"
+            features={[
+              "30 dias trabalhando sem custo",
+              "Cadastro Verificado",
+              "Perfil disponival para empresas",
+              "Melhores posições na plataforma",
+              "Acesso a todas as funcionalidades",
+            ]}
+            hideButton={hideButton} // Pass the prop
           />
-          <PlanCard title="Chapa" selectedPlan={selectedPlan} />
+          <PlanCard
+            title="Caminhoneiro"
+            price={calculatePrice(30)}
+            description="Acesso aos melhores Chapas!"
+            features={[
+              "Pedidos ilimitados",
+              "1 ano grátis",
+              "Solicitações em todo território nacional",
+              "Suporte para acesso de portaria",
+              "Atendimento via e-mail, telefone e WhatsApp",
+            ]}
+            hideButton={hideButton} // Pass the prop
+          />
+          <PlanCard
+            title="Cooperativa"
+            price={calculatePrice(70)}
+            description="Grandes cargas requerem grandes Profissionais."
+            features={[
+              "Pedidos ilimitados",
+              "Solicitações em todo território nacional",
+              "Suporte para acesso de portaria",
+              "Acesso ao perfil dos contratados",
+              "Atendimento prioritário via e-mail, telefone e WhatsApp",
+            ]}
+            hideButton={hideButton} // Pass the prop
+          />
         </div>
+        <h3>
+          Duvidas sobre segurança empresarial, assinaturas ou contratos
+          personalizados?
+          <br />
+          <a href="/contato" target="_blank" rel="noopener noreferrer">
+            Entre em contato Conosco
+          </a>
+        </h3>
       </div>
-      {showMoreButton && (
-        <button
-          className="importantInfoToggle"
-          onClick={() => navigate("/planos")}
-        >
-          Saiba Mais...
-        </button>
-      )}
     </div>
   );
 };
