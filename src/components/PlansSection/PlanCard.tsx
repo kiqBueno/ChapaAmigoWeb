@@ -32,7 +32,9 @@ const PlanCard: React.FC<PlanCardProps> = ({ title, selectedPlan }) => {
   return (
     <div className="pricingPlan">
       <div className="pricingPlan2">
-        <h2 className="pricingHeader">{title}</h2>
+        <h2 className="pricingHeader" style={{ margin: "0 0 1rem" }}>
+          {title}
+        </h2>
         <hr />
         <div>
           <p className="pricingPrice">
