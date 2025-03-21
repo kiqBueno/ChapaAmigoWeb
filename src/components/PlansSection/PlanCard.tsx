@@ -2,38 +2,71 @@ import React from "react";
 import "./PlansSection.css";
 
 interface PlanCardProps {
-  title: string;
-  monthlyPrice: number;
-  annualPrice: number;
-  annualPriceDiscounted: number;
-  originalPrice: number;
+  title: "Chapa" | "Caminhoneiro ou Transportadora";
+  selectedPlan: "mensal" | "anual";
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({
-  title,
-  monthlyPrice,
-  annualPrice,
-  annualPriceDiscounted,
-}) => {
+const PlanCard: React.FC<PlanCardProps> = ({ title, selectedPlan }) => {
+  const prices: Record<
+    PlanCardProps["title"],
+    {
+      mensal: { price: number; total: number };
+      anual: { price: number; total: number };
+    }
+  > = {
+    Chapa: {
+      mensal: { price: 10, total: 120 },
+      anual: { price: 5, total: 60 },
+    },
+    "Caminhoneiro ou Transportadora": {
+      mensal: { price: 25, total: 300 },
+      anual: { price: 12.5, total: 150 },
+    },
+  };
+
+  const monthlyPrice = prices[title].mensal.price;
+  const annualPrice = prices[title].anual.price;
+  const monthlyTotal = prices[title].mensal.total;
+  const annualTotal = prices[title].anual.total;
+
   return (
-    <div className="pricing-plan">
-      <h2 className="pricing-header">{title}</h2>
-      <ul className="pricing-features">
-        <li className="pricing-features-item">
-          <h3>PLANO MENSAL:</h3>
-          <p>R$ {monthlyPrice.toFixed(2)}</p>
-        </li>
-        <li className="pricing-features-item">
-          <h3>PLANO ANUAL:</h3>
-          <p>
-            De:{" "}
-            <span className="priceOriginal">R$ {annualPrice.toFixed(2)}</span>
-            <br />
-            Por: R$ {annualPriceDiscounted.toFixed(2)}
+    <div className="pricingPlan">
+      <div className="pricingPlan2">
+        <h2 className="pricingHeader">{title}</h2>
+        <hr />
+        <div>
+          <p className="pricingPrice">
+            {selectedPlan === "mensal" ? (
+              <>
+                <strong>MENSAL:</strong> <br />
+                <strong>R$ {monthlyPrice.toFixed(2)}</strong> / mês <br />
+                <strong>R$ {monthlyTotal.toFixed(2)}</strong> / ano
+              </>
+            ) : (
+              <>
+                MENSAL: <br />
+                R$ {monthlyPrice.toFixed(2)} / mês <br />
+                R$ {monthlyTotal.toFixed(2)} / ano
+              </>
+            )}
           </p>
-        </li>
-      </ul>
-      <span className="pricing-price">R$ {monthlyPrice.toFixed(2)}/mês</span>
+          <p className="pricingPrice">
+            {selectedPlan === "anual" ? (
+              <>
+                <strong>ANUAL:</strong> <br />
+                <strong>R$ {annualPrice.toFixed(2)}</strong> / mês <br />
+                <strong>R$ {annualTotal.toFixed(2)}</strong> / ano
+              </>
+            ) : (
+              <>
+                ANUAL: <br />
+                R$ {annualPrice.toFixed(2)} / mês <br />
+                R$ {annualTotal.toFixed(2)} / ano
+              </>
+            )}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

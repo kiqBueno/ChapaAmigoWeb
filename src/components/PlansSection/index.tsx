@@ -1,99 +1,64 @@
 import "./PlansSection.css";
 import PlanCard from "./PlanCard";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Price = () => {
-  const [isInfoVisible, setIsInfoVisible] = useState(false);
+interface PlansSectionProps {
+  showMoreButton?: boolean;
+}
+
+const PlansSection: React.FC<PlansSectionProps> = ({
+  showMoreButton = true,
+}) => {
+  const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">("anual");
 
   return (
     <div id="priceContainer">
       <h1>Nossos planos</h1>
-      <p>Primeiros 30 Dias GRÁTIS</p>
-      <div className="pricing-table">
-        <PlanCard
-          title="Chapa"
-          monthlyPrice={16.5}
-          annualPrice={396.0}
-          annualPriceDiscounted={198.0}
-          originalPrice={396.0}
-        />
-        <PlanCard
-          title="Caminhoneiro ou Transportadora"
-          monthlyPrice={10.0}
-          annualPrice={240.0}
-          annualPriceDiscounted={120.0}
-          originalPrice={240.0}
-        />
+      <div className="buttonGroup">
+        <button
+          style={{
+            borderRadius: "7.5px 0 0 7.5px",
+            backgroundColor: selectedPlan === "mensal" ? "#e6b800" : "#003366",
+            color: selectedPlan === "mensal" ? "#003366" : "#ffffff",
+          }}
+          onClick={() => setSelectedPlan("mensal")}
+        >
+          MENSAL
+        </button>
+        <button
+          style={{
+            borderRadius: "0 7.5px 7.5px 0",
+            backgroundColor: selectedPlan === "anual" ? "#e6b800" : "#003366",
+            color: selectedPlan === "anual" ? "#003366" : "#ffffff",
+          }}
+          onClick={() => setSelectedPlan("anual")}
+        >
+          ANUAL (50% OFF)
+        </button>
       </div>
-
-      <h3
-        className="importantInfoToggle"
-        onClick={() => setIsInfoVisible(!isInfoVisible)}
-      >
-        Informações Importantes
-        <span>{isInfoVisible ? "▲" : "▼"}</span>
-      </h3>
-      {isInfoVisible && (
-        <div className="importantInfo">
-          <h2>
-            Atenção: Informações Importantes Sobre Pagamentos na Plataforma
-            Chapa Amigo
-          </h2>
-          <p>
-            <strong>Boletos de Cobrança:</strong> A Chapa Amigo não emite
-            boletos sob nenhuma circunstância.
-          </p>
-          <p>
-            <strong>Contatos Telefônicos:</strong> Não realizamos ligações para
-            solicitar pagamentos.
-          </p>
-          <p>
-            <strong>Pagamentos via Pix:</strong> Nunca solicite ou realize
-            pagamentos via Pix para contas desconhecidas em nome da nossa
-            plataforma.
-          </p>
-          <p>
-            <strong>Pagamentos Seguros no App:</strong>
-          </p>
-          <ul>
-            <li>
-              Todos os pagamentos e renovações de assinatura devem ser feitos
-              exclusivamente através do aplicativo da Chapa Amigo.
-            </li>
-            <li>
-              Utilize as opções de pagamento disponíveis no app para garantir
-              uma transação segura.
-            </li>
-          </ul>
-          <p>
-            <strong>Suporte e Dúvidas:</strong>
-          </p>
-          <ul>
-            <li>
-              Caso receba solicitações de pagamento fora do aplicativo,
-              desconfie.
-            </li>
-            <li>
-              Entre em contato imediatamente com nosso suporte para esclarecer
-              dúvidas e garantir sua segurança.
-            </li>
-          </ul>
-          <p>
-            <strong>Compromisso com a Segurança:</strong>
-          </p>
-          <p>
-            A Chapa Amigo prioriza sua segurança, oferecendo um ambiente
-            confiável para gerenciar suas atividades e pagamentos.
-          </p>
-          <p>
-            Siga estas orientações para se proteger contra fraudes e desfrutar
-            de uma experiência tranquila na plataforma.
-          </p>
-          <p>Mantenha-se informado e seguro!</p>
+      <div className="pricingTable">
+        <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>
+        <p>30 dias Grátis!</p>
+        <div className="planCardsContainer">
+          <PlanCard
+            title="Caminhoneiro ou Transportadora"
+            selectedPlan={selectedPlan}
+          />
+          <PlanCard title="Chapa" selectedPlan={selectedPlan} />
         </div>
+      </div>
+      {showMoreButton && (
+        <button
+          className="importantInfoToggle"
+          onClick={() => navigate("/planos")}
+        >
+          Saiba Mais...
+        </button>
       )}
     </div>
   );
 };
 
-export default Price;
+export default PlansSection;

@@ -28,7 +28,7 @@ const AccessPage = () => {
         <button className="button-3d">Arquivos</button>
       </a>
       <a
-        href="https://accounts.google.com/?hl=pt-br"
+        href="https://mail.hostinger.com/?_task=mail&_mbox=INBOX"
         target="_blank"
         rel="noopener noreferrer"
         className="button-3d"

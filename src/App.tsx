@@ -1,16 +1,8 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/HomePage";
-import TermosCondicoes from "./pages/TermsConditionsPage";
-import Contato from "./pages/ContactPage";
-import AccessPage from "./pages/AccessPage";
+import AppRoutes from "./routes";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -28,12 +20,7 @@ function App() {
       <ScrollToTop />
       <div className="appContainer">
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contato" element={<Contato />} />
-          <Route path="/termos-condicoes" element={<TermosCondicoes />} />
-          <Route path="/accccessss" element={<AccessPage />} />
-        </Routes>
+        <AppRoutes />
         <Footer />
       </div>
     </Router>

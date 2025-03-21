@@ -52,12 +52,9 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#priceContainer"
-                  onClick={() => handleAnchorClick("priceContainer")}
-                >
+                <Link to="/planos" onClick={() => setMenuOpen(false)}>
                   Planos
-                </a>
+                </Link>
               </li>
               <li>
                 <a
