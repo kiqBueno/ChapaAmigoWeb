@@ -38,6 +38,7 @@
 
 .pricingTable h2 {
   color: #003366;
+  margin: 0 0 1rem;
 }
 
 .pricingTable p {
@@ -85,7 +86,8 @@
 .pricingPrice {
   color: #003366;
   font-size: 24px;
-  margin: 20px 0;
+  padding-top: 1rem;
+  margin: 0;
   font-weight: 500;
 }
 
