@@ -32,10 +32,10 @@ const Contato = () => {
 
     emailjs
       .send(
-        "service_astwwp5",
-        "template_2zfwt9g",
+        "service_lm11h9t",
+        "template_hsa87k6",
         templateParams,
-        "KoMk7cCEYEznfIzsy"
+        "lnGsmbVan2r2qtWjJ"
       )
       .then(
         (result) => {
