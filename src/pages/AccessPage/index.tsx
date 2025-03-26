@@ -35,6 +35,14 @@ const AccessPage = () => {
       >
         <button className="button-3d">E-Mail</button>
       </a>
+      <a
+        href=""
+        target="_blank"
+        rel="noopener noreferrer"
+        className="button-3d"
+      >
+        <button className="button-3d">Check-Up</button>
+      </a>
     </div>
   );
 };

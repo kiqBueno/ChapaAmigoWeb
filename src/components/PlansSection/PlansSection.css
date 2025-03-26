@@ -69,6 +69,11 @@
   padding: 1.5rem;
   position: relative;
   padding-bottom: 3.5rem;
+  color: #003366; /* Ensure text color is explicitly set */
+}
+
+.pricingPlan.plansPage {
+  padding-bottom: 0;
 }
 
 .pricingPlan button {
@@ -135,6 +140,39 @@ h2 {
 
 .pricingTable h3 a {
   color: #003366;
+}
+
+.pricingPlan h2,
+.pricingTable h3,
+.pricingPlan ul li {
+  color: #003366;
+}
+
+.extraInfo {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.extraInfoContainer {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.extraInfoContainer h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #003366;
+}
+
+.extraInfoContainer p {
+  margin: 0.5rem 0; /* Add spacing between lines */
+  font-size: 0.9rem;
+  color: #666;
 }
 
 @media (max-width: 1175px) {

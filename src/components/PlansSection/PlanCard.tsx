@@ -7,7 +7,10 @@ interface PlanCardProps {
   price: string;
   description: string;
   features: string[];
-  hideButton?: boolean; // Prop to control button visibility
+  hideButton?: boolean;
+  priceUnit: string;
+  className?: string; // New prop for custom class
+  extraInfo?: string; // New prop for extra information
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({
@@ -15,16 +18,19 @@ const PlanCard: React.FC<PlanCardProps> = ({
   price,
   description,
   features,
-  hideButton = false, // Default to false
+  hideButton = false,
+  priceUnit,
+  className,
+  extraInfo,
 }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="pricingPlan">
+    <div className={`pricingPlan ${className || ""}`}>
       <h2 className="pricingHeader">{title}</h2>
       <h1>
         <span className="pricingPeriod">R$ {price}</span>
-        <span className="pricingPrice"> /mês</span>
+        <span className="pricingPrice"> {priceUnit}</span>
       </h1>
       <hr />
       <h3>{description}</h3>
@@ -33,6 +39,14 @@ const PlanCard: React.FC<PlanCardProps> = ({
           <li key={index}>{feature}</li>
         ))}
       </ul>
+      {extraInfo && (
+        <div className="extraInfoContainer">
+          <h4>Mais Informações:</h4>
+          {extraInfo.split("\n").map((line, index) => (
+            <p key={index}>{line}</p>
+          ))}
+        </div>
+      )}
       {!hideButton && (
         <button
           className="importantInfoToggle"

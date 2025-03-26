@@ -1,18 +1,67 @@
 import "./PlansSection.css";
 import PlanCard from "./PlanCard";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface PlansSectionProps {
-  hideButton?: boolean; // New prop to control button visibility
+  hideButton?: boolean;
+  cardClass?: string; // New prop to pass custom class to PlanCard
+  extraInfo?: string[]; // New prop for extra information
 }
 
-const PlansSection: React.FC<PlansSectionProps> = ({ hideButton = false }) => {
+const PlansSection: React.FC<PlansSectionProps> = ({
+  hideButton = false,
+  cardClass,
+  extraInfo = [],
+}) => {
   const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">("anual");
 
-  const calculatePrice = (monthlyPrice: number) =>
-    selectedPlan === "mensal"
-      ? monthlyPrice.toFixed(2)
-      : (monthlyPrice / 2).toFixed(2);
+  const calculatePrice = (monthlyPrice: number) => {
+    const isMensal = selectedPlan === "mensal";
+    return {
+      price: (isMensal ? monthlyPrice : monthlyPrice * 12 * 0.5).toFixed(2),
+      unit: isMensal ? "/mês" : "/ano",
+    };
+  };
+
+  const plans = [
+    {
+      title: "Chapa",
+      price: 27,
+      description: "Trabalhe primeiro, assine depois!",
+      features: [
+        "30 dias trabalhando sem custo",
+        "Cadastro Verificado",
+        "Perfil disponival para empresas",
+        "Melhores posições na plataforma",
+        "Acesso a todas as funcionalidades",
+      ],
+    },
+    {
+      title: "Caminhoneiro",
+      price: 30,
+      description: "Acesso aos melhores Chapas!",
+      features: [
+        "Pedidos ilimitados",
+        "1 ano grátis",
+        "Solicitações em todo território nacional",
+        "Suporte para acesso de portaria",
+        "Atendimento via e-mail, telefone e WhatsApp",
+      ],
+    },
+    {
+      title: "Cooperativa",
+      price: 70,
+      description: "Grandes volumes requerem grandes Profissionais.",
+      features: [
+        "Pedidos ilimitados",
+        "Solicitações em todo território nacional",
+        "Suporte para acesso de portaria",
+        "Acesso ao perfil dos contratados",
+        "Atendimento prioritário via e-mail, telefone e WhatsApp",
+      ],
+    },
+  ];
 
   return (
     <div id="priceContainer">
@@ -42,53 +91,27 @@ const PlansSection: React.FC<PlansSectionProps> = ({ hideButton = false }) => {
       <div className="pricingTable">
         <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>
         <div className="planCardsContainer">
-          <PlanCard
-            title="Chapa"
-            price={calculatePrice(27)}
-            description="Trabalhe primeiro, assine depois!"
-            features={[
-              "30 dias trabalhando sem custo",
-              "Cadastro Verificado",
-              "Perfil disponival para empresas",
-              "Melhores posições na plataforma",
-              "Acesso a todas as funcionalidades",
-            ]}
-            hideButton={hideButton} // Pass the prop
-          />
-          <PlanCard
-            title="Caminhoneiro"
-            price={calculatePrice(30)}
-            description="Acesso aos melhores Chapas!"
-            features={[
-              "Pedidos ilimitados",
-              "1 ano grátis",
-              "Solicitações em todo território nacional",
-              "Suporte para acesso de portaria",
-              "Atendimento via e-mail, telefone e WhatsApp",
-            ]}
-            hideButton={hideButton} // Pass the prop
-          />
-          <PlanCard
-            title="Cooperativa"
-            price={calculatePrice(70)}
-            description="Grandes cargas requerem grandes Profissionais."
-            features={[
-              "Pedidos ilimitados",
-              "Solicitações em todo território nacional",
-              "Suporte para acesso de portaria",
-              "Acesso ao perfil dos contratados",
-              "Atendimento prioritário via e-mail, telefone e WhatsApp",
-            ]}
-            hideButton={hideButton} // Pass the prop
-          />
+          {plans.map((plan, index) => (
+            <PlanCard
+              key={index}
+              title={plan.title}
+              price={calculatePrice(plan.price).price}
+              priceUnit={calculatePrice(plan.price).unit}
+              description={plan.description}
+              features={plan.features}
+              hideButton={hideButton}
+              className={cardClass} // Pass the custom class
+              extraInfo={extraInfo[index]} // Pass extra information
+            />
+          ))}
         </div>
         <h3>
           Duvidas sobre segurança empresarial, assinaturas ou contratos
           personalizados?
           <br />
-          <a href="/contato" target="_blank" rel="noopener noreferrer">
+          <Link to="/contato" target="_blank" rel="noopener noreferrer">
             Entre em contato Conosco
-          </a>
+          </Link>
         </h3>
       </div>
     </div>
