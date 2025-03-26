@@ -109,7 +109,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
           Duvidas sobre segurança empresarial, assinaturas ou contratos
           personalizados?
           <br />
-          <Link to="/contato" target="_blank" rel="noopener noreferrer">
+          <Link to="/contato" rel="noopener noreferrer">
             Entre em contato Conosco
           </Link>
         </h3>
