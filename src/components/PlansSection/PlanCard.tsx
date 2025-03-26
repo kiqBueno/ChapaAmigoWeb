@@ -41,7 +41,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
       </ul>
       {extraInfo && (
         <div className="extraInfoContainer">
-          <h4>Mais Informações:</h4>
+          <h4>Mais informações:</h4>
           {extraInfo.split("\n").map((line, index) => (
             <p key={index}>{line}</p>
           ))}

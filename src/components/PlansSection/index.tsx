@@ -14,7 +14,9 @@ const PlansSection: React.FC<PlansSectionProps> = ({
   cardClass,
   extraInfo = [],
 }) => {
-  const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">("anual");
+  const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">(
+    "mensal"
+  );
 
   const calculatePrice = (monthlyPrice: number) => {
     const isMensal = selectedPlan === "mensal";
@@ -32,7 +34,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       features: [
         "30 dias trabalhando sem custo",
         "Cadastro Verificado",
-        "Perfil disponival para empresas",
+        "Perfil disponivel para empresas",
         "Melhores posições na plataforma",
         "Acesso a todas as funcionalidades",
       ],
@@ -42,8 +44,8 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       price: 30,
       description: "Acesso aos melhores Chapas!",
       features: [
-        "Pedidos ilimitados",
-        "1 ano grátis",
+        "30 solicitações ao mês",
+        "1º ano grátis",
         "Solicitações em todo território nacional",
         "Suporte para acesso de portaria",
         "Atendimento via e-mail, telefone e WhatsApp",
@@ -106,11 +108,11 @@ const PlansSection: React.FC<PlansSectionProps> = ({
           ))}
         </div>
         <h3>
-          Duvidas sobre segurança empresarial, assinaturas ou contratos
+          Dúvidas sobre segurança empresarial, assinaturas ou contratos
           personalizados?
           <br />
           <Link to="/contato" rel="noopener noreferrer">
-            Entre em contato Conosco
+            Entre em contato conosco
           </Link>
         </h3>
       </div>

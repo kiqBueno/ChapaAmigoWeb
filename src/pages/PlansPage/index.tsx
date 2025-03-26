@@ -6,9 +6,9 @@ const PlansPage = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
 
   const extraInfo = [
-    "Por menos que 1 real ao dia, você destrava um mundo de oportunidades assinando com a Chapa Amigo.\nFale direto com quem interessa, sem intermediários!\nAmbiente protegido para você e suas transações.\nTodas as funcionalidades por um preço que cabe no seu bolso e melhor, você só vai pagar depois que já estiver trabalhando.", // Updated text for Chapa
-    "Amigo Caminhoneiro chega de imprevistos e insegurança na hora de descarregar!\nNossos chapas passam por uma análise completa de antecedentes para sua tranquilidade.\nAdeus, Estradas Perigosas: Encontre ajuda confiável sem precisar parar em locais desconhecidos.\nAgilidade e Praticidade: Em apenas 5 passos, você solicita o serviço e acompanha tudo pelo chat exclusivo.\nHistórico de pedidos Inteligente: Repita seus serviços favoritos com apenas um clique.\nEconomia de Verdade: Sem taxas escondidas! Apenas uma mensalidade acessível para você aproveitar todas as vantagens.\nNão perca mais tempo nem arrisque sua carga e sua segurança.", // Updated text for Caminhoneiro
-    "Para Cooperativas que Buscam Escalabilidade e Eficiência na Descarga.\nEsqueça as preocupações com a disponibilidade de chapas.\nCom o Chapa Amigo Empresas, sua cooperativa tem acesso a uma vasta rede de profissionais qualificados, prontos para atender suas demandas de descarga, sem limite de solicitações mensais.\nAgilize a sua comunicação com as portarias e garanta a conformidade necessária para suas operações.\nCooperativas possuem acesso rápido e fácil ao nosso banco de dados completo com as fichas e documentação dos operários que irão atuar dentro da sua empresa.\nTenha acesso ao histórico de serviços, avaliações e informações relevantes dos chapas, garantindo mais confiança em cada solicitação.\nInvista na eficiência da sua logística com um preço justo e transparente.\n*Para se tornar uma Cooperativa parceira Chapa Amigo, é necessário possuir CNPJ ativo.",
+    "Por menos de 1 real por dia, você desbloqueia um mundo de oportunidades com a Chapa Amigo.\nFale diretamente com quem interessa, sem intermediários!\nAmbiente seguro para você e suas transações.\nTodas as funcionalidades por um preço acessível, e o melhor: você só paga depois de começar a trabalhar.",
+    "Amigo Caminhoneiro, chega de imprevistos e insegurança ao descarregar!\nNossos chapas passam por uma análise completa de antecedentes para sua tranquilidade.\nAdeus estradas perigosas: encontre ajuda confiável sem parar em locais desconhecidos.\nAgilidade e praticidade: em apenas 5 passos, solicite o serviço e acompanhe tudo pelo chat exclusivo.\nHistórico inteligente: repita serviços favoritos com um clique.\nEconomia real: sem taxas escondidas! Apenas uma mensalidade acessível para aproveitar todas as vantagens.\nNão perca tempo nem arrisque sua carga e segurança.",
+    "Para cooperativas que buscam escalabilidade e eficiência na descarga.\nEsqueça preocupações com a disponibilidade de chapas.\nCom o Chapa Amigo Empresas, sua cooperativa acessa uma ampla rede de profissionais qualificados, prontos para atender suas demandas sem limite de solicitações mensais.\nAgilize a comunicação com portarias e garanta conformidade nas operações.\nCooperativas têm acesso rápido ao banco de dados completo com fichas e documentação dos operários.\nAcesse históricos de serviços, avaliações e informações relevantes dos chapas, garantindo confiança em cada solicitação.\nInvista na eficiência logística com um preço justo e transparente.\n*Para se tornar uma cooperativa parceira Chapa Amigo, é necessário possuir CNPJ ativo.",
   ];
 
   return (
@@ -29,37 +29,36 @@ const PlansPage = () => {
       {isInfoVisible && (
         <div className="importantInfo">
           <h2>
-            Atenção: Informações Importantes Sobre Pagamentos na Plataforma
+            Atenção: Informações importantes sobre pagamentos na plataforma
             Chapa Amigo
           </h2>
           <p>
-            <strong>Boletos de Cobrança:</strong> A Chapa Amigo não emite
-            boletos sob nenhuma circunstância.
+            <strong>Boletos de cobrança:</strong> A Chapa Amigo não emite
+            boletos em nenhuma circunstância.
           </p>
           <p>
-            <strong>Contatos Telefônicos:</strong> Não realizamos ligações para
+            <strong>Contatos telefônicos:</strong> Não realizamos ligações para
             solicitar pagamentos.
           </p>
           <p>
-            <strong>Pagamentos via Pix:</strong> Nunca solicite ou realize
-            pagamentos via Pix para contas desconhecidas em nome da nossa
-            plataforma.
+            <strong>Pagamentos via Pix:</strong> Nunca realize pagamentos via
+            Pix para contas desconhecidas em nome da nossa plataforma.
           </p>
           <p>
-            <strong>Pagamentos Seguros no App:</strong>
+            <strong>Pagamentos seguros no app:</strong>
           </p>
           <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
             <li>
               Todos os pagamentos e renovações de assinatura devem ser feitos
-              exclusivamente através do aplicativo da Chapa Amigo.
+              exclusivamente pelo aplicativo Chapa Amigo.
             </li>
             <li>
               Utilize as opções de pagamento disponíveis no app para garantir
-              uma transação segura.
+              transações seguras.
             </li>
           </ul>
           <p>
-            <strong>Suporte e Dúvidas:</strong>
+            <strong>Suporte e dúvidas:</strong>
           </p>
           <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
             <li>
@@ -72,7 +71,7 @@ const PlansPage = () => {
             </li>
           </ul>
           <p>
-            <strong>Compromisso com a Segurança:</strong>
+            <strong>Compromisso com a segurança:</strong>
           </p>
           <p>
             A Chapa Amigo prioriza sua segurança, oferecendo um ambiente
