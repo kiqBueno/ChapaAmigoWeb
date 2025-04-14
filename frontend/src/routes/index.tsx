@@ -7,6 +7,7 @@ const TermosCondicoes = lazy(() => import("../pages/TermsConditionsPage"));
 const Contato = lazy(() => import("../pages/ContactPage"));
 const AccessPage = lazy(() => import("../pages/AccessPage"));
 const PlansPage = lazy(() => import("../pages/PlansPage"));
+const PdfUploadPage = lazy(() => import("../pages/AccessPage/PdfUploadPage"));
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/termos-condicoes" element={<TermosCondicoes />} />
         <Route path="/acesso_sistema" element={<AccessPage />} />
         <Route path="/planos" element={<PlansPage />} />
+        <Route path="/acesso_sistema/check-up" element={<PdfUploadPage />} />
       </Routes>
     </Suspense>
   );

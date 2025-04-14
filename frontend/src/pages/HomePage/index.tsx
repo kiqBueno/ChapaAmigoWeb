@@ -23,7 +23,7 @@ const Home = () => {
         <div id="videoContainerComercial" className="videoContainer">
           <h1>Assista nosso Comercial</h1>
           <iframe
-            src="https://www.youtube.com/embed/QPgrInVhKT4?si=q1Uph-IC1VV_YdUz"
+            src="https://www.youtube.com/embed/BZyYDXTPXyk?si=HFqsq8z4frxUkO9g"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

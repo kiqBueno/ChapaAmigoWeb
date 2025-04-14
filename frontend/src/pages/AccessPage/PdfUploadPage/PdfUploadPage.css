@@ -1,0 +1,72 @@
+.pdfUploadPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 7.5rem auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.pdfUploadPageContainer h1,
+label {
+  color: #333;
+}
+
+.pdfUploadPageContainer h1 {
+  margin: 0;
+}
+
+.pdfUploadPageContainer input {
+  margin-bottom: 1rem;
+  width: 100%;
+  color: #333;
+  border: #333 solid 1px;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.pdfUploadPageContainer p {
+  color: #333;
+}
+
+.customizationDialog {
+  position: absolute;
+  margin-top: 2.5rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 999;
+  color: #333;
+}
+
+.customizationDialog label {
+  display: block;
+}
+
+.pdfUploaderForm {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.customizationDialog button {
+  margin: 1rem auto;
+}
+
+.pdfUploaderButtons {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .customizationDialog {
+    width: 80%;
+  }
+}

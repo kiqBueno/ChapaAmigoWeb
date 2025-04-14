@@ -1,4 +1,5 @@
 import "./AcessPage.css";
+import { Link } from "react-router-dom";
 
 const AccessPage = () => {
   return (
@@ -35,14 +36,9 @@ const AccessPage = () => {
       >
         <button className="button-3d">E-Mail</button>
       </a>
-      <a
-        href=""
-        target="_blank"
-        rel="noopener noreferrer"
-        className="button-3d"
-      >
+      <Link to="/acesso_sistema/check-up" className="button-3d">
         <button className="button-3d">Check-Up</button>
-      </a>
+      </Link>
     </div>
   );
 };
