@@ -186,23 +186,28 @@ const PdfUploadPage = () => {
             />
           </label>
           <label>
-            Selecionar Foto (Optional):
+            Selecionar Foto (Opcional):
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setImage(e.target.files?.[0] || null)}
             />
           </label>
-          <div className="pdfUploaderButtons">
-            <button
-              className="button-3d"
-              type="button"
-              onClick={() => setShowCustomization(true)}
-            >
-              Customizar Layout
-            </button>
-            <button className="button-3d" type="submit">
-              Enviar
+          <div className="pdfUploaderButtonsContainer">
+            <div className="pdfUploaderButtons">
+              <button
+                className="button-3d"
+                type="button"
+                onClick={() => setShowCustomization(true)}
+              >
+                Customizar Layout
+              </button>
+              <button className="button-3d" type="submit">
+                Raspar
+              </button>
+            </div>
+            <button className="button-3d" type="button">
+              Cortar
             </button>
           </div>
         </div>
