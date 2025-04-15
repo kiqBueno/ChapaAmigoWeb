@@ -2,15 +2,13 @@ import re
 import logging
 from PyPDF2 import PdfReader
 from io import BytesIO
-from .logging_config import setup_logging
+from .logging_config import setupLogging
 
-# Configure logging
-setup_logging()
+setupLogging()
 
 def extractDataFromPdf(filePath, password='515608'):
     logging.info(f"Extracting data from file: {filePath}")
     data = {}
-    # Support for BytesIO (decrypted PDF)
     if isinstance(filePath, BytesIO):
         file = filePath
     else:

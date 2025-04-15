@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Header from "../src/components/Header";
-import Footer from "../src/components/Footer";
-import AppRoutes from "../src/routes";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import AppRoutes from "./routes";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

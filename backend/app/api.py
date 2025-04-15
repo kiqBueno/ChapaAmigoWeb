@@ -1,15 +1,15 @@
-from flask import Flask, request, jsonify, send_file, after_this_request
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-from .processPdf import processPdf
+from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
-from .logging_config import setup_logging
+from .logging_config import setupLogging
 import os
 import json
 import logging
 from PyPDF2 import PdfWriter
 from io import StringIO, BytesIO
 
-setup_logging()
+setupLogging()
 
 app = Flask(__name__)
 CORS(app)
@@ -69,7 +69,6 @@ def process_pdf():
             includeDocuments, selectedGroups, uploaded_image_path
         )
 
-        # Encrypt the PDF in memory
         encrypted_pdf = BytesIO()
         writer = PdfWriter()
         writer.append(output_pdf)
@@ -84,6 +83,36 @@ def process_pdf():
             download_name="Processed_Report.pdf"
         )
     except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/crop-pdf', methods=['POST'])
+def crop_pdf():
+    global uploaded_pdf_path
+    try:
+        if not uploaded_pdf_path or not os.path.exists(uploaded_pdf_path):
+            logging.error("No PDF uploaded or file does not exist.")
+            return jsonify({"error": "No PDF uploaded."}), 400
+
+        logging.info(f"Cropping PDF: {uploaded_pdf_path}")
+        
+        try:
+            from .unlockPdf import unlockPdf
+            with open(uploaded_pdf_path, 'rb') as f:
+                unlocked_pdf = unlockPdf(f)
+        except Exception as e:
+            logging.error(f"Failed to unlock PDF: {e}")
+            return jsonify({"error": "Failed to unlock PDF."}), 500
+
+        cropped_pdf = cropPdf(unlocked_pdf)
+
+        return send_file(
+            cropped_pdf,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name="Cropped_PDF.pdf"
+        )
+    except Exception as e:
+        logging.error(f"Error in crop_pdf endpoint: {e}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/get-logs')
