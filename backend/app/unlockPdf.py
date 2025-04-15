@@ -1,12 +1,12 @@
 import logging
-from .logging_config import setup_logging
+from .logging_config import setupLogging
+
+setupLogging()
+
 from PyPDF2 import PdfReader, PdfWriter
 from io import BytesIO
 
-# Configure logging
-setup_logging()
-
-def destravarPdf(inputPdf, password='515608'):
+def unlockPdf(inputPdf, password='515608'):
     logging.info(f"Unlocking PDF: {inputPdf}")
     try:
         reader = PdfReader(inputPdf)
