@@ -1,8 +1,9 @@
-from .logging_config import setupLogging
+from .logging_config import setup_logging
 from io import BytesIO
 from PIL import Image
 
-setupLogging()
+# Configure logging
+setup_logging()
 
 def cropImage(imgBytes):
     img = Image.open(imgBytes)

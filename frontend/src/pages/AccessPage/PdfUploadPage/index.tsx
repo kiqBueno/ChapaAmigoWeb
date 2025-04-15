@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import axios from "axios";
 import "./PdfUploadPage.css";
 import "../AcessPage.css";
-import axios from "axios";
 
 type GroupKeys =
   | "CADASTROS BÁSICOS"
@@ -109,6 +109,7 @@ const PdfUploadPage = () => {
 
     setLoading(true);
     try {
+      // Upload PDF
       const pdfFormData = new FormData();
       pdfFormData.append("file", file);
 
@@ -119,6 +120,7 @@ const PdfUploadPage = () => {
       const extractedName = nameResponse.data.name;
       console.log("Extracted Name:", extractedName);
 
+      // Upload Image (if provided)
       if (image) {
         const imageFormData = new FormData();
         imageFormData.append("image", image);
@@ -127,6 +129,7 @@ const PdfUploadPage = () => {
         console.log("Image uploaded successfully.");
       }
 
+      // Process PDF
       const processFormData = new FormData();
       processFormData.append("password", "515608");
       Object.entries(customizationOptions).forEach(([key, value]) => {
@@ -168,67 +171,9 @@ const PdfUploadPage = () => {
     }
   };
 
-  const handleCrop = async () => {
-    if (!file) return setMessage("Selecione um Arquivo.");
-
-    if (!(file instanceof File) || file.type !== "application/pdf") {
-      return setMessage("Apenas arquivos .pdf são permitidos.");
-    }
-
-    setLoading(true);
-    try {
-      const uploadFormData = new FormData();
-      uploadFormData.append("file", file);
-
-      const uploadResponse = await fetch("http://127.0.0.1:5000/upload-pdf", {
-        method: "POST",
-        body: uploadFormData,
-      });
-
-      if (!uploadResponse.ok) {
-        throw new Error(`HTTP error! status: ${uploadResponse.status}`);
-      }
-
-      const { name: extractedName } = await uploadResponse.json();
-
-      const cropResponse = await fetch("http://127.0.0.1:5000/crop-pdf", {
-        method: "POST",
-      });
-
-      if (!cropResponse.ok) {
-        throw new Error(`HTTP error! status: ${cropResponse.status}`);
-      }
-
-      const blob = await cropResponse.blob();
-      const contentDisposition = cropResponse.headers.get(
-        "content-disposition"
-      );
-      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
-      const fileName = fileNameMatch
-        ? fileNameMatch[1]
-        : `${extractedName.replace(/\s+/g, "_")}.pdf`;
-
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setMessage("PDF cropped successfully.");
-    } catch (error) {
-      console.error("Error cropping PDF:", error);
-      setMessage("Error cropping PDF.");
-    } finally {
-      setLoading(false);
-      resetFileInput();
-      setTimeout(() => setMessage(""), 10000);
-    }
-  };
-
   return (
     <div className="pdfUploadPageContainer">
-      <h1>Gerador de Arquivo</h1>
+      <h1>Raspador de Pdf</h1>
       <form onSubmit={handleSubmit}>
         <div className="pdfUploaderForm">
           <label>
@@ -261,7 +206,7 @@ const PdfUploadPage = () => {
                 Raspar
               </button>
             </div>
-            <button className="button-3d" type="button" onClick={handleCrop}>
+            <button className="button-3d" type="button">
               Cortar
             </button>
           </div>
@@ -274,7 +219,7 @@ const PdfUploadPage = () => {
           <h2>Customize PDF Layout</h2>
           {["useWatermark", "includeContract", "includeDocuments"].map(
             (key) => (
-              <label key={key} className="customizationLabel">
+              <label key={key}>
                 <input
                   type="checkbox"
                   checked={

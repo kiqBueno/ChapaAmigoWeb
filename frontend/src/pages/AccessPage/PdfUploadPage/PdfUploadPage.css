@@ -10,8 +10,10 @@
 }
 
 .pdfUploadPageContainer h1,
-.pdfUploadPageContainer label {
+label {
   color: #333;
+  width: 100%;
+  text-align: center;
 }
 
 .pdfUploadPageContainer h1 {
@@ -20,6 +22,7 @@
 
 .pdfUploadPageContainer input {
   margin-bottom: 1rem;
+  width: 100%;
   color: #333;
   border: #333 solid 1px;
   padding: 0.5rem;
@@ -30,7 +33,7 @@
   color: #333;
 }
 
-.pdfUploadPageContainer .customizationDialog {
+.customizationDialog {
   position: absolute;
   margin-top: 2.5rem;
   top: 50%;
@@ -44,26 +47,22 @@
   color: #333;
 }
 
-.pdfUploadPageContainer .customizationDialog label {
+.customizationDialog label {
   display: block;
 }
 
-.pdfUploadPageContainer .pdfUploaderForm {
+.pdfUploaderForm {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
 }
 
-.pdfUploadPageContainer .customizationDialog button {
+.customizationDialog button {
   margin: 1rem auto;
 }
 
-.pdfUploadPageContainer input[type="file"] {
-  width: 100%;
-}
-
-.pdfUploadPageContainer .pdfUploaderButtons {
+.pdfUploaderButtons {
   display: flex;
   justify-content: center;
   border: 1px solid #333;
@@ -74,23 +73,15 @@
   white-space: nowrap;
 }
 
-.pdfUploadPageContainer .pdfUploaderButtonsContainer {
+.pdfUploaderButtonsContainer {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.pdfUploadPageContainer .customizationLabel {
-  text-align: none;
-}
-
-.pdfUploadPageContainer label {
-  width: 100%;
-}
-
 @media (max-width: 768px) {
-  .pdfUploadPageContainer .customizationDialog {
+  .customizationDialog {
     width: 80%;
   }
 }

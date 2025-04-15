@@ -1,5 +1,6 @@
 import os
 import logging
+import re
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -7,11 +8,12 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from .imageUtils import cropImage, addTransparency
-from .logging_config import setupLogging
+from .logging_config import setup_logging
 import fitz
-from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2 import PdfWriter
 
-setupLogging()
+# Configure logging
+setup_logging()
 
 class PdfUtils:
     def __init__(self, data, outputPdf, images, useWatermark=True, photoPath=None, includeContract=False, includeDocuments=False, selectedGroups=None):
@@ -22,17 +24,17 @@ class PdfUtils:
         self.photoPath = photoPath
         self.includeContract = includeContract
         self.includeDocuments = includeDocuments
-        self.selectedGroups = self._processSelectedGroups(selectedGroups)
+        self.selectedGroups = self._process_selected_groups(selectedGroups)
         self.canvas = canvas.Canvas(outputPdf, pagesize=letter)
         self.width, self.height = letter
         self.y = self.height - 40
-        self._registerFonts()
+        self._register_fonts()
 
-    def _processSelectedGroups(self, selectedGroups):
+    def _process_selected_groups(self, selectedGroups):
         if not selectedGroups:
             return {}
 
-        groupMappings = {
+        group_mappings = {
             "CADASTROS BÁSICOS": [
                 "Nome", "Nascimento", "Idade", "Sexo", "Rg", "Cpf", "Mãe", "Pai", "Óbito", "Endereços"
             ],
@@ -73,21 +75,21 @@ class PdfUtils:
             ],
         }
 
-        processedGroups = {}
-        for groupName, value in selectedGroups.items():
+        processed_groups = {}
+        for group_name, value in selectedGroups.items():
             if value and len(value) > 0:
-                if groupName in groupMappings:
-                    processedGroups[groupName] = groupMappings[groupName]
+                if group_name in group_mappings:
+                    processed_groups[group_name] = group_mappings[group_name]
                 else:
-                    logging.warning(f"Group '{groupName}' does not have a mapping defined")
+                    logging.warning(f"Group '{group_name}' does not have a mapping defined")
 
-        return processedGroups
+        return processed_groups
 
-    def _registerFonts(self):
+    def _register_fonts(self):
         pdfmetrics.registerFont(TTFont('Calibri', 'calibri.ttf'))
         pdfmetrics.registerFont(TTFont('Calibri-Bold', 'calibrib.ttf'))
 
-    def saveSpecificPagesAsImages(self, pdfPath, pdfPassword):
+    def save_specific_pages_as_images(self, pdfPath, pdfPassword):
         doc = fitz.open(pdfPath)
         if (doc.needs_pass):
             doc.authenticate(pdfPassword)
@@ -102,23 +104,24 @@ class PdfUtils:
                 images.append(imgBytes)
         return images
 
-    def _drawText(self, x, y, text, font="Calibri", size=12, bold=False, maxWidth=None):
+    def _draw_text(self, x, y, text, font="Calibri", size=12, bold=False, max_width=None):
         self.canvas.setFont(f"{font}-Bold" if bold else font, size)
-        maxWidth = maxWidth or (self.width - x - 40)
+        max_width = max_width or (self.width - x - 40)  # Default max width is the page width minus margins
         words = text.split()
         line = ""
         for word in words:
-            testLine = f"{line} {word}".strip()
-            if self.canvas.stringWidth(testLine, f"{font}-Bold" if bold else font, size) > maxWidth:
+            test_line = f"{line} {word}".strip()
+            if self.canvas.stringWidth(test_line, f"{font}-Bold" if bold else font, size) > max_width:
                 self.canvas.drawString(x, y, line)
-                y -= size + 2
+                y -= size + 2  # Move to the next line
                 line = word
             else:
-                line = testLine
-        if line:
+                line = test_line
+        if line:  # Draw the last line
             self.canvas.drawString(x, y, line)
-        return y
-    def _addWatermark(self):
+        return y  # Return the updated y position
+
+    def _add_watermark(self):
         if not self.useWatermark:
             return
         logoPath = os.path.join(os.path.dirname(__file__), 'Files', 'LogoChapaAmigo.png')
@@ -135,7 +138,7 @@ class PdfUtils:
         except Exception as e:
             logging.error(f"Failed to add watermark: {e}")
 
-    def _addPhoto(self):
+    def _add_photo(self):
         if not self.photoPath:
             logging.warning("No photo path provided.")
             return
@@ -143,8 +146,8 @@ class PdfUtils:
             logging.error(f"Photo path does not exist: {self.photoPath}")
             return
         try:
-            with open(self.photoPath, "rb") as imgFile:
-                img = ImageReader(imgFile)
+            with open(self.photoPath, "rb") as img_file:
+                img = ImageReader(img_file)
                 self.canvas.drawImage(
                     img, x=self.width - 150, y=self.height - 200,
                     width=100, height=150, preserveAspectRatio=True, mask='auto'
@@ -155,137 +158,117 @@ class PdfUtils:
         except Exception as e:
             logging.error(f"Failed to add photo: {e}")
 
-    def _drawGroup(self, title, keys):
+    def _draw_group(self, title, keys):
         self.y -= 20
-        self._drawText(40, self.y, title)
+        self._draw_text(40, self.y, title)
         self.y -= 20
         for key in keys:
             if key in self.data:
                 text = self.data[key]
                 if key == "Total de Processos":
-                    self._ensureSpace(20)
-                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
-                    self._drawText(60, self.y, f"{key}:", bold=True)
-                    self.y = self._drawText(60 + keyWidth + 10, self.y, str(text))
+                    # Draw the summary of processes
+                    self._ensure_space(20)
+                    key_width = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                    self._draw_text(60, self.y, f"{key}:", bold=True)
+                    self.y = self._draw_text(60 + key_width + 10, self.y, str(text))
                     self.y -= 20
                     if int(text) == 0:
+                        # Skip process details if total processes are zero
                         return
                 elif isinstance(text, list) and key == "Número do Processo":
-                    processCount = len(text)
-                    for i in range(processCount):
-                        self._ensureSpace(20)
-                        self._drawText(60, self.y, f"Processo {i + 1}:", bold=True)
+                    # Handle grouped processes
+                    process_count = len(text)
+                    for i in range(process_count):
+                        self._ensure_space(20)
+                        self._draw_text(60, self.y, f"Processo {i + 1}:", bold=True)
                         self.y -= 20
-                        for processKey in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Data de Abertura", "Idade em Dias", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
-                            if processKey in self.data and len(self.data[processKey]) > i:
-                                value = self.data[processKey][i]
-                                keyWidth = self.canvas.stringWidth(f"{processKey}: ", "Calibri-Bold", 12)
-                                self._ensureSpace(20)
-                                self._drawText(80, self.y, f"{processKey}:", bold=True)
-                                self.y = self._drawText(80 + keyWidth + 10, self.y, str(value) if value is not None else '-')
+                        for process_key in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Data de Abertura", "Idade em Dias", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
+                            if process_key in self.data and len(self.data[process_key]) > i:
+                                value = self.data[process_key][i]
+                                key_width = self.canvas.stringWidth(f"{process_key}: ", "Calibri-Bold", 12)
+                                self._ensure_space(20)
+                                self._draw_text(80, self.y, f"{process_key}:", bold=True)
+                                self.y = self._draw_text(80 + key_width + 10, self.y, str(value) if value is not None else '-')
                                 self.y -= 20
                         self.y -= 10
+                    # Exit after processing all processes to avoid redundant drawing
                     return
                 elif isinstance(text, list):
+                    # Handle other lists
                     for item in text:
-                        self._ensureSpace(20)
-                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
-                        self._drawText(60, self.y, f"{key}:", bold=True)
-                        self.y = self._drawText(60 + keyWidth + 10, self.y, str(item) if item is not None else '-')
+                        self._ensure_space(20)
+                        key_width = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                        self._draw_text(60, self.y, f"{key}:", bold=True)
+                        self.y = self._draw_text(60 + key_width + 10, self.y, str(item) if item is not None else '-')
                         self.y -= 20
                 else:
+                    # Handle single values
                     text = str(text) if text is not None else '-'
-                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
-                    self._ensureSpace(20)
-                    self._drawText(60, self.y, f"{key}:", bold=True)
-                    self.y = self._drawText(60 + keyWidth + 10, self.y, text)
+                    key_width = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                    self._ensure_space(20)
+                    self._draw_text(60, self.y, f"{key}:", bold=True)
+                    self.y = self._draw_text(60 + key_width + 10, self.y, text)
                     self.y -= 20
             else:
-                keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
-                self._ensureSpace(20)
-                self._drawText(60, self.y, f"{key}:", bold=True)
-                self._drawText(60 + keyWidth + 10, self.y, "-", font="Calibri")
+                key_width = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                self._ensure_space(20)
+                self._draw_text(60, self.y, f"{key}:", bold=True)
+                self._draw_text(60 + key_width + 10, self.y, "-", font="Calibri")
                 self.y -= 20
         self.y -= 20
         self.y = max(self.y, 40)
 
-    def _ensureSpace(self, requiredSpace):
-        if self.y - requiredSpace < 40:
+    def _ensure_space(self, required_space):
+        if self.y - required_space < 40:
             self.canvas.showPage()
-            self._addWatermark()
+            self._add_watermark()
             self.canvas.setFont("Calibri", 12)
             self.y = self.height - 40
 
-    def _addConfidentialityContract(self):
-        contractPath = os.path.join(os.path.dirname(__file__), 'Files', 'TERMO_FICHA_CADASTRO_PDF.pdf')
-        if not os.path.exists(contractPath):
+    def _add_confidentiality_contract(self):
+        contract_path = os.path.join(os.path.dirname(__file__), 'Files', 'TERMO_FICHA_CADASTRO_PDF.pdf')
+        if not os.path.exists(contract_path):
             return
         try:
-            contractDoc = fitz.open(contractPath)
-            for pageNum in range(len(contractDoc)):
-                if pageNum > 0:
+            contract_doc = fitz.open(contract_path)
+            for page_num in range(len(contract_doc)):
+                if page_num > 0:
                     self.canvas.showPage()
-                self._addWatermark()
-                page = contractDoc.load_page(pageNum)
+                self._add_watermark()
+                page = contract_doc.load_page(page_num)
                 pix = page.get_pixmap(dpi=300)
-                imgBytes = BytesIO(pix.tobytes())
-                img = ImageReader(imgBytes)
+                img_bytes = BytesIO(pix.tobytes())
+                img = ImageReader(img_bytes)
                 self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
-            contractDoc.close()
+            contract_doc.close()
             self.canvas.showPage()
             self.y = self.height - 40
         except Exception:
             pass
 
-    def createPdf(self):
-        contentAdded = False
+    def create_pdf(self):
+        content_added = False
         if self.includeContract:
-            self._addConfidentialityContract()
-            contentAdded = True
+            self._add_confidentiality_contract()
+            content_added = True
         if self.photoPath:
             logging.info("Calling _add_photo to add the image.")
-            self._addPhoto()
-            contentAdded = True
+            self._add_photo()  # Ensure this is called before other content
+            content_added = True
         for groupTitle, groupKeys in self.selectedGroups.items():
             if groupKeys:
-                self._addWatermark()
-                self._drawGroup(groupTitle, groupKeys)
-                contentAdded = True
+                self._add_watermark()
+                self._draw_group(groupTitle, groupKeys)
+                content_added = True
         if self.includeDocuments and self.images:
             for imgBytes in self.images:
-                if contentAdded:
+                if content_added:
                     self.canvas.showPage()
-                self._addWatermark()
+                self._add_watermark()
                 croppedImgBytes = cropImage(imgBytes)
                 img = ImageReader(croppedImgBytes)
                 self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
-                contentAdded = True
-        if contentAdded:
+                content_added = True
+        if content_added:
             self.canvas.save()
             self.outputPdf.seek(0)
-
-    def cropPdf(self, inputPdfPath, outputPdfPath, cropTopRatio=0.085, cropBottomRatio=0.085):
-        try:
-            with open(inputPdfPath, 'rb') as inFile:
-                reader = PdfReader(inFile)
-                writer = PdfWriter()
-
-                for page in reader.pages:
-                    # Convert FloatObject to float
-                    page_width = float(page.mediabox[2])
-                    page_height = float(page.mediabox[3])
-
-                    # Crop the page
-                    crop_top = page_height * cropTopRatio
-                    crop_bottom = page_height * cropBottomRatio
-                    page.mediabox.upper_right = (page_width, page_height - crop_top)
-                    page.mediabox.lower_left = (0, crop_bottom)
-
-                    writer.add_page(page)
-
-                with open(outputPdfPath, 'wb') as outFile:
-                    writer.write(outFile)
-
-        except Exception as e:
-            logging.error(f"Error cropping PDF: {e}")
-            raise
