@@ -67,7 +67,9 @@ def cropPdf(file: BytesIO) -> BytesIO:
 
         reader = PdfReader(tempOutputPath)
         writer = PdfWriter()
-        for page in reader.pages:
+
+        pages = reader.pages[1:-1] if len(reader.pages) > 2 else []
+        for page in pages:
             writer.add_page(page)
 
         writer.encrypt("1234")

@@ -271,11 +271,9 @@ class PdfUtils:
                 writer = PdfWriter()
 
                 for page in reader.pages:
-                    # Convert FloatObject to float
                     page_width = float(page.mediabox[2])
                     page_height = float(page.mediabox[3])
 
-                    # Crop the page
                     crop_top = page_height * cropTopRatio
                     crop_bottom = page_height * cropBottomRatio
                     page.mediabox.upper_right = (page_width, page_height - crop_top)

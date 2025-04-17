@@ -129,8 +129,16 @@
 }
 
 .importantInfo {
-  padding: 0 1rem;
+  padding: 0 5rem;
   color: black;
+}
+
+.importantInfo p,
+.importantInfo ul,
+.importantInfo li {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
 }
 
 .pricingPlan2 h1,
@@ -178,5 +186,9 @@ h2 {
 @media (max-width: 1175px) {
   .pricingPlan {
     width: 80vw;
+  }
+
+  .importantInfo {
+    padding: 0 2rem;
   }
 }
