@@ -1,0 +1,25 @@
+.sectionContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+  position: relative;
+}
+
+.sectionContainer h3 {
+  margin-top: 1.5rem;
+  background-color: #ffca00;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sectionContainer .sectionContent {
+  padding: 0 1rem;
+}
+
+.icon {
+  margin-left: 10px;
+}

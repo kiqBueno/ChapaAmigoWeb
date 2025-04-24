@@ -1,18 +1,15 @@
 import "./PlansSection.css";
 import PlanCard from "./PlanCard";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 interface PlansSectionProps {
   hideButton?: boolean;
-  cardClass?: string; // New prop to pass custom class to PlanCard
-  extraInfo?: string[]; // New prop for extra information
+  cardClass?: string;
 }
 
 const PlansSection: React.FC<PlansSectionProps> = ({
   hideButton = false,
   cardClass,
-  extraInfo = [],
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">(
     "mensal"
@@ -44,8 +41,8 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       price: 30,
       description: "Acesso aos melhores Chapas!",
       features: [
-        "30 solicitações ao mês",
-        "1º ano grátis",
+        "1 solicitação por dia",
+        "1º mês grátis",
         "Solicitações em todo território nacional",
         "Suporte para acesso de portaria",
         "Atendimento via e-mail, telefone e WhatsApp",
@@ -102,19 +99,10 @@ const PlansSection: React.FC<PlansSectionProps> = ({
               description={plan.description}
               features={plan.features}
               hideButton={hideButton}
-              className={cardClass} // Pass the custom class
-              extraInfo={extraInfo[index]} // Pass extra information
+              className={cardClass}
             />
           ))}
         </div>
-        <h3>
-          Dúvidas sobre segurança empresarial, assinaturas ou contratos
-          personalizados?
-          <br />
-          <Link to="/contato" rel="noopener noreferrer">
-            Entre em contato conosco
-          </Link>
-        </h3>
       </div>
     </div>
   );

@@ -39,11 +39,6 @@ const Header = () => {
           <nav className={`nav ${menuOpen ? "open" : ""}`}>
             <ul className="nav-links">
               <li>
-                <Link to="/" onClick={handleHomeClick}>
-                  Home
-                </Link>
-              </li>
-              <li>
                 <a
                   href="#videoContainerComercial"
                   onClick={() => handleAnchorClick("Planos")}
@@ -52,17 +47,22 @@ const Header = () => {
                 </a>
               </li>
               <li>
-                <Link to="/planos" onClick={() => setMenuOpen(false)}>
-                  Planos
-                </Link>
-              </li>
-              <li>
                 <a
                   href="#videoContainerCadastro"
                   onClick={() => handleAnchorClick("Cadastrar")}
                 >
                   Cadastro
                 </a>
+              </li>
+              <li>
+                <Link to="/planos" onClick={() => setMenuOpen(false)}>
+                  Planos
+                </Link>
+              </li>
+              <li>
+                <Link to="/pagamento" onClick={() => setMenuOpen(false)}>
+                  Pagamento
+                </Link>
               </li>
               <li>
                 <Link to="/termos-condicoes" onClick={() => setMenuOpen(false)}>

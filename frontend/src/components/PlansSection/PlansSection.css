@@ -129,8 +129,10 @@
 }
 
 .importantInfo {
-  padding: 0 5rem;
+  padding: 2.5rem 5rem;
+  margin: 5rem 0 0 0;
   color: black;
+  text-align: center;
 }
 
 .importantInfo p,
@@ -139,15 +141,17 @@
   font-size: 1rem;
   line-height: 1.5;
   color: #333;
+  margin: 0;
+}
+
+.importantInfo strong {
+  display: inline-block;
+  margin: 1rem 0;
 }
 
 .pricingPlan2 h1,
 h2 {
   margin: 0;
-}
-
-.pricingTable h3 a {
-  color: #003366;
 }
 
 .pricingPlan h2,
@@ -178,7 +182,7 @@ h2 {
 }
 
 .extraInfoContainer p {
-  margin: 0.5rem 0; /* Espaçamento entre linhas */
+  margin: 0.5rem 0;
   font-size: 0.9rem;
   color: #666;
 }

@@ -1,38 +1,5 @@
-import { useState, ReactNode } from "react";
 import "./TermsConditionsPage.css";
-import { FaPlus, FaTimes } from "react-icons/fa";
-
-interface SectionProps {
-  title: string;
-  sectionKey: string;
-  children: ReactNode;
-}
-
-const Section = ({ title, sectionKey, children }: SectionProps) => {
-  const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>(
-    {}
-  );
-
-  const toggleSection = (section: string) => {
-    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  return (
-    <div>
-      <h3 onClick={() => toggleSection(sectionKey)}>
-        {title}
-        {openSections[sectionKey] ? (
-          <FaTimes className="icon" />
-        ) : (
-          <FaPlus className="icon" />
-        )}
-      </h3>
-      {openSections[sectionKey] && (
-        <div className="sectionContent">{children}</div>
-      )}
-    </div>
-  );
-};
+import Section from "../../components/Section";
 
 const TermosCondicoes = () => {
   return (

@@ -9,8 +9,8 @@ interface PlanCardProps {
   features: string[];
   hideButton?: boolean;
   priceUnit: string;
-  className?: string; // New prop for custom class
-  extraInfo?: string; // New prop for extra information
+  className?: string;
+  extraInfo?: string;
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({
