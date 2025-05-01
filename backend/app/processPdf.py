@@ -17,6 +17,7 @@ def processPdf(
     includeDocuments: bool,
     selectedGroups: dict,
     photoPath: Optional[str] = None,
+    summaryTexts: Optional[list] = None,
 ) -> BytesIO:
     try:
         if not file:
@@ -33,6 +34,7 @@ def processPdf(
             tempPdfPath = tempPdfFile.name
 
         extractedData = extractDataFromPdf(decryptedPdf, password)
+        summaries = extractedData.get("Resumo do Relatório", [])
         images = PdfUtils(None, None, None).saveSpecificPagesAsImages(tempPdfPath, password)
         selectedGroups = {group: keys for group, keys in selectedGroups.items() if isinstance(keys, list) and keys}
 
@@ -41,6 +43,7 @@ def processPdf(
             extractedData, outputPdf, images, useWatermark, photoPath,
             includeContract, includeDocuments, selectedGroups
         )
+        pdfUtils.summaryTexts = summaries
         pdfUtils.createPdf()
 
         os.remove(tempPdfPath)

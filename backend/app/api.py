@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, Response
 from flask_cors import CORS
 from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
@@ -33,7 +33,14 @@ def upload_pdf():
         uploaded_pdf_path = os.path.join(os.getcwd(), 'uploaded_pdf.pdf')
         file.save(uploaded_pdf_path)
         extracted_data = extractDataFromPdf(uploaded_pdf_path)
-        return jsonify({"name": extracted_data.get("Nome", "Unknown")})
+        logging.debug(f"Extracted data: {extracted_data}")
+        return Response(
+            json.dumps({
+                "name": extracted_data.get("Nome", "Unknown"),
+                "summary": extracted_data.get("Resumo do Relatório", [])
+            }, ensure_ascii=False),
+            content_type="application/json"
+        )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -63,10 +70,17 @@ def process_pdf():
         includeContract = request.form.get('includeContract', 'true') == 'true'
         includeDocuments = request.form.get('includeDocuments', 'true') == 'true'
         selectedGroups = json.loads(request.form.get('selectedGroups', '{}'))
+        summaryTexts = json.loads(request.form.get('summaryTexts', '[]'))  # New parameter
 
         output_pdf = processPdf(
-            uploaded_pdf_path, password, useWatermark, includeContract,
-            includeDocuments, selectedGroups, uploaded_image_path
+            file=uploaded_pdf_path,
+            password=password,
+            useWatermark=useWatermark,
+            includeContract=includeContract,
+            includeDocuments=includeDocuments,
+            selectedGroups=selectedGroups,
+            photoPath=uploaded_image_path,
+            summaryTexts=summaryTexts
         )
 
         encrypted_pdf = BytesIO()

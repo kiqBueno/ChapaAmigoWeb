@@ -195,4 +195,8 @@ h2 {
   .importantInfo {
     padding: 0 2rem;
   }
+
+  #priceContainer {
+    padding: 2rem;
+  }
 }

@@ -10,6 +10,7 @@ from .imageUtils import cropImage, addTransparency
 from .logging_config import setupLogging
 import fitz
 from PyPDF2 import PdfReader, PdfWriter
+import re
 
 setupLogging()
 
@@ -34,8 +35,10 @@ class PdfUtils:
 
         groupMappings = {
             "CADASTROS BÁSICOS": [
-                "Nome", "Nascimento", "Idade", "Sexo", "Rg", "Cpf", "Mãe", "Pai", "Óbito", "Endereços"
+                "Nome", "Nascimento", "Idade", "Sexo", "Rg", "Cpf", "Mãe", "Pai", "Óbito", "E-mails"
             ],
+            "Endereços": ["Endereços"],  # Added
+            "Resumo do Relatório": ["Resumo do Relatório"],  # Added
             "RENDA": [
                 "Renda Mensal Presumida"
             ],
@@ -81,7 +84,14 @@ class PdfUtils:
                 else:
                     logging.warning(f"Group '{groupName}' does not have a mapping defined")
 
-        return processedGroups
+        # Enforce the desired order
+        orderedGroups = {}
+        for key in ["Resumo do Relatório", "CADASTROS BÁSICOS", "Endereços"]:
+            if key in processedGroups:
+                orderedGroups[key] = processedGroups.pop(key)
+        orderedGroups.update(processedGroups)  # Add remaining groups
+
+        return orderedGroups
 
     def _registerFonts(self):
         pdfmetrics.registerFont(TTFont('Calibri', 'calibri.ttf'))
@@ -103,13 +113,15 @@ class PdfUtils:
         return images
 
     def _drawText(self, x, y, text, font="Calibri", size=12, bold=False, maxWidth=None):
-        self.canvas.setFont(f"{font}-Bold" if bold else font, size)
+        fontName = f"{font}-Bold" if bold and not font.endswith("-Bold") else font 
+        self.canvas.setFont(fontName, size)
         maxWidth = maxWidth or (self.width - x - 40)
+        text = str(text)
         words = text.split()
         line = ""
         for word in words:
             testLine = f"{line} {word}".strip()
-            if self.canvas.stringWidth(testLine, f"{font}-Bold" if bold else font, size) > maxWidth:
+            if self.canvas.stringWidth(testLine, fontName, size) > maxWidth:
                 self.canvas.drawString(x, y, line)
                 y -= size + 2
                 line = word
@@ -118,6 +130,7 @@ class PdfUtils:
         if line:
             self.canvas.drawString(x, y, line)
         return y
+
     def _addWatermark(self):
         if not self.useWatermark:
             return
@@ -160,6 +173,9 @@ class PdfUtils:
         self._drawText(40, self.y, title)
         self.y -= 20
         for key in keys:
+            if key == "Resumo do Relatório" and key in self.data:
+                self._addSummaryTexts(self.data[key])
+                continue
             if key in self.data:
                 text = self.data[key]
                 if key == "Total de Processos":
@@ -186,12 +202,44 @@ class PdfUtils:
                                 self.y -= 20
                         self.y -= 10
                     return
+                elif isinstance(text, list) and key == "Endereços":
+                    for item in text:
+                        item = item.strip()
+                        addresses = re.split(r"(?<=\d)\s*-\s*(?=\D)", item)
+                        combined_addresses = []
+                        for address in addresses:
+                            if address.strip():
+                                if re.match(r"^\d+$", address.strip()):
+                                    logging.warning(f"Ignoring standalone number: {address.strip()}")
+                                    continue
+                                if combined_addresses and re.match(r"^\d+$", combined_addresses[-1].split()[-1]):
+                                    combined_addresses[-1] = combined_addresses[-1].rsplit(" ", 1)[0]
+                                combined_addresses.append(address.strip())
+                        for address in combined_addresses:
+                            self._ensureSpace(20)
+                            key_with_colon = "Endereço:"
+                            key_width = self.canvas.stringWidth(key_with_colon, "Calibri-Bold", 12)
+                            self._drawText(60, self.y, key_with_colon, bold=True)
+                            self.y = self._drawText(60 + key_width + 10, self.y, address.strip(), maxWidth=self.width - 80)
+                            self.y -= 20
+                            if self.y < 40:
+                                self.canvas.showPage()
+                                self._addWatermark()
+                                self.canvas.setFont("Calibri", 12)
+                                self.y = self.height - 40
+                elif isinstance(text, list) and key == "E-mails":
+                    for email in text:
+                        self._ensureSpace(20)
+                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                        self._drawText(60, self.y, f"{key}:", bold=True)
+                        self.y = self._drawText(60 + keyWidth + 10, self.y, email)
+                        self.y -= 20
                 elif isinstance(text, list):
                     for item in text:
                         self._ensureSpace(20)
                         keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
                         self._drawText(60, self.y, f"{key}:", bold=True)
-                        self.y = self._drawText(60 + keyWidth + 10, self.y, str(item) if item is not None else '-')
+                        self.y = self._drawText(60 + keyWidth + 10, self.y, str(item))
                         self.y -= 20
                 else:
                     text = str(text) if text is not None else '-'
@@ -237,20 +285,38 @@ class PdfUtils:
         except Exception:
             pass
 
+    def _addSummaryTexts(self, summaryTexts):
+        self.y -= 40
+        self._drawText(40, self.y, "Resumo do Relatório", font="Calibri-Bold", size=14, bold=True)
+        self.y -= 20
+        for text in summaryTexts:
+            text = text.strip()
+            self.y = self._drawText(40, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
+            self.y -= 20
+        self.y = max(self.y, 40)
+
     def createPdf(self):
         contentAdded = False
         if self.includeContract:
             self._addConfidentialityContract()
             contentAdded = True
+
+        if "Resumo do Relatório" in self.selectedGroups and hasattr(self, "summaryTexts") and self.summaryTexts:
+            self._addSummaryTexts(self.summaryTexts)
+            self.selectedGroups.pop("Resumo do Relatório", None)
+            contentAdded = True
+
         if self.photoPath:
             logging.info("Calling _add_photo to add the image.")
             self._addPhoto()
             contentAdded = True
+
         for groupTitle, groupKeys in self.selectedGroups.items():
             if groupKeys:
                 self._addWatermark()
                 self._drawGroup(groupTitle, groupKeys)
                 contentAdded = True
+
         if self.includeDocuments and self.images:
             for imgBytes in self.images:
                 if contentAdded:
@@ -260,6 +326,7 @@ class PdfUtils:
                 img = ImageReader(croppedImgBytes)
                 self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
                 contentAdded = True
+
         if contentAdded:
             self.canvas.save()
             self.outputPdf.seek(0)
