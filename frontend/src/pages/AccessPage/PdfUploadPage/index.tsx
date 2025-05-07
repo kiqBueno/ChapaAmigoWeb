@@ -15,8 +15,8 @@ type GroupKeys =
   | "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA"
   | "AUXÍLIO EMERGENCIAL"
   | "PROCESSOS"
-  | "Endereços"
-  | "Resumo do Relatório";
+  | "ENDEREÇOS"
+  | "RESUMO DO RELATÓRIO";
 
 const defaultCustomizationOptions = {
   useWatermark: true,
@@ -33,8 +33,8 @@ const defaultCustomizationOptions = {
     "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA": ["defaultKey"],
     "AUXÍLIO EMERGENCIAL": ["defaultKey"],
     PROCESSOS: ["defaultKey"],
-    Endereços: ["defaultKey"],
-    "Resumo do Relatório": ["defaultKey"],
+    ENDEREÇOS: ["defaultKey"],
+    "RESUMO DO RELATÓRIO": ["defaultKey"],
   } as Record<GroupKeys, string[]>,
 };
 
@@ -54,8 +54,8 @@ const customizationLabels: Record<string, string> = {
     "Pagamentos do Benefício de Prestação Continuada",
   "AUXÍLIO EMERGENCIAL": "Auxílio Emergencial",
   PROCESSOS: "Processos",
-  Endereços: "Endereços",
-  "Resumo do Relatório": "Resumo do Relatório",
+  ENDEREÇOS: "Endereços",
+  "RESUMO DO RELATÓRIO": "Resumo do Relatório",
 };
 
 const PdfUploadPage = () => {

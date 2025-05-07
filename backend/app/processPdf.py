@@ -34,7 +34,6 @@ def processPdf(
             tempPdfPath = tempPdfFile.name
 
         extractedData = extractDataFromPdf(decryptedPdf, password)
-        summaries = extractedData.get("Resumo do Relatório", [])
         images = PdfUtils(None, None, None).saveSpecificPagesAsImages(tempPdfPath, password)
         selectedGroups = {group: keys for group, keys in selectedGroups.items() if isinstance(keys, list) and keys}
 
@@ -43,7 +42,9 @@ def processPdf(
             extractedData, outputPdf, images, useWatermark, photoPath,
             includeContract, includeDocuments, selectedGroups
         )
-        pdfUtils.summaryTexts = summaries
+        pdfUtils.summaryTexts = summaryTexts or extractedData.get("Resumo do Relatório", [])
+        if isinstance(pdfUtils.summaryTexts, list) and any(isinstance(item, list) for item in pdfUtils.summaryTexts):
+            pdfUtils.summaryTexts = [text for sublist in pdfUtils.summaryTexts for text in (sublist if isinstance(sublist, list) else [sublist])]
         pdfUtils.createPdf()
 
         os.remove(tempPdfPath)

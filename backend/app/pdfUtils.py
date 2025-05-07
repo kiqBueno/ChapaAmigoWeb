@@ -28,6 +28,26 @@ class PdfUtils:
         self.width, self.height = letter
         self.y = self.height - 40
         self._registerFonts()
+        self.default_order = [
+            "contract"
+            , "photo"
+            , "CADASTROS BÁSICOS"
+            , "summary"
+            , "ENDEREÇOS"
+            , "CELULARES E TELEFONES FIXO"
+            , "RENDA"
+            , "HISTÓRICO DA RECEITA FEDERAL"
+            , "DADOS DA CTPS"
+            , "TITULO ELEITORAL"
+            , "DADOS DO PASSAPORTE"
+            , "DADOS SOCIAIS"
+            , "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA"
+            , "AUXÍLIO EMERGENCIAL"
+            , "PROCESSOS"
+            , "documents"
+
+        ]
+        self._first_page = True
 
     def _processSelectedGroups(self, selectedGroups):
         if not selectedGroups:
@@ -37,8 +57,8 @@ class PdfUtils:
             "CADASTROS BÁSICOS": [
                 "Nome", "Nascimento", "Idade", "Sexo", "Rg", "Cpf", "Mãe", "Pai", "Óbito", "E-mails"
             ],
-            "Endereços": ["Endereços"],  # Added
-            "Resumo do Relatório": ["Resumo do Relatório"],  # Added
+            "ENDEREÇOS": ["Endereços"],
+            "RESUMO DO RELATÓRIO": ["Resumo do Relatório"],
             "RENDA": [
                 "Renda Mensal Presumida"
             ],
@@ -71,8 +91,8 @@ class PdfUtils:
                 "Total de Processos", "Como Requerente", "Como Requerido", "Como Outra Parte",
                 "Nos Últimos 30 Dias", "Nos Últimos 90 Dias", "Nos Últimos 180 Dias", "Nos Últimos 365 Dias",
                 "Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", 
-                "Assunto", "Tribunal", "Data de Abertura", "Idade em Dias", "Data de Encerramento", 
-                "Última Atualização", "Última Movimentação"
+                "Assunto", "Tribunal", "Ano de Abertura", "Data de Encerramento", "Última Atualização", 
+                "Última Movimentação"
             ],
         }
 
@@ -84,14 +104,7 @@ class PdfUtils:
                 else:
                     logging.warning(f"Group '{groupName}' does not have a mapping defined")
 
-        # Enforce the desired order
-        orderedGroups = {}
-        for key in ["Resumo do Relatório", "CADASTROS BÁSICOS", "Endereços"]:
-            if key in processedGroups:
-                orderedGroups[key] = processedGroups.pop(key)
-        orderedGroups.update(processedGroups)  # Add remaining groups
-
-        return orderedGroups
+        return processedGroups
 
     def _registerFonts(self):
         pdfmetrics.registerFont(TTFont('Calibri', 'calibri.ttf'))
@@ -134,19 +147,28 @@ class PdfUtils:
     def _addWatermark(self):
         if not self.useWatermark:
             return
-        logoPath = os.path.join(os.path.dirname(__file__), 'Files', 'LogoChapaAmigo.png')
-        if not os.path.exists(logoPath):
-            return
+        self.canvas.saveState()
         try:
-            self.canvas.saveState()
+            self.canvas.setFillColorRGB(0.8, 0.8, 0.8)
             self.canvas.translate(self.width / 2, self.height / 2)
             self.canvas.rotate(45)
-            logoImgBytes = addTransparency(logoPath, 0.05)
-            img = ImageReader(logoImgBytes)
-            self.canvas.drawImage(img, -250, -125, width=500, height=250, mask='auto')
-            self.canvas.restoreState()
+            font_size = 100
+            text = "CONFIDENCIAL"
+            while self.canvas.stringWidth(text, "Helvetica-Bold", font_size) > self.width * 1:
+                font_size -= 1
+            self.canvas.setFont("Helvetica-Bold", font_size)
+            self.canvas.drawCentredString(0, 0, text)
         except Exception as e:
-            logging.error(f"Failed to add watermark: {e}")
+            logging.error(f"Error during watermark drawing operations: {e}")
+        finally:
+            self.canvas.restoreState()
+
+    def _ensureSpace(self, requiredSpace):
+        if self.y - requiredSpace < 40:
+            self.canvas.showPage()
+            self.y = self.height - 40
+            self._addWatermark()
+            self.canvas.setFont("Calibri", 12)
 
     def _addPhoto(self):
         if not self.photoPath:
@@ -174,7 +196,7 @@ class PdfUtils:
         self.y -= 20
         for key in keys:
             if key == "Resumo do Relatório" and key in self.data:
-                self._addSummaryTexts(self.data[key])
+                self._addSummaryTexts(key, self.data[key])
                 continue
             if key in self.data:
                 text = self.data[key]
@@ -192,7 +214,7 @@ class PdfUtils:
                         self._ensureSpace(20)
                         self._drawText(60, self.y, f"Processo {i + 1}:", bold=True)
                         self.y -= 20
-                        for processKey in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Data de Abertura", "Idade em Dias", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
+                        for processKey in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Ano de Abertura", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
                             if processKey in self.data and len(self.data[processKey]) > i:
                                 value = self.data[processKey][i]
                                 keyWidth = self.canvas.stringWidth(f"{processKey}: ", "Calibri-Bold", 12)
@@ -254,18 +276,10 @@ class PdfUtils:
                 self._drawText(60, self.y, f"{key}:", bold=True)
                 self._drawText(60 + keyWidth + 10, self.y, "-", font="Calibri")
                 self.y -= 20
-        self.y -= 20
         self.y = max(self.y, 40)
-
-    def _ensureSpace(self, requiredSpace):
-        if self.y - requiredSpace < 40:
-            self.canvas.showPage()
-            self._addWatermark()
-            self.canvas.setFont("Calibri", 12)
-            self.y = self.height - 40
-
+        
     def _addConfidentialityContract(self):
-        contractPath = os.path.join(os.path.dirname(__file__), 'Files', 'TERMO_FICHA_CADASTRO_PDF.pdf')
+        contractPath = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf')
         if not os.path.exists(contractPath):
             return
         try:
@@ -273,7 +287,10 @@ class PdfUtils:
             for pageNum in range(len(contractDoc)):
                 if pageNum > 0:
                     self.canvas.showPage()
-                self._addWatermark()
+                    self.y = self.height - 40
+                    self._addWatermark()
+                else:
+                    self._addWatermark()
                 page = contractDoc.load_page(pageNum)
                 pix = page.get_pixmap(dpi=300)
                 imgBytes = BytesIO(pix.tobytes())
@@ -282,50 +299,59 @@ class PdfUtils:
             contractDoc.close()
             self.canvas.showPage()
             self.y = self.height - 40
-        except Exception:
-            pass
+            self._addWatermark()
+        except Exception as e:
+            logging.error(f"Error adding confidentiality contract: {e}")
 
-    def _addSummaryTexts(self, summaryTexts):
-        self.y -= 40
-        self._drawText(40, self.y, "Resumo do Relatório", font="Calibri-Bold", size=14, bold=True)
+    def _addSummaryTexts(self, key, summaryTexts):
+        self._drawText(40, self.y, f"{key}: ", font="Calibri")
         self.y -= 20
-        for text in summaryTexts:
-            text = text.strip()
-            self.y = self._drawText(40, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
+        if isinstance(summaryTexts, list):
+            flatTexts = [text.strip() for sublist in summaryTexts for text in (sublist if isinstance(sublist, list) else [sublist])]
+            for text in flatTexts:
+                self.y = self._drawText(60, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
+                self.y -= 20
+        else:
+            text = str(summaryTexts).strip()
+            self.y = self._drawText(60, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
             self.y -= 20
         self.y = max(self.y, 40)
 
     def createPdf(self):
         contentAdded = False
-        if self.includeContract:
-            self._addConfidentialityContract()
-            contentAdded = True
 
-        if "Resumo do Relatório" in self.selectedGroups and hasattr(self, "summaryTexts") and self.summaryTexts:
-            self._addSummaryTexts(self.summaryTexts)
-            self.selectedGroups.pop("Resumo do Relatório", None)
-            contentAdded = True
+        self._addWatermark()
+        self.canvas.setFont("Calibri", 12)
 
-        if self.photoPath:
-            logging.info("Calling _add_photo to add the image.")
-            self._addPhoto()
-            contentAdded = True
-
-        for groupTitle, groupKeys in self.selectedGroups.items():
-            if groupKeys:
-                self._addWatermark()
-                self._drawGroup(groupTitle, groupKeys)
+        for element in self.default_order:
+            if element == "contract" and self.includeContract:
+                self._addConfidentialityContract()
                 contentAdded = True
-
-        if self.includeDocuments and self.images:
-            for imgBytes in self.images:
-                if contentAdded:
-                    self.canvas.showPage()
-                self._addWatermark()
-                croppedImgBytes = cropImage(imgBytes)
-                img = ImageReader(croppedImgBytes)
-                self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
+            elif element == "summary" and "RESUMO DO RELATÓRIO" in self.selectedGroups:
+                self.y -= 20
+                self._addSummaryTexts("RESUMO DO RELATÓRIO", self.summaryTexts)
+                self.selectedGroups.pop("RESUMO DO RELATÓRIO", None)
                 contentAdded = True
+            elif element == "photo" and self.photoPath:
+                logging.info("Calling _add_photo to add the image.")
+                self._addPhoto()
+                contentAdded = True
+            elif element in self.selectedGroups:
+                groupKeys = self.selectedGroups[element]
+                if groupKeys:
+                    self._drawGroup(element, groupKeys)
+                    contentAdded = True
+            elif element == "documents" and self.includeDocuments and self.images:
+                for imgBytes in self.images:
+                    if contentAdded:
+                        self.canvas.showPage()
+                        self.y = self.height - 40
+                        self._addWatermark()
+                        self.canvas.setFont("Calibri", 12)
+                    croppedImgBytes = cropImage(imgBytes)
+                    img = ImageReader(croppedImgBytes)
+                    self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
+                    contentAdded = True
 
         if contentAdded:
             self.canvas.save()

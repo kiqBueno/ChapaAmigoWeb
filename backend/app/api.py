@@ -34,10 +34,12 @@ def upload_pdf():
         file.save(uploaded_pdf_path)
         extracted_data = extractDataFromPdf(uploaded_pdf_path)
         logging.debug(f"Extracted data: {extracted_data}")
+        
+
+
         return Response(
             json.dumps({
-                "name": extracted_data.get("Nome", "Unknown"),
-                "summary": extracted_data.get("Resumo do Relatório", [])
+                "name": extracted_data.get("Nome", "Unknown")
             }, ensure_ascii=False),
             content_type="application/json"
         )
