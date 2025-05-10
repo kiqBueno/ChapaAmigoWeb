@@ -72,7 +72,7 @@ def process_pdf():
         includeContract = request.form.get('includeContract', 'true') == 'true'
         includeDocuments = request.form.get('includeDocuments', 'true') == 'true'
         selectedGroups = json.loads(request.form.get('selectedGroups', '{}'))
-        summaryTexts = json.loads(request.form.get('summaryTexts', '[]'))  # New parameter
+        summaryTexts = json.loads(request.form.get('summaryTexts', '[]'))
 
         output_pdf = processPdf(
             file=uploaded_pdf_path,
@@ -135,5 +135,5 @@ def crop_pdf():
 def get_logs():
     return jsonify({"logs": log_capture_string.getvalue()})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)

@@ -32,3 +32,5 @@ env/
 .venv/
 *.env
 *.flaskenv
+
+ServerFiles/
