@@ -3,6 +3,7 @@ from flask_cors import CORS
 from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
 from .logging_config import setupLogging
+from .config import BASE_URL
 import os
 import json
 import logging
@@ -135,5 +136,5 @@ def crop_pdf():
 def get_logs():
     return jsonify({"logs": log_capture_string.getvalue()})
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)

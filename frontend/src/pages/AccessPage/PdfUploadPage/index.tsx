@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import "./PdfUploadPage.css";
 import "../AcessPage.css";
 import axios from "axios";
+import { BASE_URL } from "../../../config/apiConfig";
 
 type GroupKeys =
   | "CADASTROS BÁSICOS"
@@ -119,7 +120,7 @@ const PdfUploadPage = () => {
       pdfFormData.append("file", file);
 
       const nameResponse = await axios.post<NameResponse>(
-        "http://127.0.0.1:5000/upload-pdf",
+        `${BASE_URL}/upload-pdf`,
         pdfFormData
       );
       const extractedName = nameResponse.data.name;
@@ -129,7 +130,7 @@ const PdfUploadPage = () => {
         const imageFormData = new FormData();
         imageFormData.append("image", image);
 
-        await axios.post("http://127.0.0.1:5000/upload-image", imageFormData);
+        await axios.post(`${BASE_URL}/upload-image`, imageFormData);
         console.log("Image uploaded successfully.");
       }
 
@@ -143,7 +144,7 @@ const PdfUploadPage = () => {
       });
 
       const response = await axios.post(
-        "http://127.0.0.1:5000/process-pdf",
+        `${BASE_URL}/process-pdf`,
         processFormData,
         {
           responseType: "blob",
@@ -186,7 +187,7 @@ const PdfUploadPage = () => {
       const uploadFormData = new FormData();
       uploadFormData.append("file", file);
 
-      const uploadResponse = await fetch("http://127.0.0.1:5000/upload-pdf", {
+      const uploadResponse = await fetch(`${BASE_URL}/upload-pdf`, {
         method: "POST",
         body: uploadFormData,
       });
@@ -197,7 +198,7 @@ const PdfUploadPage = () => {
 
       const { name: extractedName } = await uploadResponse.json();
 
-      const cropResponse = await fetch("http://127.0.0.1:5000/crop-pdf", {
+      const cropResponse = await fetch(`${BASE_URL}/crop-pdf`, {
         method: "POST",
       });
 
