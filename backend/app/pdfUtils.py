@@ -107,8 +107,9 @@ class PdfUtils:
         return processedGroups
 
     def _registerFonts(self):
-        pdfmetrics.registerFont(TTFont('Calibri', 'calibri.ttf'))
-        pdfmetrics.registerFont(TTFont('Calibri-Bold', 'calibrib.ttf'))
+        # Using Helvetica font which is built-in to ReportLab
+        # No need to register as it's a core font
+        pass
 
     def saveSpecificPagesAsImages(self, pdfPath, pdfPassword):
         doc = fitz.open(pdfPath)
@@ -125,7 +126,7 @@ class PdfUtils:
                 images.append(imgBytes)
         return images
 
-    def _drawText(self, x, y, text, font="Calibri", size=12, bold=False, maxWidth=None):
+    def _drawText(self, x, y, text, font="Helvetica", size=12, bold=False, maxWidth=None):
         fontName = f"{font}-Bold" if bold and not font.endswith("-Bold") else font 
         self.canvas.setFont(fontName, size)
         maxWidth = maxWidth or (self.width - x - 40)
@@ -168,7 +169,7 @@ class PdfUtils:
             self.canvas.showPage()
             self.y = self.height - 40
             self._addWatermark()
-            self.canvas.setFont("Calibri", 12)
+            self.canvas.setFont("Helvetica", 12)
 
     def _addPhoto(self):
         if not self.photoPath:
@@ -202,7 +203,7 @@ class PdfUtils:
                 text = self.data[key]
                 if key == "Total de Processos":
                     self._ensureSpace(20)
-                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                     self._drawText(60, self.y, f"{key}:", bold=True)
                     self.y = self._drawText(60 + keyWidth + 10, self.y, str(text))
                     self.y -= 20
@@ -217,7 +218,7 @@ class PdfUtils:
                         for processKey in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Ano de Abertura", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
                             if processKey in self.data and len(self.data[processKey]) > i:
                                 value = self.data[processKey][i]
-                                keyWidth = self.canvas.stringWidth(f"{processKey}: ", "Calibri-Bold", 12)
+                                keyWidth = self.canvas.stringWidth(f"{processKey}: ", "Helvetica-Bold", 12)
                                 self._ensureSpace(20)
                                 self._drawText(80, self.y, f"{processKey}:", bold=True)
                                 self.y = self._drawText(80 + keyWidth + 10, self.y, str(value) if value is not None else '-')
@@ -240,47 +241,68 @@ class PdfUtils:
                         for address in combined_addresses:
                             self._ensureSpace(20)
                             key_with_colon = "Endereço:"
-                            key_width = self.canvas.stringWidth(key_with_colon, "Calibri-Bold", 12)
+                            key_width = self.canvas.stringWidth(key_with_colon, "Helvetica-Bold", 12)
                             self._drawText(60, self.y, key_with_colon, bold=True)
                             self.y = self._drawText(60 + key_width + 10, self.y, address.strip(), maxWidth=self.width - 80)
                             self.y -= 20
                             if self.y < 40:
                                 self.canvas.showPage()
                                 self._addWatermark()
-                                self.canvas.setFont("Calibri", 12)
+                                self.canvas.setFont("Helvetica", 12)
                                 self.y = self.height - 40
                 elif isinstance(text, list) and key == "E-mails":
                     for email in text:
                         self._ensureSpace(20)
-                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                         self._drawText(60, self.y, f"{key}:", bold=True)
                         self.y = self._drawText(60 + keyWidth + 10, self.y, email)
                         self.y -= 20
                 elif isinstance(text, list):
                     for item in text:
                         self._ensureSpace(20)
-                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
-                        self._drawText(60, self.y, f"{key}:", bold=True)
+                        keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
+                        self._drawText(60, self.y, f"{key}:", bold=True)                        
                         self.y = self._drawText(60 + keyWidth + 10, self.y, str(item))
                         self.y -= 20
                 else:
                     text = str(text) if text is not None else '-'
-                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                    keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                     self._ensureSpace(20)
                     self._drawText(60, self.y, f"{key}:", bold=True)
                     self.y = self._drawText(60 + keyWidth + 10, self.y, text)
                     self.y -= 20
             else:
-                keyWidth = self.canvas.stringWidth(f"{key}: ", "Calibri-Bold", 12)
+                keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                 self._ensureSpace(20)
                 self._drawText(60, self.y, f"{key}:", bold=True)
-                self._drawText(60 + keyWidth + 10, self.y, "-", font="Calibri")
+                self._drawText(60 + keyWidth + 10, self.y, "-", font="Helvetica")
                 self.y -= 20
         self.y = max(self.y, 40)
         
     def _addConfidentialityContract(self):
-        contractPath = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf')
-        if not os.path.exists(contractPath):
+        possible_paths = [
+            # Caminho relativo (desenvolvimento)
+            os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
+            # Caminho no diretório static no backend
+            os.path.join(os.path.dirname(__file__), '..', 'static', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
+            # Caminhos alternativos para produção
+            '/u279915365/domains/chapaamigo.com.br/public/TERMO_FICHA_CADASTRO_PDF.pdf',
+            os.path.join(os.environ.get('HOME', ''), 'domains', 'chapaamigo.com.br', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf')
+        ]
+        
+        # Procura o arquivo nos possíveis caminhos
+        contractPath = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                contractPath = path
+                logging.info(f"Contrato encontrado em: {path}")
+                break
+                
+        if not contractPath:
+            logging.error("Contrato não encontrado em nenhum dos caminhos possíveis")
+            # Criar uma lista de caminhos verificados para o log
+            paths_checked = "\n".join(possible_paths)
+            logging.error(f"Caminhos verificados:\n{paths_checked}")
             return
         try:
             contractDoc = fitz.open(contractPath)
@@ -304,16 +326,16 @@ class PdfUtils:
             logging.error(f"Error adding confidentiality contract: {e}")
 
     def _addSummaryTexts(self, key, summaryTexts):
-        self._drawText(40, self.y, f"{key}: ", font="Calibri")
+        self._drawText(40, self.y, f"{key}: ", font="Helvetica")
         self.y -= 20
         if isinstance(summaryTexts, list):
             flatTexts = [text.strip() for sublist in summaryTexts for text in (sublist if isinstance(sublist, list) else [sublist])]
             for text in flatTexts:
-                self.y = self._drawText(60, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
+                self.y = self._drawText(60, self.y, text, font="Helvetica", size=12, maxWidth=self.width - 80)
                 self.y -= 20
         else:
             text = str(summaryTexts).strip()
-            self.y = self._drawText(60, self.y, text, font="Calibri", size=12, maxWidth=self.width - 80)
+            self.y = self._drawText(60, self.y, text, font="Helvetica", size=12, maxWidth=self.width - 80)
             self.y -= 20
         self.y = max(self.y, 40)
 
@@ -321,7 +343,7 @@ class PdfUtils:
         contentAdded = False
 
         self._addWatermark()
-        self.canvas.setFont("Calibri", 12)
+        self.canvas.setFont("Helvetica", 12)
 
         for element in self.default_order:
             if element == "contract" and self.includeContract:
@@ -347,7 +369,7 @@ class PdfUtils:
                         self.canvas.showPage()
                         self.y = self.height - 40
                         self._addWatermark()
-                        self.canvas.setFont("Calibri", 12)
+                        self.canvas.setFont("Helvetica", 12)
                     croppedImgBytes = cropImage(imgBytes)
                     img = ImageReader(croppedImgBytes)
                     self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)

@@ -190,6 +190,11 @@ const PdfUploadPage = () => {
       const uploadResponse = await fetch(`${BASE_URL}/upload-pdf`, {
         method: "POST",
         body: uploadFormData,
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/json",
+        },
       });
 
       if (!uploadResponse.ok) {
@@ -200,6 +205,11 @@ const PdfUploadPage = () => {
 
       const cropResponse = await fetch(`${BASE_URL}/crop-pdf`, {
         method: "POST",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/pdf",
+        },
       });
 
       if (!cropResponse.ok) {

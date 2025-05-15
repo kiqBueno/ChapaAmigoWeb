@@ -1,0 +1,17 @@
+[Unit]
+Description=ChapaAmigo Web Backend Service
+After=network.target
+
+[Service]
+User=u279915365
+Group=u279915365
+WorkingDirectory=/u279915365/domains/chapaamigo.com.br/backend
+Environment="PYTHONPATH=/u279915365/domains/chapaamigo.com.br"
+Environment="FLASK_ENV=production"
+Environment="FLASK_APP=app.api"
+ExecStart=/usr/bin/python3 -m app.api
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

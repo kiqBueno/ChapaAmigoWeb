@@ -1,19 +1,20 @@
-from flask import Flask, request, jsonify, send_file, Response
-from flask_cors import CORS
 from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
 from .logging_config import setupLogging
 from .config import BASE_URL
+from flask import Flask, request, jsonify, send_file, Response
+from flask_cors import CORS
 import os
 import json
 import logging
 from PyPDF2 import PdfWriter
 from io import StringIO, BytesIO
+from waitress import serve
 
 setupLogging()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": ["https://chapaamigo.com.br", "http://localhost:8080", "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://127.0.0.1:3000"], "supports_credentials": True}})
 
 log_capture_string = StringIO()
 log_handler = logging.StreamHandler(log_capture_string)
@@ -113,7 +114,7 @@ def crop_pdf():
         logging.info(f"Cropping PDF: {uploaded_pdf_path}")
         
         try:
-            from .unlockPdf import unlockPdf
+            from app.unlockPdf import unlockPdf
             with open(uploaded_pdf_path, 'rb') as f:
                 unlocked_pdf = unlockPdf(f)
         except Exception as e:
@@ -137,4 +138,5 @@ def get_logs():
     return jsonify({"logs": log_capture_string.getvalue()})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    serve(app, host='0.0.0.0', port=8080)
+    # app.run(debug=True)

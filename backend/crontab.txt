@@ -1,0 +1,5 @@
+# Executar o script de monitoramento a cada 5 minutos
+*/5 * * * * /bin/bash $HOME/domains/chapaamigo.com.br/backend/monitor_backend.sh
+
+# Adicionar uma linha para reiniciar diariamente às 4h da manhã para limpar qualquer problema
+0 4 * * * /bin/bash $HOME/domains/chapaamigo.com.br/backend/monitor_backend.sh restart

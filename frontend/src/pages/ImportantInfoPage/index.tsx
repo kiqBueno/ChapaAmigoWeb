@@ -1,3 +1,50 @@
+const PaymentInfo = () => (
+  <div>
+    <p>
+      <strong>Boletos de cobrança:</strong>
+      <br />A Chapa Amigo não emite boletos em nenhuma circunstância.
+    </p>
+    <p>
+      <strong>Contatos telefônicos:</strong>
+      <br />
+      Não realizamos ligações para solicitar pagamentos.
+    </p>
+    <p>
+      <strong>Pagamentos via Pix:</strong>
+      <br />
+      Nunca realize pagamentos via Pix para contas desconhecidas em nome da
+      nossa plataforma.
+    </p>
+  </div>
+);
+
+const SubscriptionDetails = () => (
+  <div>
+    <p>
+      <strong>Funcionamento do plano de assinatura:</strong>
+      <br />
+    </p>
+    <p>
+      Para manter o acesso ativo como Ajudante, Motorista ou Cooperado e
+      continuar a receber oportunidades de trabalho, é necessário o pagamento de
+      uma mensalidade durante o mês de atuação ou solicitação de serviço.
+    </p>
+    <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
+      <li>
+        <strong>Ajudantes/Chapas:</strong>
+        <br />
+        Perfis de não assinantes não serão exibidos para as empresas.
+      </li>
+      <li>
+        <strong>Cooperativas e Caminhoneiros:</strong>
+        <br />
+        Não será possível encontrar profissionais disponíveis ou solicitar
+        suporte do escritório sem a assinatura ativa.
+      </li>
+    </ul>
+  </div>
+);
+
 const ImportantInfoPage = () => {
   return (
     <div className="importantInfoPage">
@@ -6,58 +53,8 @@ const ImportantInfoPage = () => {
           Atenção: Informações importantes sobre pagamentos na plataforma Chapa
           Amigo
         </h2>
-        <p>
-          <strong>Boletos de cobrança:</strong>
-          <br />A Chapa Amigo não emite boletos em nenhuma circunstância.
-        </p>
-        <p>
-          <strong>Contatos telefônicos:</strong>
-          <br />
-          Não realizamos ligações para solicitar pagamentos.
-        </p>
-        <p>
-          <strong>Pagamentos via Pix:</strong>
-          <br />
-          Nunca realize pagamentos via Pix para contas desconhecidas em nome da
-          nossa plataforma.
-        </p>
-        <p>
-          <strong>Pagamentos seguros no app:</strong>
-          <br />
-        </p>
-        <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
-          <li>
-            Todos os pagamentos e renovações de assinatura devem ser feitos
-            exclusivamente pelo aplicativo Chapa Amigo.
-          </li>
-          <li>
-            Utilize as opções de pagamento disponíveis no app para garantir
-            transações seguras.
-          </li>
-        </ul>
-        <p>
-          <strong>Funcionamento do plano de assinatura:</strong>
-          <br />
-        </p>
-        <p>
-          Para manter o acesso ativo como Ajudante, Motorista ou Cooperado e
-          continuar a receber oportunidades de trabalho, é necessário o
-          pagamento de uma mensalidade durante o mês de atuação ou solicitação
-          de serviço.
-        </p>
-        <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
-          <li>
-            <strong>Ajudantes/Chapas:</strong>
-            <br />
-            Perfis de não assinantes não serão exibidos para as empresas.
-          </li>
-          <li>
-            <strong>Cooperativas e Caminhoneiros:</strong>
-            <br />
-            Não será possível encontrar profissionais disponíveis ou solicitar
-            suporte do escritório sem a assinatura ativa.
-          </li>
-        </ul>
+        <PaymentInfo />
+        <SubscriptionDetails />
         <p>
           Nosso objetivo é que o investimento da assinatura contribua para a
           manutenção e o crescimento da plataforma, garantindo um ambiente
