@@ -36,7 +36,13 @@ else
 fi
 
 echo "Setting up cron job to ensure backend stays running..."
-(crontab -l 2>/dev/null || echo "") | grep -v "monitor_backend.sh" | cat - $HOME/domains/chapaamigo.com.br/backend/crontab.txt | crontab -
+if command -v crontab >/dev/null 2>&1; then
+    (crontab -l 2>/dev/null || echo "") | grep -v "monitor_backend.sh" | cat - $HOME/domains/chapaamigo.com.br/backend/crontab.txt | crontab -
+    echo "Cron job set up successfully."
+else
+    echo "Warning: crontab command not found. Unable to set up automatic monitoring."
+    echo "You can manually run the monitor script with: bash $HOME/domains/chapaamigo.com.br/backend/monitor_backend.sh"
+fi
 
 echo "Done! Backend should now be running and monitored."
 
