@@ -138,5 +138,5 @@ def get_logs():
     return jsonify({"logs": log_capture_string.getvalue()})
 
 if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=8080)
-    # app.run(debug=True)
+    # serve(app, host='0.0.0.0', port=8080)
+    serve(app, host='127.0.0.1', port=5000)
