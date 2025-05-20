@@ -118,7 +118,6 @@ const PdfUploadPage = () => {
     try {
       const pdfFormData = new FormData();
       pdfFormData.append("file", file);
-
       const nameResponse = await axios.post<NameResponse>(
         `${BASE_URL}/upload-pdf`,
         pdfFormData
@@ -126,6 +125,7 @@ const PdfUploadPage = () => {
       const extractedName = nameResponse.data.name;
       console.log("Extracted Name:", extractedName);
 
+      // Verifica se há uma imagem para upload
       if (image) {
         const imageFormData = new FormData();
         imageFormData.append("image", image);
@@ -288,7 +288,8 @@ const PdfUploadPage = () => {
 
       {showCustomization && (
         <div className="customizationDialog">
-          <h2>Customize PDF Layout</h2>
+          {" "}
+          <h2>Customizar Layout do .pdf</h2>{" "}
           {["useWatermark", "includeContract", "includeDocuments"].map(
             (key) => (
               <label key={key} className="customizationLabel">

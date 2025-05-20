@@ -61,7 +61,7 @@ const Header = () => {
               </li>
               <li>
                 <Link to="/pagamento" onClick={() => setMenuOpen(false)}>
-                  Pagamento
+                  Pagamentos
                 </Link>
               </li>
               <li>

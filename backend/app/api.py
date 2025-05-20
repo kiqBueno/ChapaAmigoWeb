@@ -14,7 +14,7 @@ from waitress import serve
 setupLogging()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://chapaamigo.com.br", "http://localhost:8080", "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://127.0.0.1:3000"], "supports_credentials": True}})
+CORS(app, resources={r"/*": {"origins": ["https://chapaamigo.com.br", "http://localhost:5173"], "supports_credentials": True}})
 
 log_capture_string = StringIO()
 log_handler = logging.StreamHandler(log_capture_string)
@@ -26,19 +26,21 @@ uploaded_image_path = None
 
 @app.route('/upload-pdf', methods=['POST'])
 def upload_pdf():
-    global uploaded_pdf_path
+    global uploaded_pdf_path, uploaded_image_path
     try:
         file = request.files.get('file')
         if not file:
             return jsonify({"error": "No file provided."}), 400
 
+        # Ao fazer upload de um novo PDF, limpe o caminho da imagem para evitar 
+        # o uso automático da imagem anterior
+        uploaded_image_path = None
+        
         uploaded_pdf_path = os.path.join(os.getcwd(), 'uploaded_pdf.pdf')
         file.save(uploaded_pdf_path)
         extracted_data = extractDataFromPdf(uploaded_pdf_path)
         logging.debug(f"Extracted data: {extracted_data}")
         
-
-
         return Response(
             json.dumps({
                 "name": extracted_data.get("Nome", "Unknown")
@@ -67,15 +69,19 @@ def process_pdf():
     global uploaded_pdf_path, uploaded_image_path
     try:
         if not uploaded_pdf_path:
-            return jsonify({"error": "No PDF uploaded."}), 400
-
+            return jsonify({"error": "No PDF uploaded."}), 400        
         password = request.form.get('password', '515608')
         useWatermark = request.form.get('useWatermark', 'true') == 'true'
         includeContract = request.form.get('includeContract', 'true') == 'true'
         includeDocuments = request.form.get('includeDocuments', 'true') == 'true'
         selectedGroups = json.loads(request.form.get('selectedGroups', '{}'))
         summaryTexts = json.loads(request.form.get('summaryTexts', '[]'))
-
+        
+        # Verificar se existe uma imagem válida carregada
+        current_photo_path = None
+        if uploaded_image_path and os.path.exists(uploaded_image_path):
+            current_photo_path = uploaded_image_path
+        
         output_pdf = processPdf(
             file=uploaded_pdf_path,
             password=password,
@@ -83,7 +89,7 @@ def process_pdf():
             includeContract=includeContract,
             includeDocuments=includeDocuments,
             selectedGroups=selectedGroups,
-            photoPath=uploaded_image_path,
+            photoPath=current_photo_path,
             summaryTexts=summaryTexts
         )
 
@@ -138,5 +144,5 @@ def get_logs():
     return jsonify({"logs": log_capture_string.getvalue()})
 
 if __name__ == '__main__':
-    # serve(app, host='0.0.0.0', port=8080)
-    serve(app, host='127.0.0.1', port=5000)
+    serve(app, host='0.0.0.0', port=8080)
+    # serve(app, host='127.0.0.1', port=5000)
