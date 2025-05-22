@@ -43,12 +43,12 @@ class PdfUtils:
             , "DADOS SOCIAIS"
             , "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA"
             , "AUXÍLIO EMERGENCIAL"
+            , "PARENTES"
             , "PROCESSOS"
-            , "documents"
-
+            , "documents"        
         ]
-        self._first_page = True
-
+        self._first_page = True    
+    
     def _processSelectedGroups(self, selectedGroups):
         if not selectedGroups:
             return {}
@@ -87,6 +87,9 @@ class PdfUtils:
                 "Valor total recebido como beneficiário", "Valor total recebido como responsável", 
                 "Valor total recebido como benef./resp.", "Primeira ocorrência", "Última ocorrência"
             ],
+            "PARENTES": [
+                "Quantidade de Parentes"
+            ],
             "PROCESSOS": [
                 "Total de Processos", "Como Requerente", "Como Requerido", "Como Outra Parte",
                 "Nos Últimos 30 Dias", "Nos Últimos 90 Dias", "Nos Últimos 180 Dias", "Nos Últimos 365 Dias",
@@ -107,8 +110,6 @@ class PdfUtils:
         return processedGroups
 
     def _registerFonts(self):
-        # Using Helvetica font which is built-in to ReportLab
-        # No need to register as it's a core font
         pass
 
     def saveSpecificPagesAsImages(self, pdfPath, pdfPassword):
@@ -143,8 +144,7 @@ class PdfUtils:
                 line = testLine
         if line:
             self.canvas.drawString(x, y, line)
-        return y
-
+        return y    
     def _addWatermark(self):
         if not self.useWatermark:
             return
@@ -163,14 +163,14 @@ class PdfUtils:
             logging.error(f"Error during watermark drawing operations: {e}")
         finally:
             self.canvas.restoreState()
-
+            
     def _ensureSpace(self, requiredSpace):
         if self.y - requiredSpace < 40:
             self.canvas.showPage()
             self.y = self.height - 40
             self._addWatermark()
             self.canvas.setFont("Helvetica", 12)
-
+            
     def _addPhoto(self):
         if not self.photoPath:
             logging.warning("No photo path provided.")
@@ -190,11 +190,62 @@ class PdfUtils:
             logging.error(f"Photo file not found: {self.photoPath}")
         except Exception as e:
             logging.error(f"Failed to add photo: {e}")
-
+              
     def _drawGroup(self, title, keys):
         self.y -= 20
         self._drawText(40, self.y, title)
         self.y -= 20
+        if title == "PARENTES":
+            if "Quantidade de Parentes" in self.data:
+                quantity_key = "Quantidade de Parentes"
+                self._ensureSpace(20)
+                keyWidth = self.canvas.stringWidth(f"{quantity_key}: ", "Helvetica-Bold", 12)
+                self._drawText(60, self.y, f"{quantity_key}:", bold=True)
+                self.y = self._drawText(60 + keyWidth + 10, self.y, str(self.data[quantity_key]))
+                self.y -= 20
+                
+                parente_fields = ["Parentes CPF", "Parentes Nome", "Parentes Tipo", "Parentes Idade", "Parentes Óbito", "Parentes PEP", "Parentes Renda"]
+                if all(field in self.data for field in parente_fields):
+                    cpfs = self.data["Parentes CPF"]
+                    nomes = self.data["Parentes Nome"]
+                    tipos = self.data["Parentes Tipo"]
+                    idades = self.data["Parentes Idade"]
+                    obitos = self.data["Parentes Óbito"]
+                    peps = self.data["Parentes PEP"]
+                    rendas = self.data["Parentes Renda"]
+                    for i in range(len(nomes)):
+                        self._ensureSpace(20)
+                        self._drawText(60, self.y, f"Familiar {i + 1}:", bold=True)
+                        self.y -= 20
+                        
+                        nome_val = nomes[i].strip() if i < len(nomes) and nomes[i] else "-"
+                        cpf_val = cpfs[i].strip() if i < len(cpfs) and cpfs[i] else "-"
+                        tipo_val = tipos[i].strip() if i < len(tipos) and tipos[i] else "-"
+                        idade_val = idades[i].strip() if i < len(idades) and idades[i] else "-"
+                        obito_val = obitos[i].strip() if i < len(obitos) and obitos[i] else "-"
+                        pep_val = peps[i].strip() if i < len(peps) and peps[i] else "-"
+                        renda_val = rendas[i].strip() if i < len(rendas) and rendas[i] else "-"
+                        
+                        familiar_data = [
+                            ("Nome", nome_val),
+                            ("CPF", cpf_val),
+                            ("Tipo", tipo_val),
+                            ("Idade", idade_val),
+                            ("Óbito", obito_val),
+                            ("PEP", pep_val),
+                            ("Renda", renda_val)
+                        ]
+                        
+                        for label, value in familiar_data:
+                            self._ensureSpace(20)
+                            keyWidth = self.canvas.stringWidth(f"{label}: ", "Helvetica-Bold", 12)
+                            self._drawText(80, self.y, f"{label}:", bold=True)
+                            self.y = self._drawText(80 + keyWidth + 10, self.y, str(value))
+                            self.y -= 20
+                        
+                        self.y -= 10
+            return
+        
         for key in keys:
             if key == "Resumo do Relatório" and key in self.data:
                 self._addSummaryTexts(key, self.data[key])
@@ -204,11 +255,13 @@ class PdfUtils:
                 if key == "Total de Processos":
                     self._ensureSpace(20)
                     keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
-                    self._drawText(60, self.y, f"{key}:", bold=True)
+                    self._drawText(60, self.y, f"{key}:", bold=True)                    
                     self.y = self._drawText(60 + keyWidth + 10, self.y, str(text))
                     self.y -= 20
                     if int(text) == 0:
                         return
+                    
+                    continue
                 elif isinstance(text, list) and key == "Número do Processo":
                     processCount = len(text)
                     for i in range(processCount):
@@ -256,8 +309,11 @@ class PdfUtils:
                         keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                         self._drawText(60, self.y, f"{key}:", bold=True)
                         self.y = self._drawText(60 + keyWidth + 10, self.y, email)
-                        self.y -= 20
+                        self.y -= 20                
                 elif isinstance(text, list):
+                    if key.startswith("Parentes ") and key != "Parentes Dados":
+                        continue
+                        
                     for item in text:
                         self._ensureSpace(20)
                         keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
@@ -281,16 +337,12 @@ class PdfUtils:
         
     def _addConfidentialityContract(self):
         possible_paths = [
-            # Caminho relativo (desenvolvimento)
             os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
-            # Caminho no diretório static no backend
             os.path.join(os.path.dirname(__file__), '..', 'static', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
-            # Caminhos alternativos para produção
             '/u279915365/domains/chapaamigo.com.br/public/TERMO_FICHA_CADASTRO_PDF.pdf',
             os.path.join(os.environ.get('HOME', ''), 'domains', 'chapaamigo.com.br', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf')
         ]
         
-        # Procura o arquivo nos possíveis caminhos
         contractPath = None
         for path in possible_paths:
             if os.path.exists(path):
@@ -300,7 +352,6 @@ class PdfUtils:
                 
         if not contractPath:
             logging.error("Contrato não encontrado em nenhum dos caminhos possíveis")
-            # Criar uma lista de caminhos verificados para o log
             paths_checked = "\n".join(possible_paths)
             logging.error(f"Caminhos verificados:\n{paths_checked}")
             return

@@ -145,7 +145,6 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Tipo\s*([A-Z\s]+)(?=\s*Status)", "Tipo", "--", True),
         (r"Status\s+([\w\s\-]+?)(?=\s+Papel|\s+Valor da Causa|\s+Envolvidos)", "Status", "--", True),
         (r"Assunto\s+([\s\S]+?)(?=\s+Tribunal\b|\s+Ano Abertura\b|\s+Status\b|\s+Papel\b|\s+Valor da Causa\b|\s+Envolvidos\b)", "Assunto", "--", True),  # Ajustado para capturar até antes de "Tribunal" ou outros delimitadores
-        
         (r"Tribunal\s+([^\n]+?(?=\s*(?:Data Abertura|Ano Abertura|$)))", "Tribunal", "--", True),
    
         (r"Papel\s*([A-Z\s]+)(?=\s*Valor)", "Papel", "--", True),
@@ -157,14 +156,79 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Últ\. Movimentação\s*(\d{2}/\d{2}/\d{2}|--)", "Última Movimentação", "--", True),
     ]
 
+    # Group: Parentes
+    fields += [
+        (r"Parentes - Disponíveis:\s*(\d+)", "Quantidade de Parentes", "--"),
+        (r"(?:PARENTES|Parentes)[\s\S]*?(?:CPF[\s\S]*?Nome[\s\S]*?Tipo[\s\S]*?Idade[\s\S]*?Óbito[\s\S]*?PEP[\s\S]*?Renda[\s\S]*?)((?:[\d\.\-]+[\s\S]*?[A-Za-zÀ-ÖØ-öø-ÿ\s]+[\s\S]*?[A-Za-zÀ-ÖØ-öø-ÿ\(\)\s]+[\s\S]*?\d*[\s\S]*?[SN]?[\s\S]*?[SN][\s\S]*?(?:R\$\s*[\d\.]+|-)?[\s\S]*?)(?:SOCIEDADES|Sociedades|$))", "Parentes Dados", "", True),
+    ]
+
     # Group: Report Summary
     fields += [
         (r"ENDEREÇOS\s*Prioridade\s*Tipo Endereço\s*Endereço Completo\s*((?:\s*\d+\s*-\s*[^\n]+)+)", "Endereços", [], True),
         (r"O relatório apresenta informações sobre o indivíduo.*?Este resumo foi gerado automaticamente.*?\.", "Resumo do Relatório", [], True),
-    ]
-
+    ] 
+       
     for pattern, key, *default in fields:
         extract(pattern, key, *default)
+    data["Parentes CPF"] = []
+    data["Parentes Nome"] = []
+    data["Parentes Tipo"] = []
+    data["Parentes Idade"] = []
+    data["Parentes Óbito"] = []
+    data["Parentes PEP"] = []
+    data["Parentes Renda"] = []
+    
+    if "Parentes Dados" in data and isinstance(data["Parentes Dados"], list) and data["Parentes Dados"][0] != "ERROR":
+        raw_data = data["Parentes Dados"][0]
+        
+        parentes_pattern = r"((?:\d{3}\.){2}\d{3}-\d{2}|-)\s+([^\n]+?)\s+((?:MÃE|PAI|IRMÃO\(Ã\)|AVÓ|TIO\(A\)|PRIMO\(A\))[^\n]*?)\s+(\d+|-)\s+([SN-])\s+([SN])\s+(R\$\s*[\d\.]+|-)"
+        parentes_records = re.findall(parentes_pattern, raw_data)
+        
+        if not parentes_records:
+            lines = raw_data.strip().split('\n')
+            parentes_records = []
+            
+            for i in range(len(lines)):
+                line = lines[i].strip()
+                if re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)", line):
+                    cpf = re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)", line).group(1)
+                    rest = line[len(cpf):].strip()
+                    
+                    parts = rest.split()
+                    if len(parts) >= 6:
+                        nome = ' '.join(parts[:-5])
+                        tipo = parts[-5]
+                        idade = parts[-4]
+                        obito = parts[-3]
+                        pep = parts[-2]
+                        renda = parts[-1]
+                        
+                        parentes_records.append((cpf, nome, tipo, idade, obito, pep, renda))
+        
+        cpfs = []
+        nomes = []
+        tipos = []
+        idades = []
+        obitos = []
+        peps = []
+        rendas = []
+        
+        for record in parentes_records:
+            cpfs.append(record[0].strip())
+            nomes.append(record[1].strip())
+            tipos.append(record[2].strip())
+            idades.append(record[3].strip())
+            obitos.append(record[4].strip())
+            peps.append(record[5].strip())
+            rendas.append(record[6].strip())
+        
+        data["Parentes CPF"] = cpfs
+        data["Parentes Nome"] = nomes
+        data["Parentes Tipo"] = tipos
+        data["Parentes Idade"] = idades
+        data["Parentes Óbito"] = obitos
+        data["Parentes PEP"] = peps
+        data["Parentes Renda"] = rendas
 
     # Post-processing for "Assunto"
     if "Assunto" in data and isinstance(data["Assunto"], list):

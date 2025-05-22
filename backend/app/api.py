@@ -32,12 +32,9 @@ def upload_pdf():
         if not file:
             return jsonify({"error": "No file provided."}), 400
 
-        # Ao fazer upload de um novo PDF, limpe o caminho da imagem para evitar 
-        # o uso automático da imagem anterior
         uploaded_image_path = None
-        
         uploaded_pdf_path = os.path.join(os.getcwd(), 'uploaded_pdf.pdf')
-        file.save(uploaded_pdf_path)
+        file.save(uploaded_pdf_path)        
         extracted_data = extractDataFromPdf(uploaded_pdf_path)
         logging.debug(f"Extracted data: {extracted_data}")
         
@@ -77,7 +74,6 @@ def process_pdf():
         selectedGroups = json.loads(request.form.get('selectedGroups', '{}'))
         summaryTexts = json.loads(request.form.get('summaryTexts', '[]'))
         
-        # Verificar se existe uma imagem válida carregada
         current_photo_path = None
         if uploaded_image_path and os.path.exists(uploaded_image_path):
             current_photo_path = uploaded_image_path

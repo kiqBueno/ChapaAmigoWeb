@@ -42,10 +42,13 @@
   border-radius: 8px;
   z-index: 999;
   color: #333;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .pdfUploadPageContainer .customizationDialog label {
   display: block;
+  margin-bottom: 8px;
 }
 
 .pdfUploadPageContainer .pdfUploaderForm {
@@ -81,8 +84,9 @@
   margin-top: 1rem;
 }
 
-.pdfUploadPageContainer .customizationLabel {
-  text-align: none;
+.pdfUploadPageContainer .customizationDialog input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
 }
 
 .pdfUploadPageContainer label {

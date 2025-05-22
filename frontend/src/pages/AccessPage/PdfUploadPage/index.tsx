@@ -16,6 +16,7 @@ type GroupKeys =
   | "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA"
   | "AUXÍLIO EMERGENCIAL"
   | "PROCESSOS"
+  | "PARENTES"
   | "ENDEREÇOS"
   | "RESUMO DO RELATÓRIO";
 
@@ -34,6 +35,7 @@ const defaultCustomizationOptions = {
     "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA": ["defaultKey"],
     "AUXÍLIO EMERGENCIAL": ["defaultKey"],
     PROCESSOS: ["defaultKey"],
+    PARENTES: ["defaultKey"],
     ENDEREÇOS: ["defaultKey"],
     "RESUMO DO RELATÓRIO": ["defaultKey"],
   } as Record<GroupKeys, string[]>,
@@ -55,6 +57,7 @@ const customizationLabels: Record<string, string> = {
     "Pagamentos do Benefício de Prestação Continuada",
   "AUXÍLIO EMERGENCIAL": "Auxílio Emergencial",
   PROCESSOS: "Processos",
+  PARENTES: "Parentes",
   ENDEREÇOS: "Endereços",
   "RESUMO DO RELATÓRIO": "Resumo do Relatório",
 };
@@ -101,9 +104,19 @@ const PdfUploadPage = () => {
       imageInput.value = "";
     }
   };
+  interface FamiliareData {
+    Nomes: string[];
+    CPFs: string[];
+    Tipos: string[];
+    Idades: string[];
+    Obitos: string[];
+    PEPs: string[];
+    Rendas: string[];
+  }
 
   interface NameResponse {
     name: string;
+    familiares: FamiliareData;
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -123,7 +136,28 @@ const PdfUploadPage = () => {
         pdfFormData
       );
       const extractedName = nameResponse.data.name;
+      const familiares = nameResponse.data.familiares;
+
       console.log("Extracted Name:", extractedName);
+      console.log("Familiares encontrados:", familiares);
+
+      // Exibir informações dos familiares no console
+      if (familiares && familiares.Nomes && familiares.Nomes.length > 0) {
+        console.log("===== INFORMAÇÕES DOS FAMILIARES =====");
+        for (let i = 0; i < familiares.Nomes.length; i++) {
+          console.log(`Familiar ${i + 1}:`);
+          console.log(`  Nome: ${familiares.Nomes[i]}`);
+          console.log(`  CPF: ${familiares.CPFs[i]}`);
+          console.log(`  Tipo: ${familiares.Tipos[i]}`);
+          console.log(`  Idade: ${familiares.Idades[i]}`);
+          console.log(`  Óbito: ${familiares.Obitos[i]}`);
+          console.log(`  PEP: ${familiares.PEPs[i]}`);
+          console.log(`  Renda: ${familiares.Rendas[i]}`);
+          console.log("-----------------------------------");
+        }
+      } else {
+        console.log("Nenhum familiar encontrado no documento.");
+      }
 
       // Verifica se há uma imagem para upload
       if (image) {
