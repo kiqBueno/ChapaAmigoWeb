@@ -1,35 +1,44 @@
-import Card from "./Card";
+import "./Card.css";
 
 const Cards = () => (
-  <div className="cardsContainer">
-    <div className="cards">
-      <Card
-        title="Conexão Direta"
-        content="Na Plataforma Chapa Amigo, a conexão é direta e eficiente. Converse diretamente com caminhoneiros e transportadoras, eliminando intermediários e garantindo negociações transparentes. Com suporte eficiente, organização de serviços, localização precisa e comunicação direta, proporcionando praticidade e confiabilidade em sua rotina."
-      />
-      <Card
-        title="Negociação Transparente"
-        content="Defina seus preços, encontre as melhores oportunidades para sua rota e disponibilidade, e tenha controle total do valor combinado. Seu negócio, suas regras!"
-      />
-      <Card
-        title="Segurança em Primeiro Lugar"
-        content="A Plataforma Chapa Amigo oferece um ambiente seguro e profissional para a realização de negociações. A verificação de perfis, o canal de comunicação exclusivo e o registro de Ordens de Serviços garantem a proteção dos usuários e a integridade das transações."
-      />
-    </div>
-    <div className="cards">
-      <Card
-        title="Flexibilidade Total, Seu Tempo, Suas Escolhas!"
-        content="Amigo Chapa, aqui você decide quando e como quer trabalhar. A plataforma está sempre disponível para te conectar com novas oportunidades, mas a decisão de aceitar ou não é sempre sua."
-      />
-      <Card
-        title="Acesso Total por um Preço Justo"
-        content="Com uma mensalidade acessível, você tem acesso ilimitado a todas as funcionalidades do nosso aplicativo e pode participar quando e como quiser."
-      />
-      <Card
-        title="Sem Surpresas Desagradáveis, Seu Dinheiro na Mão!"
-        content="Na Plataforma Chapa Amigo, você sabe exatamente quanto vai receber pelo seu trabalho. Sem taxas escondidas ou comissões inesperadas, o valor combinado é seu!"
-      />
-    </div>
+  <div className="bentoContainer">
+    <ul className="bentoWrapper">
+      <li className="firstRowCol1 primaryColorBox primaryTextContrast">
+        <h2>Segurança em Primeiro Lugar</h2>
+        <hr />
+        <span className="bentoSub">
+          Verificação de perfis, canal de comunicação exclusivo e suporte
+          eficiente garantem a proteção dos usuários e integridade das
+          transações.
+        </span>
+      </li>
+      <li className="firstRowCol2 secondaryColorBox secondaryTextContrast">
+        <h3>Conexão Direta</h3>
+        <hr />
+        <span className="bentoSub">
+          Converse diretamente com caminhoneiros e transportadoras, sem
+          intermediários e taxas. Garantindo negociações transparentes.
+        </span>
+      </li>{" "}
+      <li className="secondRowCol1 textColorBox textColorContrast">
+        <h3>Flexibilidade Total</h3>
+        <hr />
+        <span className="bentoSub">
+          Amigo Chapa, aqui você decide quando e como quer trabalhar. A
+          plataforma está sempre disponível para te conectar com novas
+          oportunidades.
+        </span>
+      </li>
+      <li className="secondRowCol2 accentColorBox accentTextContrast">
+        <h3>Acesso Total por um Preço Justo</h3>
+        <hr />
+        <span className="bentoSub">
+          Com uma mensalidade acessível, você tem acesso a todas as
+          funcionalidades do nosso aplicativo e pode participar quando e como
+          quiser.
+        </span>
+      </li>
+    </ul>
   </div>
 );
 

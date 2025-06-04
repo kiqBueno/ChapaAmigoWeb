@@ -217,14 +217,23 @@ class PdfUtils:
                         self._ensureSpace(20)
                         self._drawText(60, self.y, f"Familiar {i + 1}:", bold=True)
                         self.y -= 20
+                          # Safe extraction with type checking
+                        def safe_get_value(data_list, index):
+                            if index < len(data_list) and data_list[index]:
+                                value = data_list[index]
+                                if isinstance(value, list):
+                                    # If it's a list, join the elements or take the first one
+                                    return str(value[0]).strip() if value else "-"
+                                return str(value).strip()
+                            return "-"
                         
-                        nome_val = nomes[i].strip() if i < len(nomes) and nomes[i] else "-"
-                        cpf_val = cpfs[i].strip() if i < len(cpfs) and cpfs[i] else "-"
-                        tipo_val = tipos[i].strip() if i < len(tipos) and tipos[i] else "-"
-                        idade_val = idades[i].strip() if i < len(idades) and idades[i] else "-"
-                        obito_val = obitos[i].strip() if i < len(obitos) and obitos[i] else "-"
-                        pep_val = peps[i].strip() if i < len(peps) and peps[i] else "-"
-                        renda_val = rendas[i].strip() if i < len(rendas) and rendas[i] else "-"
+                        nome_val = safe_get_value(nomes, i)
+                        cpf_val = safe_get_value(cpfs, i)
+                        tipo_val = safe_get_value(tipos, i)
+                        idade_val = safe_get_value(idades, i)
+                        obito_val = safe_get_value(obitos, i)
+                        pep_val = safe_get_value(peps, i)
+                        renda_val = safe_get_value(rendas, i)
                         
                         familiar_data = [
                             ("Nome", nome_val),
@@ -277,26 +286,29 @@ class PdfUtils:
                                 self.y = self._drawText(80 + keyWidth + 10, self.y, str(value) if value is not None else '-')
                                 self.y -= 20
                         self.y -= 10
-                    return
+                    return                
                 elif isinstance(text, list) and key == "Endereços":
                     for item in text:
-                        item = item.strip()
+                        if isinstance(item, list):
+                            item = str(item[0]) if item else ""
+                        item = str(item).strip()
                         addresses = re.split(r"(?<=\d)\s*-\s*(?=\D)", item)
                         combined_addresses = []
                         for address in addresses:
-                            if address.strip():
-                                if re.match(r"^\d+$", address.strip()):
-                                    logging.warning(f"Ignoring standalone number: {address.strip()}")
+                            address_str = str(address).strip()
+                            if address_str:
+                                if re.match(r"^\d+$", address_str):
+                                    logging.warning(f"Ignoring standalone number: {address_str}")
                                     continue
                                 if combined_addresses and re.match(r"^\d+$", combined_addresses[-1].split()[-1]):
                                     combined_addresses[-1] = combined_addresses[-1].rsplit(" ", 1)[0]
-                                combined_addresses.append(address.strip())
+                                combined_addresses.append(address_str)
                         for address in combined_addresses:
                             self._ensureSpace(20)
                             key_with_colon = "Endereço:"
                             key_width = self.canvas.stringWidth(key_with_colon, "Helvetica-Bold", 12)
                             self._drawText(60, self.y, key_with_colon, bold=True)
-                            self.y = self._drawText(60 + key_width + 10, self.y, address.strip(), maxWidth=self.width - 80)
+                            self.y = self._drawText(60 + key_width + 10, self.y, address, maxWidth=self.width - 80)
                             self.y -= 20
                             if self.y < 40:
                                 self.canvas.showPage()
@@ -374,13 +386,18 @@ class PdfUtils:
             self.y = self.height - 40
             self._addWatermark()
         except Exception as e:
-            logging.error(f"Error adding confidentiality contract: {e}")
-
+            logging.error(f"Error adding confidentiality contract: {e}")    
     def _addSummaryTexts(self, key, summaryTexts):
         self._drawText(40, self.y, f"{key}: ", font="Helvetica")
         self.y -= 20
         if isinstance(summaryTexts, list):
-            flatTexts = [text.strip() for sublist in summaryTexts for text in (sublist if isinstance(sublist, list) else [sublist])]
+            flatTexts = []
+            for sublist in summaryTexts:
+                if isinstance(sublist, list):
+                    for text in sublist:
+                        flatTexts.append(str(text).strip())
+                else:
+                    flatTexts.append(str(sublist).strip())
             for text in flatTexts:
                 self.y = self._drawText(60, self.y, text, font="Helvetica", size=12, maxWidth=self.width - 80)
                 self.y -= 20

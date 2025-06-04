@@ -7,6 +7,7 @@ interface PlanCardProps {
   price: string;
   description: string;
   features: string[];
+  commonFeatures?: string[];
   hideButton?: boolean;
   priceUnit: string;
   className?: string;
@@ -18,6 +19,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
   price,
   description,
   features,
+  commonFeatures = [],
   hideButton = false,
   priceUnit,
   className,
@@ -32,8 +34,16 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <span className="pricingPeriod">R$ {price}</span>
         <span className="pricingPrice"> {priceUnit}</span>
       </h1>
-      <hr />
-      <h3>{description}</h3>
+      <hr /> <h3>{description}</h3>{" "}
+      {commonFeatures.length > 0 && (
+        <div className="commonFeaturesContainer">
+          <ul>
+            {commonFeatures.map((feature, index) => (
+              <li key={`common-${index}`}>{feature}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <ul>
         {features.map((feature, index) => (
           <li key={index}>{feature}</li>

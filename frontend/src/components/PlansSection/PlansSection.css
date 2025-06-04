@@ -4,6 +4,7 @@
 
 #priceContainer h1 {
   color: #ffca00;
+  margin-top: 0;
 }
 
 .importantInfoToggle {
@@ -187,6 +188,18 @@ h2 {
   color: #666;
 }
 
+.commonFeaturesContainer {
+  background-color: #f0f8ff;
+  border: 1px solid #e6b800;
+  border-radius: 8px;
+  padding: 0 0 0 1.25rem;
+  margin: 1rem 0 0 0;
+}
+
+.commonFeaturesContainer ul {
+  padding-left: 1.25rem;
+}
+
 @media (max-width: 1175px) {
   .pricingPlan {
     width: 80vw;
@@ -197,6 +210,10 @@ h2 {
   }
 
   #priceContainer {
-    padding: 2rem;
+    padding: 5rem 2rem 5rem 2rem;
+  }
+
+  .plansPageText {
+    padding: 0 1rem;
   }
 }

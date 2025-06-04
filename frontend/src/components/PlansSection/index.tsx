@@ -22,43 +22,45 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       unit: isMensal ? "/mês" : "/ano",
     };
   };
-
   const plans = [
     {
       title: "Chapa",
       price: 27,
       description: "Trabalhe primeiro, assine depois!",
       features: [
-        "30 dias trabalhando sem custo",
+        "90 dias grátis",
         "Cadastro Verificado",
         "Perfil disponivel para empresas",
         "Melhores posições na plataforma",
         "Acesso a todas as funcionalidades",
       ],
+      commonFeatures: [],
     },
     {
       title: "Caminhoneiro",
       price: 30,
       description: "Acesso aos melhores Chapas!",
-      features: [
-        "1 solicitação por dia",
-        "1º mês grátis",
+      commonFeatures: [
+        "60 dias grátis",
         "Solicitações em todo território nacional",
         "Suporte para acesso de portaria",
         "Atendimento via e-mail, telefone e WhatsApp",
+        "Acesso ao perfil dos contratados",
       ],
+      features: ["1 solicitação por dia"],
     },
     {
       title: "Cooperativa",
       price: 70,
-      description: "Grandes volumes requerem grandes Profissionais.",
-      features: [
-        "Pedidos ilimitados",
+      description: "Grandes volumes, grandes Profissionais.",
+      commonFeatures: [
+        "60 dias grátis",
         "Solicitações em todo território nacional",
         "Suporte para acesso de portaria",
-        "Acesso ao perfil dos contratados",
         "Atendimento prioritário via e-mail, telefone e WhatsApp",
+        "Acesso ao perfil dos contratados",
       ],
+      features: ["Solicitações ilimitadas"],
     },
   ];
 
@@ -88,7 +90,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
         </button>
       </div>
       <div className="pricingTable">
-        <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>
+        <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>{" "}
         <div className="planCardsContainer">
           {plans.map((plan, index) => (
             <PlanCard
@@ -98,6 +100,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
               priceUnit={calculatePrice(plan.price).unit}
               description={plan.description}
               features={plan.features}
+              commonFeatures={plan.commonFeatures}
               hideButton={hideButton}
               className={cardClass}
             />

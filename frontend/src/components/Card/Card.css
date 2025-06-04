@@ -1,20 +1,247 @@
+.bentoContainer {
+  max-width: 75rem;
+  padding: 5rem;
+  margin: auto;
+}
+
+.bentoWrapper {
+  display: grid;
+  grid-gap: 0.625rem;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 60% 40%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  list-style: none;
+}
+
+.bentoWrapper li {
+  border-radius: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.primaryColorBox {
+  background: #ffffff;
+  border: 3px solid #003366;
+  padding: 1rem;
+}
+
+.secondaryColorBox {
+  background: #ffffff;
+  border: 3px solid #ffe496;
+  padding: 1rem;
+}
+
+.textColorBox {
+  background: #ffffff;
+  border: 3px solid #000000;
+  padding: 1rem;
+}
+
+.accentColorBox {
+  background: #ffffff;
+  border: 3px solid #d5dbdb;
+  padding: 1rem;
+}
+
+/* Efeitos de hover */
+.bentoWrapper li:hover {
+  transform: translateY(-0.3125rem);
+}
+
+.primaryColorBox:hover {
+  border-color: #004080;
+  box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+}
+
+.secondaryColorBox:hover {
+  border-color: #ffedab;
+  box-shadow: 0 0 15px rgba(255, 228, 150, 0.4);
+}
+
+.textColorBox:hover {
+  border-color: #333333;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.accentColorBox:hover {
+  border-color: #bdc3c7;
+  box-shadow: 0 0 15px rgba(189, 195, 199, 0.4);
+}
+
+.primaryTextContrast {
+  color: #003366;
+  text-shadow: none;
+}
+
+.secondaryTextContrast {
+  color: #b8860b;
+  font-weight: 600;
+}
+
+.textColorContrast {
+  color: #000000;
+  font-weight: 500;
+}
+
+.accentTextContrast {
+  color: #2c3e50;
+  text-shadow: none;
+}
+
+.firstRowCol1 {
+  grid-column: 1 / span 3;
+  grid-row: 1;
+}
+
+.firstRowCol2 {
+  grid-column: 4 / span 2;
+  grid-row: 1;
+}
+
+.secondRowCol1 {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+}
+
+.secondRowCol2 {
+  grid-column: 3 / span 3;
+  grid-row: 2;
+}
+
+.bentoWrapper h2,
+.bentoWrapper h3 {
+  margin: auto;
+  font-family: "Inter", sans-serif;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.primaryColorBox h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.secondaryColorBox h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: auto;
+}
+
+.textColorBox h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #000000;
+  margin: auto;
+}
+
+.accentColorBox h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  color: #2c3e50;
+  margin: auto;
+}
+
+.bentoSub {
+  font-weight: normal;
+  line-height: 1.5;
+  margin: auto;
+  text-align: center;
+}
+
+.primaryColorBox .bentoSub {
+  font-size: 1.6rem;
+  font-weight: 400;
+  opacity: 0.95;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.secondaryColorBox .bentoSub {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #2d3e0f;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+
+.textColorBox .bentoSub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #000000;
+  opacity: 0.8;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.accentColorBox .bentoSub {
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: #34495e;
+  line-height: 1.4;
+}
+
+.bentoLink {
+  text-decoration: none;
+  color: inherit;
+  margin-top: auto;
+}
+
+.bentoLink:hover {
+  text-decoration: underline;
+}
+
+/* Estilização específica para hr dentro dos cards */
+.bentoWrapper li hr {
+  width: 100%;
+  max-width: 100%;
+  margin: 1rem 0;
+  border: none;
+  border-top: 2px solid;
+  box-sizing: border-box;
+}
+
+.primaryColorBox hr {
+  border-color: #003366;
+}
+
+.secondaryColorBox hr {
+  border-color: #ffe496;
+}
+
+.textColorBox hr {
+  border-color: #000000;
+}
+
+.accentColorBox hr {
+  border-color: #d5dbdb;
+}
+
 .card {
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
   background-color: #fff;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.625rem;
   padding: 2rem;
   width: 100%;
-  max-width: 300px;
-  text-align: center;
   transition: transform 0.3s ease;
 }
 
 .card:hover {
-  transform: scale(1.05); /* Expande o card suavemente */
+  transform: scale(1.02);
 }
 
 .card h2 {
@@ -22,8 +249,27 @@
   color: #0f3558;
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 73.4375rem) {
   .card {
     width: auto;
+  }
+
+  .bentoWrapper {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .firstRowCol1,
+  .firstRowCol2,
+  .secondRowCol1,
+  .secondRowCol2 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 48rem) {
+  .bentoWrapper {
+    grid-template-columns: 1fr;
   }
 }
