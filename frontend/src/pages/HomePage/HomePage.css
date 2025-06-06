@@ -1,8 +1,7 @@
 #homeContainer {
   height: auto;
   color: #000;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  margin: 5rem 0;
 }
 
 #homeContainer .downloadBtn {
@@ -11,18 +10,64 @@
 
 .homeTextContainer {
   font-size: 1.5rem;
-  text-align: center;
   height: calc(100vh - 5rem);
+  background-image: url("/banner.jpg");
+  background-size: cover;
+  background-position: 97.5%;
+}
+
+.videoContainer,
+#homeContainer .footer-divider {
+  will-change: transform, opacity;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.videoContainer,
+.advanced-scroll-reveal,
+.hero-reveal,
+.stagger-reveal,
+.scroll-reveal {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#homeContainer .footer-divider {
+  transition: opacity 0.3s ease-in-out;
+  background: linear-gradient(90deg, transparent, #0f3558, transparent);
+  height: 2px;
+  border: none;
   margin: 0;
+  opacity: 0.8;
+  transform: scaleX(0);
+  animation: divider-appear 0.8s ease-out forwards;
+}
+
+@keyframes divider-appear {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .homeText {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
-  padding: 0 2rem;
+  width: 50%;
+  padding: 0 0 0 2rem;
+  color: white;
+}
+
+.homeText p {
+  font-size: 1.8rem;
 }
 
 .bentoWrapper {
@@ -49,12 +94,13 @@
 .videoContainer h1 {
   color: #ffca00;
   margin-top: 0;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .saibaMaisBtn {
   cursor: pointer;
   background-color: #0f3558;
-  color: #ffca00;
+  color: white;
   border-radius: 10px;
   border: none;
   padding: 0.5rem 1rem;
@@ -62,17 +108,21 @@
   font-weight: 500;
   line-height: 1.5;
   font-size: 1rem;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
   margin-top: 1rem;
   display: inline-block;
   width: 10rem;
   text-align: center;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .saibaMaisBtn:hover {
   background-color: #ffca00;
   color: #0f3558;
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 10px 20px rgba(15, 53, 88, 0.2);
 }
 
 #priceContainer {
@@ -81,13 +131,14 @@
 }
 
 @media (max-width: 1175px) {
-  #homeContainer .downloadBtn {
-    display: block;
+  .homeTextContainer {
+    background-position: 97.5%;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
-  .homeTextContainer {
-    padding: 1rem;
-    height: auto;
+  #homeContainer .downloadBtn {
+    display: block;
   }
 
   .cardsContainer {
@@ -95,7 +146,6 @@
   }
 
   .videoContainer {
-    height: 50vh;
     width: 75vw;
     margin: auto;
     text-align: center;
@@ -104,4 +154,23 @@
   .videoContainer iframe {
     width: 100%;
   }
+
+  .homeText {
+    color: white;
+    width: 100%;
+    padding: 0 1rem 0 1rem;
+    backdrop-filter: brightness(0.75);
+  }
+
+  .homeText p {
+    font-weight: 600;
+  }
+}
+
+.videoContainer,
+.advanced-scroll-reveal,
+.hero-reveal,
+.stagger-reveal {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }

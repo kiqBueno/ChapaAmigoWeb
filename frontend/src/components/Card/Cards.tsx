@@ -1,5 +1,3 @@
-import "./Card.css";
-
 const Cards = () => (
   <div className="bentoContainer">
     <ul className="bentoWrapper">

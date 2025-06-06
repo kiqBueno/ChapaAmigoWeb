@@ -1,0 +1,25 @@
+.advanced-scroll-reveal {
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Easing personalizado para um movimento mais natural */
+.advanced-scroll-reveal {
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Otimizações para performance */
+.advanced-scroll-reveal * {
+  will-change: auto;
+}
+
+/* Reduz o motion para usuários que preferem menos animação */
+@media (prefers-reduced-motion: reduce) {
+  .advanced-scroll-reveal {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
