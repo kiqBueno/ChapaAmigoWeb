@@ -6,7 +6,6 @@ const TermosCondicoes = () => {
     <div>
       <div id="termosCondicoesContainer">
         <h1>Contrato de Adesão aos Termos de Uso da Plataforma CHAPAAMIGO®</h1>
-
         <Section title="1. Introdução" sectionKey="introducao">
           <p>
             1.1 Este Contrato de Adesão aos Termos de Uso (doravante denominado
@@ -23,7 +22,6 @@ const TermosCondicoes = () => {
             com todos os termos e condições deste Contrato.
           </p>
         </Section>
-
         <Section title="2. Objeto" sectionKey="objeto">
           <p>
             2.1 A Plataforma tem como objetivo conectar profissionais de
@@ -36,7 +34,6 @@ const TermosCondicoes = () => {
             plataforma como ferramenta para facilitar a conexão entre as partes.
           </p>
         </Section>
-
         <Section
           title="3. Cadastro, Verificação de Dados e Segurança"
           sectionKey="cadastro"
@@ -80,7 +77,6 @@ const TermosCondicoes = () => {
             violação de segurança.
           </p>
         </Section>
-
         <Section
           title="4. Propriedade Intelectual"
           sectionKey="propriedadeIntelectual"
@@ -92,7 +88,6 @@ const TermosCondicoes = () => {
             exclusiva da Empresa.
           </p>
         </Section>
-
         <Section title="5. Responsabilidade" sectionKey="responsabilidade">
           <p>
             5.1 A Empresa atua como uma plataforma que conecta Usuários a
@@ -115,7 +110,6 @@ const TermosCondicoes = () => {
             controle razoável da Empresa.
           </p>
         </Section>
-
         <Section title="6. Privacidade" sectionKey="privacidade">
           <p>
             6.1 A Empresa se compromete a tratar os dados pessoais dos Usuários
@@ -128,7 +122,6 @@ const TermosCondicoes = () => {
             garantir a proteção contínua dos dados pessoais dos Usuários.
           </p>
         </Section>
-
         <Section
           title="7. Alterações nos Termos de Uso"
           sectionKey="alteracoes"
@@ -145,7 +138,6 @@ const TermosCondicoes = () => {
             garantindo assim a ampla divulgação das novas condições.
           </p>
         </Section>
-
         <Section title="8. Resolução de Disputas" sectionKey="disputas">
           <p>
             8.1 As partes tentarão resolver amigavelmente quaisquer
@@ -154,7 +146,6 @@ const TermosCondicoes = () => {
             Comarca de São Jose dos Campos – SP para dirimir quaisquer litígios.
           </p>
         </Section>
-
         <Section title="9. Disposições Gerais" sectionKey="disposicoesGerais">
           <p>9.1 Este Contrato constitui o acordo integral entre as partes.</p>
           <p>
@@ -163,7 +154,6 @@ const TermosCondicoes = () => {
             parte lesada exija, a qualquer tempo, o seu fiel cumprimento.
           </p>
         </Section>
-
         <Section title="10. Vigência" sectionKey="vigencia">
           <p>
             Este Contrato entra em vigor a partir da data de sua aceitação pelo
@@ -171,7 +161,6 @@ const TermosCondicoes = () => {
             das partes, nos termos aqui previstos.
           </p>
         </Section>
-
         <Section
           title="11. Pagamento e Renovação Automática"
           sectionKey="pagamento"
@@ -214,7 +203,6 @@ const TermosCondicoes = () => {
             pagamento.
           </p>
         </Section>
-
         <Section title="12. Suporte Técnico" sectionKey="suporte">
           <p>
             12.1. A Empresa prestará ao Cliente suporte técnico para a
@@ -246,7 +234,6 @@ const TermosCondicoes = () => {
             fornecidas pelo Cliente ou de uso indevido do serviço.
           </p>
         </Section>
-
         <Section
           title="13. Cláusula de Não Reembolso"
           sectionKey="naoReembolso"
@@ -266,7 +253,6 @@ const TermosCondicoes = () => {
             serviço, torna-se inviável a sua reutilização para outro cliente.
           </p>
         </Section>
-
         <Section
           title="14. Suspensão e Exclusão de Contas"
           sectionKey="suspensao"
@@ -337,7 +323,6 @@ const TermosCondicoes = () => {
             legislação.
           </p>
         </Section>
-
         <Section
           title="15. Cláusula de Vínculo Empregatício"
           sectionKey="vinculoEmpregaticio"
@@ -357,7 +342,6 @@ const TermosCondicoes = () => {
             facilitar o contato entre as partes interessadas.
           </p>
         </Section>
-
         <Section title="16. Força Maior" sectionKey="forcaMaior">
           <p>
             16.1. Definição: Considera-se caso fortuito ou força maior qualquer
@@ -411,18 +395,17 @@ const TermosCondicoes = () => {
             contrato, sem direito a indenização por qualquer das partes.
           </p>
         </Section>
-
         <Section title="17. Foro e Disposições Finais" sectionKey="foro">
           <p>
             Para dirimir quaisquer disputas, as partes elegem o Foro da Comarca
             de São José dos Campos/ São Paulo. Este contrato substitui quaisquer
             acordos anteriores que contradigam os termos aqui estabelecidos.
           </p>
-        </Section>
+        </Section>{" "}
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <a
             href="/Contrato-de-Adesao-aos-Termos-de-Uso-da-Plataforma-CHAPAAMIGO®.pdf"
-            className="downloadBtn2"
+            className="btn-home btn-primary btn-large"
             download
           >
             Download .Pdf

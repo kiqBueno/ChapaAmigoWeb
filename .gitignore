@@ -33,4 +33,7 @@ env/
 *.env
 *.flaskenv
 
+# Uploaded files
+uploaded_pdf.pdf
+
 ServerFiles/

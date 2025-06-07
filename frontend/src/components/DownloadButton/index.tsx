@@ -20,14 +20,13 @@ const DownloadButton = ({
     }
   };
 
+  const buttonClasses =
+    variant === "home"
+      ? `btn-home btn-secondary ${className}`
+      : `downloadBtn ${className}`;
+
   return (
-    <a
-      href="#footerContainer"
-      className={`downloadBtn ${
-        variant === "home" ? "downloadBtn--home" : ""
-      } ${className}`}
-      onClick={handleClick}
-    >
+    <a href="#footerContainer" className={buttonClasses} onClick={handleClick}>
       Download
     </a>
   );

@@ -60,26 +60,6 @@
   resize: vertical;
 }
 
-.submitBtn {
-  cursor: pointer;
-  background-color: #0f3558;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-family: inherit;
-  font-weight: 500;
-  line-height: 1.5;
-  font-size: 1.5rem;
-  transition: background-color 0.2s, color 0.2s;
-  width: 75%;
-}
-
-.submitBtn:hover {
-  background-color: #ffca00;
-  color: #242424;
-}
-
 .submitBtnContainer {
   display: flex;
   justify-content: center;

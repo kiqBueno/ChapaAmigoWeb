@@ -22,7 +22,7 @@ const Home = () => {
             <p>Menos Burocracia, mais lucro!</p>{" "}
             <div className="homeButtonsContainer">
               <DownloadButton variant="home" />
-              <Link to="/contato" className="saibaMaisBtn">
+              <Link to="/contato" className="btn-home btn-primary">
                 Fale Conosco
               </Link>
             </div>
@@ -59,7 +59,7 @@ const Home = () => {
             />{" "}
             <a
               href="#footerContainer"
-              className="saibaMaisBtn"
+              className="btn-home btn-secondary"
               onClick={() => {
                 document.getElementById("footerContainer")?.scrollIntoView({
                   behavior: "smooth",

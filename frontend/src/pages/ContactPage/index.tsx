@@ -117,9 +117,12 @@ const Contato = () => {
             placeholder="Digite sua mensagem"
             required
           />
-        </div>
+        </div>{" "}
         <div className="submitBtnContainer">
-          <button type="submit" className="submitBtn">
+          <button
+            type="submit"
+            className="btn-home btn-primary btn-large btn-contact"
+          >
             Enviar
           </button>
         </div>

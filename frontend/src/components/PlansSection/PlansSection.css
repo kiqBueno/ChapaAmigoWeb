@@ -7,27 +7,6 @@
   margin-top: 0;
 }
 
-.importantInfoToggle {
-  background-color: #ffca00;
-  padding: 1rem;
-  border-radius: 0.625rem;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.375rem;
-  width: 80%;
-  border: none;
-  color: #003366;
-  font-weight: bold;
-  margin: 0 auto;
-}
-
-.importantInfoToggle:hover {
-  background-color: #003366;
-  color: #ffca00;
-  transition: 0.5s;
-}
-
 .pricingTable {
   display: flex;
   flex-direction: column;
@@ -62,7 +41,7 @@
 .pricingPlan {
   display: flex;
   flex-direction: column;
-  border: #e6b800 0.125rem double;
+  border: #e6b800 0.25rem double;
   border-radius: 0.625rem;
   text-align: start;
   width: 25vw;
@@ -182,6 +161,7 @@ h2 {
 .pricingTable h3,
 .pricingPlan ul li {
   color: #003366;
+  font-size: 1rem;
 }
 
 .extraInfo {
@@ -269,6 +249,52 @@ h2 {
   color: #003366;
 }
 
+.btn-home {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.25rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15rem;
+  text-align: center;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-home:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.btn-plan {
+  font-size: 1.375rem;
+  width: 80%;
+  margin: 0 auto;
+  padding: 1rem;
+  font-weight: 625;
+  justify-content: center;
+  display: flex;
+}
+
+.btn-plan-yellow {
+  background-color: #ffca00;
+  color: #003366;
+  transition: 0.5s;
+}
+
+.btn-plan-yellow:hover {
+  background-color: #003366;
+  color: #ffca00;
+}
+
 @media (max-width: 1175px) {
   .pricingPlan {
     width: calc(50% - 1rem);
@@ -278,6 +304,7 @@ h2 {
 
   .planCardsContainer {
     gap: 1rem;
+    justify-content: center;
   }
 
   .importantInfo {
@@ -299,10 +326,35 @@ h2 {
     min-width: calc(80% - 1rem);
   }
 
+  .importantInfo p,
+  .importantInfo ul,
+  .importantInfo li,
+  .pricingPlan h2,
+  .pricingTable h3,
+  .pricingPlan ul li {
+    font-size: 1.25rem;
+  }
+
   .plansPageText {
     width: calc(80% - 1rem);
     max-width: calc(80% - 1rem);
     margin: 2rem auto;
     padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricingPlan {
+    width: calc(95% - 1rem);
+    max-width: 350px;
+    min-width: 250px;
+  }
+
+  .planCardsContainer {
+    gap: 0.75rem;
+  }
+
+  .pricingPlan .card-content {
+    padding: 0.5rem;
   }
 }

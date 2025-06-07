@@ -94,7 +94,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
         <div className="card-button-container">
           {!hideButton && (
             <button
-              className="importantInfoToggle"
+              className="btn-home btn-plan btn-plan-yellow"
               onClick={() => navigate("/planos")}
             >
               Saiba Mais...
@@ -102,7 +102,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           )}{" "}
           {showDownloadButtons && (
             <button
-              className="importantInfoToggle"
+              className="btn-home btn-plan btn-plan-yellow"
               onClick={() =>
                 setActiveDownloadCard &&
                 setActiveDownloadCard(isDownloadExpanded ? null : cardIndex)
