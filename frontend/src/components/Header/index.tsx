@@ -95,7 +95,10 @@ const Header = () => {
                   </Link>
                 </li>{" "}
                 <li>
-                  <DownloadButton onClick={() => setMenuOpen(false)} />
+                  <DownloadButton
+                    variant="header"
+                    onClick={() => setMenuOpen(false)}
+                  />
                 </li>
               </ul>
             </nav>

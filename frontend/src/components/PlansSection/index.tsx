@@ -1,4 +1,5 @@
 import "./PlansSection.css";
+import "../Button/Button.css";
 import PlanCard from "./PlanCard";
 import { useState, useEffect, useRef } from "react";
 
@@ -82,6 +83,8 @@ const PlansSection: React.FC<PlansSectionProps> = ({
 
         setActiveDownloadCard(null);
 
+        const isMobile = window.innerWidth <= 1175;
+
         cards.forEach((card) => {
           const cardElement = card as HTMLElement;
           const cardContent = cardElement.querySelector(
@@ -97,6 +100,12 @@ const PlansSection: React.FC<PlansSectionProps> = ({
             descElement.style.minHeight = "auto";
           }
         });
+
+        if (isMobile) {
+          setMaxDescriptionHeight(0);
+          setMinCardHeight(0);
+          return;
+        }
 
         requestAnimationFrame(() => {
           cards.forEach((card) => {
@@ -147,13 +156,13 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       clearTimeout(resizeTimeout);
     };
   }, [selectedPlan]);
-
   useEffect(() => {
     if (
       cardsContainerRef.current &&
       (minCardHeight > 0 || maxDescriptionHeight > 0)
     ) {
       const cards = cardsContainerRef.current.querySelectorAll(".pricingPlan");
+      const isMobile = window.innerWidth <= 1175;
 
       cards.forEach((card) => {
         const cardElement = card as HTMLElement;
@@ -164,12 +173,21 @@ const PlansSection: React.FC<PlansSectionProps> = ({
           ".card-description"
         ) as HTMLElement;
 
-        if (cardContent && minCardHeight > 0) {
-          cardContent.style.minHeight = `${minCardHeight}px`;
-        }
+        if (isMobile) {
+          if (cardContent) {
+            cardContent.style.minHeight = "auto";
+          }
+          if (descElement) {
+            descElement.style.minHeight = "auto";
+          }
+        } else {
+          if (cardContent && minCardHeight > 0) {
+            cardContent.style.minHeight = `${minCardHeight}px`;
+          }
 
-        if (descElement && maxDescriptionHeight > 0) {
-          descElement.style.minHeight = `${maxDescriptionHeight}px`;
+          if (descElement && maxDescriptionHeight > 0) {
+            descElement.style.minHeight = `${maxDescriptionHeight}px`;
+          }
         }
       });
     }

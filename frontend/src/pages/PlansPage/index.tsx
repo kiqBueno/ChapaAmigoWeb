@@ -1,4 +1,5 @@
 import "../../components/PlansSection/PlansSection.css";
+import "../../components/Button/Button.css";
 import PlansSection from "../../components/PlansSection";
 import Section from "../../components/Section";
 import { Link } from "react-router-dom";

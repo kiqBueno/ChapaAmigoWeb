@@ -68,11 +68,6 @@
   flex-direction: column;
 }
 
-.pricingPlan .card-button-container {
-  margin-top: auto;
-  padding-top: 1rem;
-}
-
 .pricingPlan.plansPage {
   padding-bottom: 1rem;
   min-height: auto;
@@ -203,12 +198,13 @@ h2 {
   padding-left: 1.25rem;
 }
 
-.download-section {
+.downloadSection {
   width: 100%;
   background-color: white;
   border-top: 1px solid #e6e6e6;
   margin-top: 0.5rem;
   border-radius: 0 0 0.625rem 0.625rem;
+  background-color: transparent;
 }
 
 .downloadButtonsContainer {
@@ -247,52 +243,6 @@ h2 {
 #priceContainer .plansPageText .sectionContainer h3:hover {
   background-color: #ffca00;
   color: #003366;
-}
-
-.btn-home {
-  cursor: pointer;
-  border-radius: 10px;
-  border: none;
-  padding: 1rem 1.5rem;
-  font-family: inherit;
-  font-weight: 600;
-  line-height: 1.2;
-  font-size: 1.25rem;
-  text-decoration: none;
-  margin-top: 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 15rem;
-  text-align: center;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.btn-home:hover {
-  transform: translateY(-2px) translateZ(0);
-}
-
-.btn-plan {
-  font-size: 1.375rem;
-  width: 80%;
-  margin: 0 auto;
-  padding: 1rem;
-  font-weight: 625;
-  justify-content: center;
-  display: flex;
-}
-
-.btn-plan-yellow {
-  background-color: #ffca00;
-  color: #003366;
-  transition: 0.5s;
-}
-
-.btn-plan-yellow:hover {
-  background-color: #003366;
-  color: #ffca00;
 }
 
 @media (max-width: 1175px) {
@@ -345,16 +295,30 @@ h2 {
 
 @media (max-width: 480px) {
   .pricingPlan {
-    width: calc(95% - 1rem);
-    max-width: 350px;
-    min-width: 250px;
+    width: calc(90% - 1rem);
   }
 
   .planCardsContainer {
-    gap: 0.75rem;
+    gap: 1.25rem;
   }
 
   .pricingPlan .card-content {
     padding: 0.5rem;
+  }
+
+  .downloadButtonsContainer {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    align-items: center;
+  }
+
+  .downloadButton img {
+    height: auto;
+    width: 10rem;
+  }
+
+  .downloadSection {
+    margin-top: 0.75rem;
   }
 }

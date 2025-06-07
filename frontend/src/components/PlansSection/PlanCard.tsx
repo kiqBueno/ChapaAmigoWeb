@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./PlansSection.css";
+import "../Button/Button.css";
 
 interface PlanCardProps {
   title: string;
@@ -39,6 +40,9 @@ const PlanCard: React.FC<PlanCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const isDownloadExpanded = activeDownloadCard === cardIndex;
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 1175;
+
   return (
     <div
       className={`pricingPlan ${className || ""}`}
@@ -49,7 +53,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
       <div
         className="card-content"
         style={{
-          minHeight: minHeight > 0 ? `${minHeight}px` : "auto",
+          minHeight: !isMobile && minHeight > 0 ? `${minHeight}px` : "auto",
         }}
       >
         <div className="card-main-content">
@@ -63,7 +67,9 @@ const PlanCard: React.FC<PlanCardProps> = ({
             className="card-description"
             style={{
               minHeight:
-                maxDescriptionHeight > 0 ? `${maxDescriptionHeight}px` : "auto",
+                !isMobile && maxDescriptionHeight > 0
+                  ? `${maxDescriptionHeight}px`
+                  : "auto",
             }}
           >
             {description}
@@ -118,7 +124,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
       </div>{" "}
       {showDownloadButtons && (
         <div
-          className="download-section"
+          className="downloadSection"
           style={{
             maxHeight: isDownloadExpanded ? "8rem" : "0",
             opacity: isDownloadExpanded ? 1 : 0,

@@ -1,0 +1,134 @@
+.btn-home {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.25rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15rem;
+  text-align: center;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-home:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.btn-primary {
+  background-color: #0f3558;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #ffca00;
+  color: #0f3558;
+  box-shadow: 0 10px 20px rgba(15, 53, 88, 0.2);
+}
+
+.btn-secondary {
+  background-color: #ffca00;
+  color: #242424;
+}
+
+.btn-secondary:hover {
+  background-color: #0f3558;
+  color: white;
+  box-shadow: 0 10px 20px rgba(255, 202, 0, 0.2);
+}
+
+.btn-large {
+  font-size: 1.5rem;
+  width: auto;
+  margin-top: 0;
+}
+
+.btn-contact {
+  width: 75%;
+}
+
+.btnPrimary {
+  cursor: pointer;
+  background-color: #ffca00;
+  color: #242424;
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.5;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btnPrimary:hover {
+  background-color: #0f3558;
+  color: white;
+}
+
+.btnPrimary.btn-home-style {
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15rem;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btnPrimary.btn-home-style:hover {
+  color: #ffca00;
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 10px 20px rgba(15, 53, 88, 0.2);
+}
+
+.btn-plan {
+  font-size: 1.375rem;
+  width: 80%;
+  margin: 0 auto;
+  padding: 1rem;
+  font-weight: 625;
+  justify-content: center;
+  display: flex;
+}
+
+.btn-plan-yellow {
+  background-color: #ffca00;
+  color: #003366;
+  transition: 0.5s;
+}
+
+.btn-plan-yellow:hover {
+  background-color: #003366;
+  color: #ffca00;
+}
+
+@media (max-width: 768px) {
+  .homeButtonsContainer .btn-home {
+    width: 35vw;
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+
+  .homeButtonsContainer .btnPrimary.btn-home-style {
+    width: 35vw;
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+}
