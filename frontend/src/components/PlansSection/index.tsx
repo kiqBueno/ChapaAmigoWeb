@@ -1,6 +1,6 @@
 import "./PlansSection.css";
 import PlanCard from "./PlanCard";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface PlansSectionProps {
   hideButton?: boolean;
@@ -14,6 +14,12 @@ const PlansSection: React.FC<PlansSectionProps> = ({
   const [selectedPlan, setSelectedPlan] = useState<"mensal" | "anual">(
     "mensal"
   );
+  const [activeDownloadCard, setActiveDownloadCard] = useState<number | null>(
+    null
+  );
+  const [minCardHeight, setMinCardHeight] = useState<number>(0);
+  const [maxDescriptionHeight, setMaxDescriptionHeight] = useState<number>(0);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   const calculatePrice = (monthlyPrice: number) => {
     const isMensal = selectedPlan === "mensal";
@@ -22,6 +28,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       unit: isMensal ? "/mês" : "/ano",
     };
   };
+
   const plans = [
     {
       title: "Chapa",
@@ -63,6 +70,110 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       features: ["Solicitações ilimitadas"],
     },
   ];
+  useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+
+    const calculateHeights = () => {
+      if (cardsContainerRef.current) {
+        const cards =
+          cardsContainerRef.current.querySelectorAll(".pricingPlan");
+        let maxCardHeight = 0;
+        let maxDescHeight = 0;
+
+        setActiveDownloadCard(null);
+
+        cards.forEach((card) => {
+          const cardElement = card as HTMLElement;
+          const cardContent = cardElement.querySelector(
+            ".card-content"
+          ) as HTMLElement;
+          if (cardContent) {
+            cardContent.style.minHeight = "auto";
+          }
+          const descElement = cardElement.querySelector(
+            ".card-description"
+          ) as HTMLElement;
+          if (descElement) {
+            descElement.style.minHeight = "auto";
+          }
+        });
+
+        requestAnimationFrame(() => {
+          cards.forEach((card) => {
+            const cardElement = card as HTMLElement;
+            const descElement = cardElement.querySelector(
+              ".card-description"
+            ) as HTMLElement;
+            if (descElement) {
+              const descHeight = descElement.offsetHeight;
+              if (descHeight > maxDescHeight) {
+                maxDescHeight = descHeight;
+              }
+            }
+          });
+
+          cards.forEach((card) => {
+            const cardElement = card as HTMLElement;
+            const cardContent = cardElement.querySelector(
+              ".card-content"
+            ) as HTMLElement;
+            const height = cardContent
+              ? cardContent.offsetHeight
+              : cardElement.offsetHeight;
+            if (height > maxCardHeight) {
+              maxCardHeight = height;
+            }
+          });
+
+          setMaxDescriptionHeight(maxDescHeight);
+          setMinCardHeight(maxCardHeight);
+        });
+      }
+    };
+
+    calculateHeights();
+
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        calculateHeights();
+      }, 150);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
+  }, [selectedPlan]);
+
+  useEffect(() => {
+    if (
+      cardsContainerRef.current &&
+      (minCardHeight > 0 || maxDescriptionHeight > 0)
+    ) {
+      const cards = cardsContainerRef.current.querySelectorAll(".pricingPlan");
+
+      cards.forEach((card) => {
+        const cardElement = card as HTMLElement;
+        const cardContent = cardElement.querySelector(
+          ".card-content"
+        ) as HTMLElement;
+        const descElement = cardElement.querySelector(
+          ".card-description"
+        ) as HTMLElement;
+
+        if (cardContent && minCardHeight > 0) {
+          cardContent.style.minHeight = `${minCardHeight}px`;
+        }
+
+        if (descElement && maxDescriptionHeight > 0) {
+          descElement.style.minHeight = `${maxDescriptionHeight}px`;
+        }
+      });
+    }
+  }, [minCardHeight, maxDescriptionHeight]);
 
   return (
     <div id="priceContainer">
@@ -91,7 +202,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       </div>
       <div className="pricingTable">
         <h2>{selectedPlan === "mensal" ? "Plano Mensal" : "Plano Anual"}</h2>{" "}
-        <div className="planCardsContainer">
+        <div className="planCardsContainer" ref={cardsContainerRef}>
           {plans.map((plan, index) => (
             <PlanCard
               key={index}
@@ -102,7 +213,13 @@ const PlansSection: React.FC<PlansSectionProps> = ({
               features={plan.features}
               commonFeatures={plan.commonFeatures}
               hideButton={hideButton}
+              showDownloadButtons={hideButton}
               className={cardClass}
+              cardIndex={index}
+              activeDownloadCard={activeDownloadCard}
+              setActiveDownloadCard={setActiveDownloadCard}
+              minHeight={minCardHeight}
+              maxDescriptionHeight={maxDescriptionHeight}
             />
           ))}
         </div>

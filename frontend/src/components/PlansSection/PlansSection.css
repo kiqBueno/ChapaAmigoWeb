@@ -10,16 +10,16 @@
 .importantInfoToggle {
   background-color: #ffca00;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   display: flex;
   justify-content: center;
   cursor: pointer;
   font-size: 1.375rem;
-  margin: 2rem auto 0 auto;
   width: 80%;
   border: none;
   color: #003366;
   font-weight: bold;
+  margin: 0 auto;
 }
 
 .importantInfoToggle:hover {
@@ -55,42 +55,59 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .pricingPlan {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  border: #e6b800 2px double;
-  border-radius: 10px;
+  border: #e6b800 0.125rem double;
+  border-radius: 0.625rem;
   text-align: start;
   width: 25vw;
-  max-width: 400px;
+  max-width: 25vw;
+  min-width: 18vw;
   background-color: white;
   padding: 1.5rem;
   position: relative;
-  padding-bottom: 3.5rem;
-  color: #003366; /* Ensure text color is explicitly set */
+  color: #003366;
+  flex: 1;
+  align-self: flex-start;
+}
+
+.pricingPlan .card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+
+.pricingPlan .card-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricingPlan .card-button-container {
+  margin-top: auto;
+  padding-top: 1rem;
 }
 
 .pricingPlan.plansPage {
-  padding-bottom: 0;
+  padding-bottom: 1rem;
+  min-height: auto;
 }
 
 .pricingPlan button {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0;
-  height: 3rem;
   display: flex;
   align-items: center;
+  padding: 0.5rem;
 }
 
 .pricingPlan hr {
   width: 100%;
-  border: 1px solid #003366;
+  border: 0.0625rem solid #003366;
   margin: 0;
 }
 
@@ -98,9 +115,15 @@
   margin-bottom: 0;
 }
 
+.pricingPlan .card-description {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .pricingPrice {
   color: #003366;
-  font-size: 24px;
+  font-size: 1.5rem;
   padding-top: 1rem;
   margin: 0;
   font-weight: 500;
@@ -115,8 +138,8 @@
 }
 
 .buttonGroup {
-  border: black 1px solid;
-  border-radius: 7.5px;
+  border: black 0.0625rem solid;
+  border-radius: 0.46875rem;
   display: inline-flex;
 }
 
@@ -171,8 +194,8 @@ h2 {
   margin-bottom: 1rem;
   padding: 1rem;
   background-color: #f9f9f9;
-  border: 1px solid #e6e6e6;
-  border-radius: 8px;
+  border: 0.0625rem solid #e6e6e6;
+  border-radius: 0.5rem;
   text-align: left;
 }
 
@@ -190,8 +213,8 @@ h2 {
 
 .commonFeaturesContainer {
   background-color: #f0f8ff;
-  border: 1px solid #e6b800;
-  border-radius: 8px;
+  border: 0.0625rem solid #e6b800;
+  border-radius: 0.5rem;
   padding: 0 0 0 1.25rem;
   margin: 1rem 0 0 0;
 }
@@ -200,20 +223,86 @@ h2 {
   padding-left: 1.25rem;
 }
 
+.download-section {
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 0.5rem;
+  border-radius: 0 0 0.625rem 0.625rem;
+}
+
+.downloadButtonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.downloadButton {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.downloadButton:hover {
+  transform: scale(1.05);
+}
+
+.downloadButton img {
+  height: 2.5rem;
+  width: auto;
+  border-radius: 0.5rem;
+}
+
+.plansPageText {
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+#priceContainer .plansPageText .sectionContainer h3 {
+  background-color: #003366;
+  color: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#priceContainer .plansPageText .sectionContainer h3:hover {
+  background-color: #ffca00;
+  color: #003366;
+}
+
 @media (max-width: 1175px) {
   .pricingPlan {
-    width: 80vw;
+    width: calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+    min-width: calc(50% - 1rem);
+  }
+
+  .planCardsContainer {
+    gap: 1rem;
   }
 
   .importantInfo {
     padding: 0 2rem;
   }
 
-  #priceContainer {
-    padding: 5rem 2rem 5rem 2rem;
+  .plansPageText {
+    width: calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .pricingPlan {
+    width: calc(80% - 1rem);
+    max-width: calc(80% - 1rem);
+    min-width: calc(80% - 1rem);
   }
 
   .plansPageText {
+    width: calc(80% - 1rem);
+    max-width: calc(80% - 1rem);
+    margin: 2rem auto;
     padding: 0 1rem;
   }
 }

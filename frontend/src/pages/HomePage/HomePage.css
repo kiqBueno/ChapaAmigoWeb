@@ -4,10 +4,6 @@
   margin: 5rem 0;
 }
 
-#homeContainer .downloadBtn {
-  display: none;
-}
-
 .homeTextContainer {
   font-size: 1.5rem;
   height: calc(100vh - 5rem);
@@ -62,9 +58,15 @@ html {
   align-items: flex-start;
   height: 100%;
   width: 50%;
-  padding: 0 0 0 2rem;
   color: white;
+  padding-left: 2rem;
 }
+
+/* .homeText h1,
+.homeText h2,
+.homeText p {
+  padding-left: 2rem;
+} */
 
 .homeText p {
   font-size: 1.8rem;
@@ -130,15 +132,26 @@ html {
   padding: 5rem 0 5rem 0;
 }
 
+.homeButtonsContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.videoContainer,
+.advanced-scroll-reveal,
+.hero-reveal,
+.stagger-reveal {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 @media (max-width: 1175px) {
   .homeTextContainer {
     background-position: 97.5%;
     background-size: cover;
     background-repeat: no-repeat;
-  }
-
-  #homeContainer .downloadBtn {
-    display: block;
   }
 
   .cardsContainer {
@@ -158,19 +171,30 @@ html {
   .homeText {
     color: white;
     width: 100%;
-    padding: 0 1rem 0 1rem;
     backdrop-filter: brightness(0.75);
+    padding: 0;
+  }
+
+  .homeText h1,
+  .homeText h2,
+  .homeText p {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .homeText p {
     font-weight: 600;
   }
-}
+  .homeButtonsContainer {
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0;
+  }
 
-.videoContainer,
-.advanced-scroll-reveal,
-.hero-reveal,
-.stagger-reveal {
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  .homeButtonsContainer .saibaMaisBtn {
+    width: 35vw;
+    font-size: 1rem;
+    padding: 1rem;
+  }
 }

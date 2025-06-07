@@ -1,9 +1,11 @@
 import "./HomePage.css";
+import { Link } from "react-router-dom";
 import Cards from "../../components/Card/Cards";
 import PlansSection from "../../components/PlansSection";
 import Carousel from "../../components/Carousel";
 import AdvancedScrollReveal from "../../components/ScrollReveal/AdvancedScrollReveal";
 import StaggerReveal from "../../components/ScrollReveal/StaggerReveal";
+import DownloadButton from "../../components/DownloadButton";
 
 const Home = () => {
   return (
@@ -15,22 +17,15 @@ const Home = () => {
             <h1 style={{ margin: 0 }}>Começa Aqui!</h1>
             <p style={{ marginBottom: 0 }}>
               Conecte-se aos melhores, negocie direto e tenha o controle de sua
-              carga
-            </p>
-            <p>Menos Burocracia, mais lucro!</p>
-            <a
-              href="#videoContainerCadastro"
-              className="saibaMaisBtn"
-              onClick={() => {
-                document
-                  .getElementById("videoContainerCadastro")
-                  ?.scrollIntoView({
-                    behavior: "smooth",
-                  });
-              }}
-            >
-              Cadastre-se Já!
-            </a>
+              carga{" "}
+            </p>{" "}
+            <p>Menos Burocracia, mais lucro!</p>{" "}
+            <div className="homeButtonsContainer">
+              <DownloadButton variant="home" />
+              <Link to="/contato" className="saibaMaisBtn">
+                Fale Conosco
+              </Link>
+            </div>
           </div>
         </div>
         <hr className="footer-divider" />

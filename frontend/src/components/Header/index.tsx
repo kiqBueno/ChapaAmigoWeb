@@ -1,16 +1,28 @@
 import "./Header.css";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import DownloadButton from "../DownloadButton";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+    }
+
+    return () => {
+      document.body.classList.remove("menu-open");
+    };
+  }, [menuOpen]);
 
   const handleHomeClick = () => {
     if (location.pathname === "/") {
@@ -28,7 +40,6 @@ const Header = () => {
   };
   return (
     <>
-      {/* Mobile overlay */}
       <div
         className={`mobile-overlay ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(false)}
@@ -82,15 +93,9 @@ const Header = () => {
                   <Link to="/contato" onClick={() => setMenuOpen(false)}>
                     Contato
                   </Link>
-                </li>
+                </li>{" "}
                 <li>
-                  <a
-                    href="#footerContainer"
-                    className="downloadBtn"
-                    onClick={() => handleAnchorClick("footerContainer")}
-                  >
-                    Download
-                  </a>
+                  <DownloadButton onClick={() => setMenuOpen(false)} />
                 </li>
               </ul>
             </nav>

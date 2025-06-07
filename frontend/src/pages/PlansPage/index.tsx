@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const PlansPage = () => {
   return (
-    <div id="priceContainer" style={{ padding: "0rem" }}>
+    <div id="priceContainer" style={{ padding: "5rem 0 0 0" }}>
       <PlansSection hideButton={true} cardClass="plansPage" />
       <div className="plansPageText">
         <Section title="Chapa" sectionKey="chapa">

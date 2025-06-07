@@ -1,0 +1,45 @@
+.downloadBtn {
+  cursor: pointer;
+  background-color: #ffca00;
+  color: #242424;
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.5;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.downloadBtn:hover {
+  background-color: #0f3558;
+  color: white;
+}
+
+.downloadBtn--home {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 10rem;
+  margin-top: 1rem;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.downloadBtn--home:hover {
+  background-color: #0f3558;
+  color: white;
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 10px 20px rgba(255, 202, 0, 0.2);
+}
+
+@media (max-width: 1175px) {
+  .downloadBtn--home {
+    width: 35vw;
+    font-size: 1rem;
+    padding: 1rem;
+    font-weight: 700;
+  }
+}
