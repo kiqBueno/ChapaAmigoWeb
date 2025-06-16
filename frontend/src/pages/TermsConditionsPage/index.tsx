@@ -1,10 +1,10 @@
 import "./TermsConditionsPage.css";
 import Section from "../../components/Section";
 
-const TermosCondicoes = () => {
+const TermsConditionsPage = () => {
   return (
     <div>
-      <div id="termosCondicoesContainer">
+      <div id="termsConditionsContainer">
         <h1>Contrato de Adesão aos Termos de Uso da Plataforma CHAPAAMIGO®</h1>
         <Section title="1. Introdução" sectionKey="introducao">
           <p>
@@ -405,7 +405,7 @@ const TermosCondicoes = () => {
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <a
             href="/Contrato-de-Adesao-aos-Termos-de-Uso-da-Plataforma-CHAPAAMIGO®.pdf"
-            className="btn-home btn-primary btn-large"
+            className="btnHome btnPrimary btnLarge"
             download
           >
             Download .Pdf
@@ -416,4 +416,4 @@ const TermosCondicoes = () => {
   );
 };
 
-export default TermosCondicoes;
+export default TermsConditionsPage;

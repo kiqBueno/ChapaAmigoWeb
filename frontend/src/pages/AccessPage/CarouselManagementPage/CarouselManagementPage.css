@@ -1,0 +1,571 @@
+.carouselManagementContainer {
+  margin: 1rem 0;
+  padding: 5rem 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.carouselManagementHeader {
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.carouselManagementHeader h1 {
+  color: #0f3558;
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.carouselManagementHeader p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: var(--font-weight-medium);
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.message button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.message button:hover {
+  opacity: 1;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #0f3558;
+}
+
+.carouselGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.carouselItem {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: grab;
+  border: 2px solid transparent;
+}
+
+.carouselItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.carouselItem.active {
+  border-color: #28a745;
+}
+
+.carouselItem.inactive {
+  border-color: #dc3545;
+  opacity: 0.7;
+}
+
+.carouselItem:active {
+  cursor: grabbing;
+}
+
+.carouselItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.reorderControls {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.reorderBtn {
+  background: #0f3558;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reorderBtn:hover:not(:disabled) {
+  background: #1a4a73;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.reorderBtn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reorderBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.reorderBtn.up:hover:not(:disabled) {
+  background: #28a745;
+}
+
+.reorderBtn.down:hover:not(:disabled) {
+  background: #dc3545;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.imagePreview img:hover {
+  transform: scale(1.05);
+}
+
+.noImage {
+  color: #999;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.noImage span:first-child {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.noImage span:nth-child(2) {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-medium);
+  color: #28a745;
+}
+
+.noImage span:last-child {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.imageControls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fileInputWrapper {
+  position: relative;
+}
+
+.fileInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.fileInputLabel {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  background: #0f3558;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+  font-weight: var(--font-weight-medium);
+}
+
+.fileInputLabel:hover {
+  background: #1a4a6b;
+}
+
+.instructions {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.instructions h3 {
+  color: #0f3558;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.instructions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.instructions li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.instructions li:before {
+  content: "•";
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-bold);
+  position: absolute;
+  left: 0;
+}
+
+.instructions li:last-child {
+  border-bottom: none;
+}
+
+.deleteButton {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+}
+
+.deleteButton:hover {
+  background: #c82333;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggleSwitch input:checked + .slider {
+  background-color: #28a745;
+}
+
+.toggleSwitch input:focus + .slider {
+  box-shadow: 0 0 1px #28a745;
+}
+
+.toggleSwitch input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.carouselControlsSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.slotCountControl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.slotCountControl label {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-medium);
+  color: #0f3558;
+}
+
+.numberInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid #e0e6ed;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.numberBtn {
+  background: #0f3558;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.numberBtn:hover:not(:disabled) {
+  background: #1a4a73;
+}
+
+.numberBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.numberBtn.decrease {
+  border-right: 1px solid #e0e6ed;
+}
+
+.numberBtn.increase {
+  border-left: 1px solid #e0e6ed;
+}
+
+.numberInput {
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+  width: 80px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-medium);
+  color: #0f3558;
+  background: #ffffff;
+}
+
+.numberInput:focus {
+  background: #f8f9fa;
+}
+
+.slotCountInfo {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  align-items: center;
+}
+
+.slotCountInfo span:nth-child(odd) {
+  color: #0f3558;
+  font-weight: var(--font-weight-medium);
+}
+
+.carouselItem.empty-slot {
+  border-color: #28a745;
+  border-style: dashed;
+  background: #f8fff9;
+}
+
+.carouselItem.empty-slot:hover {
+  border-color: #1e7e34;
+  background: #e8f5e8;
+}
+
+.slotNumber {
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-bold);
+  color: #0f3558;
+  background: #f8f9fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #e0e6ed;
+}
+
+@media (max-width: 768px) {
+  .carouselManagementContainer {
+    padding: 1rem;
+  }
+
+  .carouselManagementHeader {
+    padding: 1.5rem;
+  }
+
+  .carouselManagementHeader h1 {
+    font-size: 2rem;
+  }
+
+  .carouselControlsSection {
+    padding: 1.5rem;
+  }
+
+  .slotCountControl {
+    gap: 0.75rem;
+  }
+
+  .slotCountControl label {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .slotCountInfo {
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .numberInputWrapper {
+    transform: scale(1.1);
+  }
+
+  .carouselGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .carouselItem {
+    padding: 1rem;
+  }
+
+  .carouselItemHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .imagePreview {
+    height: 150px;
+  }
+
+  .instructions {
+    padding: 1.5rem;
+  }
+}
+
+.carouselItem[draggable="true"]:hover {
+  border-color: var(--color-secondary);
+}
+
+.carouselItem.dragOver {
+  border-color: var(--color-secondary);
+  background: #fff9e6;
+}
+
+.loading {
+  position: relative;
+}
+
+.loading:after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #0f3558;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+.carouselItem.reordering {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(15, 53, 88, 0.2);
+  transition: all 0.3s ease;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}

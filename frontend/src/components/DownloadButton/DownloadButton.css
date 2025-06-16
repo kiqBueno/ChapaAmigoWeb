@@ -6,11 +6,11 @@
 }
 
 .download-icons-section {
-  width: 100%;
-  background-color: white;
-  border: 1px solid #e6e6e6;
-  border-radius: 0.625rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: var(--width-container-lg);
+  background-color: var(--color-white);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
   position: relative;
   z-index: 10;
 }
@@ -18,7 +18,7 @@
 .download-button-container .downloadButtonsContainer {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--spacing-md);
   padding: 0.5rem 1rem;
 }
 
@@ -32,18 +32,17 @@
 }
 
 .download-button-container .downloadButton img {
-  height: 2.5rem;
+  height: var(--height-button);
   width: auto;
   border-radius: 0.5rem;
 }
 
 @media (max-width: 768px) {
   .download-button-container .downloadButton img {
-    height: 2rem;
+    height: var(--font-size-2xl);
   }
-
   .download-button-container .downloadButtonsContainer {
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     padding: 0.5rem;
   }
 }

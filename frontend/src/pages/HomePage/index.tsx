@@ -22,13 +22,13 @@ const Home = () => {
           <p>Menos Burocracia, mais lucro!</p>{" "}
           <div className="homeButtonsContainer">
             <DownloadButton variant="home" />
-            <Link to="/contato" className="btn-home btn-primary">
+            <Link to="/contato" className="btnHome btnPrimary">
               Fale Conosco
             </Link>
           </div>
         </div>
-      </div>
-      <hr className="footer-divider" />
+      </div>{" "}
+      <hr className="footerDivider" />
       <AdvancedScrollReveal
         direction="left"
         duration={900}
@@ -38,7 +38,7 @@ const Home = () => {
       >
         <PlansSection />
       </AdvancedScrollReveal>
-      <hr className="footer-divider" />{" "}
+      <hr className="footerDivider" />{" "}
       <AdvancedScrollReveal
         direction="right"
         duration={1100}
@@ -56,15 +56,16 @@ const Home = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
+            style={{ marginBottom: "2rem" }}
           />{" "}
           <DownloadButton variant="video" />{" "}
         </div>
-      </AdvancedScrollReveal>
-      <hr className="footer-divider" />{" "}
+      </AdvancedScrollReveal>{" "}
+      <hr className="footerDivider" />{" "}
       <StaggerReveal staggerDelay={180}>
         <Cards />
       </StaggerReveal>
-      <hr className="footer-divider" />{" "}
+      <hr className="footerDivider" />{" "}
       <AdvancedScrollReveal
         direction="down"
         duration={1200}
@@ -83,8 +84,8 @@ const Home = () => {
             allowFullScreen
           />
         </div>
-      </AdvancedScrollReveal>
-      <hr className="footer-divider" />{" "}
+      </AdvancedScrollReveal>{" "}
+      <hr className="footerDivider" />{" "}
       <AdvancedScrollReveal
         direction="up"
         duration={1000}
@@ -95,7 +96,6 @@ const Home = () => {
       >
         <Carousel />
       </AdvancedScrollReveal>
-      ={" "}
     </main>
   );
 };

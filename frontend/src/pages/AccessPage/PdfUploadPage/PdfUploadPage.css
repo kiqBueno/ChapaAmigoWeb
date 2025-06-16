@@ -82,6 +82,8 @@
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pdfUploadPageContainer .customizationDialog input[type="checkbox"] {
@@ -97,4 +99,32 @@
   .pdfUploadPageContainer .customizationDialog {
     width: 80%;
   }
+
+  .pdfUploadPageContainer .pdfUploaderButtonsContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pdfUploadPageContainer .pdfUploaderButtons {
+    flex-direction: column;
+  }
+
+  .pdfUploadPageContainer .btnPrimary,
+  .pdfUploadPageContainer .btn-secondary {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Estilos específicos para os botões da página */
+.pdfUploadPageContainer .btnPrimary,
+.pdfUploadPageContainer .btn-secondary {
+  margin: 0;
+  min-width: 120px;
+}
+
+.pdfUploadPageContainer .customizationDialog .btnPrimary {
+  margin: 1rem auto;
+  display: block;
+  width: auto;
 }

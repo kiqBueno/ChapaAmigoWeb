@@ -3,7 +3,7 @@
 }
 
 #priceContainer h1 {
-  color: #ffca00;
+  color: var(--color-secondary);
   margin-top: 0;
 }
 
@@ -15,42 +15,42 @@
 }
 
 .pricingTable h2 {
-  color: black;
+  color: var(--color-black);
   margin: 1rem;
 }
 
 .pricingPlan h2 {
-  color: #003366;
+  color: var(--color-border-primary);
   margin: 0;
 }
 
 .pricingTable p {
-  color: black;
+  color: var(--color-black);
   margin-top: 0;
 }
 
 .planCardsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: var(--spacing-lg);
   justify-content: center;
   align-items: flex-start;
-  width: 100%;
+  width: var(--width-container-lg);
 }
 
 .pricingPlan {
   display: flex;
   flex-direction: column;
-  border: #e6b800 0.25rem double;
-  border-radius: 0.625rem;
+  border: var(--color-secondary-dark) var(--border-width-thick) double;
+  border-radius: var(--border-radius-lg);
   text-align: start;
   width: 25vw;
   max-width: 25vw;
   min-width: 18vw;
-  background-color: white;
+  background-color: var(--color-white);
   padding: 1.5rem;
   position: relative;
-  color: #003366;
+  color: var(--color-border-primary);
   flex: 1;
   align-self: flex-start;
 }
@@ -80,8 +80,8 @@
 }
 
 .pricingPlan hr {
-  width: 100%;
-  border: 0.0625rem solid #003366;
+  width: var(--width-container-lg);
+  border: 0.0625rem solid var(--color-border-primary);
   margin: 0;
 }
 
@@ -96,19 +96,19 @@
 }
 
 .pricingPrice {
-  color: #003366;
-  font-size: 1.5rem;
+  color: var(--color-border-primary);
+  font-size: var(--font-size-lg);
   padding-top: 1rem;
   margin: 0;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .pricingPrice.mensal {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .pricingPrice.anual {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .buttonGroup {
@@ -241,8 +241,8 @@ h2 {
 }
 
 #priceContainer .plansPageText .sectionContainer h3:hover {
-  background-color: #ffca00;
-  color: #003366;
+  background-color: var(--color-secondary);
+  color: var(--color-primary-dark);
 }
 
 @media (max-width: 1175px) {

@@ -1,15 +1,15 @@
 .sectionContainer {
   max-width: 800px;
   margin: 0 auto;
-  color: #333;
+  color: var(--color-text-secondary);
   position: relative;
 }
 
 .sectionContainer h3 {
   margin-top: 1.5rem;
-  background-color: #ffca00;
+  background-color: var(--color-secondary);
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: var(--border-radius-md);
   display: flex;
   justify-content: space-between;
   align-items: center;

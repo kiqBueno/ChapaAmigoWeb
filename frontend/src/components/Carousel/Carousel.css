@@ -1,6 +1,6 @@
 .carouselContainer {
-  width: 100%;
-  padding: 5rem 0 0;
+  width: var(--width-container-lg);
+  padding: 5rem 0 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,16 +8,27 @@
   overflow-y: visible;
 }
 
+.carousel-loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+}
+
+.carousel-loading p {
+  margin: 0;
+  opacity: var(--opacity-muted);
+}
+
 .slider {
   --width: 26rem;
   --height: 20rem;
   --quantity: 6;
   position: relative;
-  width: 100%;
-  height: calc(var(--height) + 2rem);
+  width: var(--width-container-lg);
+  height: calc(var(--height) + var(--spacing-xl));
   margin: 0 auto;
   overflow: visible;
-  padding: 1rem 0;
 }
 
 .slider .list {

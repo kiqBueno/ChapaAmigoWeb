@@ -1,6 +1,6 @@
 #contatoContainer {
   margin: 0 auto;
-  color: #333;
+  color: var(--color-text-secondary);
   margin-top: 5rem;
   width: 50%;
   height: auto;
@@ -8,23 +8,23 @@
 
 #contatoContainer h1 {
   text-align: center;
-  color: #ffca00;
+  color: var(--color-secondary);
 }
 
 .iconsGroup {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--spacing-md);
   margin-bottom: 2rem;
 }
 
 .icon {
-  font-size: 2rem;
-  color: #0f3558;
+  font-size: var(--font-size-2xl);
+  color: var(--color-primary);
 }
 
 .icon:hover {
-  color: #ffca00;
+  color: var(--color-secondary);
 }
 
 .formGroup {
@@ -34,19 +34,19 @@
 .formGroup label {
   margin-bottom: 0.5rem;
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: var(--font-size-md);
 }
 
 .formGroup input,
 .formGroup textarea {
-  width: 100%;
+  width: var(--width-container-lg);
   padding: 1rem;
   border-radius: 5px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  background-color: white;
-  color: black;
-  font-size: 1.25rem;
+  border: var(--border-width-thin) solid var(--color-border-medium);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-size: var(--font-size-md);
 }
 
 .formGroup input:-webkit-autofill,

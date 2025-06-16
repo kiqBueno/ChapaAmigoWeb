@@ -9,8 +9,8 @@
 #footerContainer {
   display: flex;
   background-color: #242424;
-  color: white;
-  width: 100%;
+  color: var(--color-white);
+  width: var(--width-container-lg);
   height: auto;
   box-sizing: border-box;
   margin-top: auto;
@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: var(--width-container-lg);
 }
 
 .footerLogo {
@@ -33,7 +33,7 @@
 }
 
 .footerLogoImage {
-  width: 10rem;
+  width: var(--width-logo);
   cursor: pointer;
 }
 
@@ -46,17 +46,17 @@
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: var(--spacing-xl);
 }
 
 .footerNavLink {
-  color: white;
+  color: var(--color-white);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .footerNavLink:hover {
-  color: #ffca00;
+  color: var(--color-secondary);
 }
 
 .footerRights {
@@ -73,30 +73,24 @@
   margin: 0;
 }
 
-.footer-divider {
-  width: 100%;
+.footerDivider {
+  width: var(--width-container-lg);
   border: none;
-  /* margin: 2rem auto; */
   background: none;
-  transition: opacity 0.3s ease-in-out;
-  background: linear-gradient(90deg, transparent, #ffffff, transparent);
-  height: 1px;
-  opacity: 0.8;
+  transition: opacity var(--transition-normal) var(--ease-default);
+  background: var(--gradient-divider-light);
+  height: var(--border-width-thin);
+  opacity: var(--opacity-muted);
   transform: scaleX(0);
-  animation: divider-appear 0.8s ease-out forwards;
+  animation: divider-appear var(--transition-very-slow) var(--ease-out) forwards;
 }
 
-#footerContainer .footer-divider {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #ffffff,
-    transparent
-  ) !important;
+#footerContainer .footerDivider {
+  background: var(--gradient-divider-light) !important;
 }
 
-#homeContainer .footer-divider {
-  background: linear-gradient(90deg, transparent, #0f3558, transparent);
+#homeContainer .footerDivider {
+  background: var(--gradient-divider-dark);
   margin: 3rem auto;
 }
 
@@ -120,18 +114,18 @@
 
 #socialIcons a {
   color: white;
-  font-size: 2rem;
-  transition: color 0.2s;
-  width: 3rem;
+  font-size: var(--font-size-2xl);
+  transition: color var(--transition-fast);
+  width: var(--spacing-2xl);
 }
 
 #socialIcons a:hover {
-  color: #ffca00;
+  color: var(--color-secondary);
 }
 
 .footerLogosImages {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-md);
   padding: 1rem;
 }
 

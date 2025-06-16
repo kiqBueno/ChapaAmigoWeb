@@ -8,7 +8,7 @@
   padding: 1.5rem;
 }
 
-.button-3d {
+.button3d {
   display: inline-block;
   position: relative;
   border: 0;
@@ -25,7 +25,7 @@
   text-align: center;
   margin: 0 0 0.5rem 0;
 }
-.button-3d:before {
+.button3d:before {
   content: "";
   position: absolute;
   width: 100%;
@@ -39,7 +39,7 @@
   transform: translate3d(0, 0.5em, -1em);
   transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
 }
-.button-3d:after {
+.button3d:after {
   content: "";
   position: absolute;
   width: 100%;
@@ -52,19 +52,19 @@
   transform: translate3d(0, 0.7em, -1em);
   transition: transform 0.3s cubic-bezier(0, 0, 0.58, 1);
 }
-.button-3d:hover {
+.button3d:hover {
   transform: translateY(-0.25em);
 }
-.button-3d:hover:before {
+.button3d:hover:before {
   transform: translate3d(0, 0.75em, -1em);
 }
-.button-3d:hover:after {
+.button3d:hover:after {
   transform: translate3d(0, 1.05em, -1em);
 }
-.button-3d:active {
+.button3d:active {
   transform: translate(0, 0.5em);
 }
-.button-3d:active:before,
-.button-3d:active:after {
+.button3d:active:before,
+.button3d:active:after {
   transform: translate3d(0, 0, -1em);
 }

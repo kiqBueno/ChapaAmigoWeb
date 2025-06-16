@@ -22,11 +22,10 @@ const DownloadButton = ({ onClick, variant }: DownloadButtonProps) => {
     setIsExpanded(!isExpanded);
     onClick?.();
   };
-
   const getClassName = () => {
-    if (variant === "home") return "btnPrimary btn-home-style";
-    if (variant === "video") return "btn-home btn-secondary";
-    if (variant === "header") return "btnPrimary";
+    if (variant === "home") return "btnPrimary btnHomeStyle";
+    if (variant === "video") return "btn-secondary";
+    if (variant === "header") return "btnPrimary header-download";
     return "btnPrimary";
   };
 

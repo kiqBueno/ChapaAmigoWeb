@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import "./PdfUploadPage.css";
 import "../AcessPage.css";
+import "../../../components/Button/Button.css";
 import axios from "axios";
 import { BASE_URL } from "../../../config/apiConfig";
 
@@ -298,21 +299,25 @@ const PdfUploadPage = () => {
               accept="image/*"
               onChange={(e) => setImage(e.target.files?.[0] || null)}
             />
-          </label>
+          </label>{" "}
           <div className="pdfUploaderButtonsContainer">
             <div className="pdfUploaderButtons">
               <button
-                className="button-3d"
+                className="btnPrimary"
                 type="button"
                 onClick={() => setShowCustomization(true)}
               >
                 Customizar Layout
               </button>
-              <button className="button-3d" type="submit">
+              <button className="btnPrimary" type="submit">
                 Raspar
               </button>
             </div>
-            <button className="button-3d" type="button" onClick={handleCrop}>
+            <button
+              className="btn-secondary"
+              type="button"
+              onClick={handleCrop}
+            >
               Cortar
             </button>
           </div>
@@ -356,9 +361,9 @@ const PdfUploadPage = () => {
               />
               {customizationLabels[group]}
             </label>
-          ))}
+          ))}{" "}
           <button
-            className="button-3d"
+            className="btnPrimary"
             onClick={() => setShowCustomization(false)}
           >
             Fechar

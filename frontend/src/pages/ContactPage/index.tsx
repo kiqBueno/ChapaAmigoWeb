@@ -4,7 +4,7 @@ import IconWithText from "../../components/IconWithText";
 import "./ContactPage.css";
 import emailjs from "emailjs-com";
 
-const Contato = () => {
+const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -121,7 +121,7 @@ const Contato = () => {
         <div className="submitBtnContainer">
           <button
             type="submit"
-            className="btn-home btn-primary btn-large btn-contact"
+            className="btnHome btnPrimary btnLarge btnContact"
           >
             Enviar
           </button>
@@ -131,4 +131,4 @@ const Contato = () => {
   );
 };
 
-export default Contato;
+export default ContactPage;

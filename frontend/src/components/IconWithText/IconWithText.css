@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 10rem;
+  width: var(--width-logo);
 }
 
 .iconWithText h3,
@@ -12,12 +12,12 @@ p {
 }
 
 .iconWithText h3 {
-  color: #0f3558;
+  color: var(--color-primary);
   margin-top: 1rem;
 }
 
 .iconWithText .iconContainer {
-  background-color: #0f3558;
+  background-color: var(--color-primary);
   padding: 1.5rem;
   border-radius: 50%;
   text-align: center;
@@ -29,12 +29,12 @@ p {
 .iconWithText .icon {
   font-size: 3rem;
   margin: 0;
-  color: white;
+  color: var(--color-white);
 }
 
 .iconsWithText {
   display: flex;
-  gap: 10rem;
+  gap: var(--width-logo);
   margin-bottom: 2rem;
   justify-content: center;
 }
@@ -42,7 +42,7 @@ p {
 @media (max-width: 1175px) {
   .iconsWithText {
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
     align-items: center;
   }
 }

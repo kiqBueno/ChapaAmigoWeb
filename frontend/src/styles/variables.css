@@ -1,0 +1,86 @@
+:root {
+  --color-primary: #0f3558;
+  --color-primary-dark: #003366;
+  --color-primary-light: #1e5b83;
+
+  --color-secondary: #ffca00;
+  --color-secondary-dark: #e6b800;
+  --color-secondary-light: #ffd633;
+  --color-secondary-darker: #cc9800;
+
+  --color-text-primary: #242424;
+  --color-text-secondary: #333;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-border-light: #e6e6e6;
+  --color-border-medium: #ccc;
+  --color-border-primary: #003366;
+  --color-border-secondary: #ffca00;
+  --color-border-accent: #95a5a6;
+
+  --font-size-md: 1.25rem;
+  --font-size-lg: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-normal: 1.5;
+
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 5rem;
+
+  --border-radius-md: 10px;
+  --border-radius-lg: 0.625rem;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 0.25rem;
+
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-primary: 0 8px 25px rgba(15, 53, 88, 0.15);
+  --shadow-secondary: 0 8px 25px rgba(255, 202, 0, 0.15);
+  --shadow-text: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-accent: 0 8px 25px rgba(149, 165, 166, 0.15);
+
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-very-slow: 0.8s;
+  --transition-smooth: all 0.3s ease;
+
+  --ease-default: ease;
+  --ease-out: ease-out;
+
+  /* ============ DIMENSÕES ============ */
+  /* Larguras */
+  --width-logo: 10rem;
+  --width-container-md: 75%;
+  --width-container-lg: 100%;
+  --width-button: 15rem;
+
+  /* Alturas */
+  --height-header: 5rem;
+  --height-button: 2.5rem;
+
+  /* ============ GRADIENTES ============ */
+  --gradient-divider-light: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-white),
+    transparent
+  );
+  --gradient-divider-dark: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+
+  /* ============ OPACIDADES ============ */
+  --opacity-muted: 0.8;
+}

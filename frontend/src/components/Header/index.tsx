@@ -40,11 +40,11 @@ const Header = () => {
   };
   return (
     <>
+      {" "}
       <div
-        className={`mobile-overlay ${menuOpen ? "open" : ""}`}
+        className={`mobileOverlay ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(false)}
       ></div>
-
       <header className="header">
         <div id="headerContainer">
           <div className="logo">
@@ -53,8 +53,10 @@ const Header = () => {
             </Link>
           </div>
           <div className="navbarCenter">
+            {" "}
             <nav className={`nav ${menuOpen ? "open" : ""}`}>
-              <ul className="nav-links">
+              <ul className="navLinks">
+                {" "}
                 <li>
                   <a
                     href="#videoContainerComercial"
@@ -80,10 +82,10 @@ const Header = () => {
                   <Link to="/pagamento" onClick={() => setMenuOpen(false)}>
                     Pagamentos
                   </Link>
-                </li>
+                </li>{" "}
                 <li>
                   <Link
-                    to="/termos-condicoes"
+                    to="/termosCondicoes"
                     onClick={() => setMenuOpen(false)}
                   >
                     Termos e Condições

@@ -1,12 +1,12 @@
 #homeContainer {
   height: auto;
-  color: #000;
-  margin: 5rem 0;
+  color: var(--color-black);
+  margin: 5rem 0 0 0;
 }
 
 .homeTextContainer {
-  font-size: 1.5rem;
-  min-height: calc(100vh - 5rem);
+  font-size: var(--font-size-lg);
+  min-height: calc(100vh - var(--height-header));
   background-image: url("/banner.jpg");
   background-size: cover;
   background-position: 97.5%;
@@ -15,7 +15,7 @@
 }
 
 .videoContainer,
-#homeContainer .footer-divider {
+#homeContainer .footerDivider {
   will-change: transform, opacity;
 }
 
@@ -36,15 +36,15 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#homeContainer .footer-divider {
-  transition: opacity 0.3s ease-in-out;
-  background: linear-gradient(90deg, transparent, #0f3558, transparent);
+#homeContainer .footerDivider {
+  transition: opacity var(--transition-normal) var(--ease-default);
+  background: var(--gradient-divider-dark);
   height: 2px;
   border: none;
   margin: 0;
-  opacity: 0.8;
+  opacity: var(--opacity-muted);
   transform: scaleX(0);
-  animation: divider-appear 0.8s ease-out forwards;
+  animation: divider-appear var(--transition-very-slow) var(--ease-out) forwards;
 }
 
 @keyframes divider-appear {
@@ -58,11 +58,11 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  height: 100%;
+  height: var(--width-container-lg);
   width: 50vw;
-  color: white;
+  color: var(--color-white);
   padding-left: 2rem;
-  transition: width 0.3s ease;
+  transition: width var(--transition-normal) var(--ease-default);
 }
 
 .homeText p {
@@ -86,25 +86,25 @@ html {
 }
 
 .videoContainer iframe {
-  height: 100%;
-  width: 75%;
+  height: var(--width-container-lg);
+  width: var(--width-container-md);
 }
 
 .videoContainer h1 {
-  color: #ffca00;
+  color: var(--color-secondary);
   margin-top: 0;
   transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 #homeContainer #priceContainer {
-  color: #0f3558;
+  color: var(--color-primary);
   padding: 5rem 0 5rem 0;
 }
 
 .homeButtonsContainer {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-md);
   margin-top: 1.5rem;
   flex-wrap: nowrap;
 }
@@ -159,11 +159,9 @@ html {
     position: relative;
     z-index: 2;
   }
-
   .homeText h1,
   .homeText h2,
-  .homeText p,
-  .homeButtonsContainer {
+  .homeText p {
     padding: 0 3rem 0 3rem;
   }
 
@@ -171,17 +169,41 @@ html {
     font-weight: 600;
     margin: 0;
   }
+
   .homeButtonsContainer {
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.75rem;
     width: 100%;
     flex-wrap: nowrap;
+    padding: 0 3rem 0 3rem;
+    margin-top: 1.5rem;
+  }
+
+  .homeButtonsContainer > * {
+    margin-top: 0 !important;
   }
 }
 
 @media (max-width: 900px) {
   .homeText {
     width: 65vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .homeButtonsContainer {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .homeButtonsContainer > a,
+  .homeButtonsContainer > .download-button-container > a {
+    width: var(--width-button) !important;
+  }
+
+  .videoContainer .download-button-container > button {
+    width: var(--width-button) !important;
   }
 }
 
