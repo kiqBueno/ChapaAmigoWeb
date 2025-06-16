@@ -4,6 +4,7 @@
 # Definir variáveis de ambiente
 export FLASK_APP=app.api
 export FLASK_ENV=production
+export PRODUCTION=true
 export PYTHONPATH=$HOME
 
 # Usar diretório absoluto para garantir consistência

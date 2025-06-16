@@ -1,6 +1,7 @@
 from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
 from .logging_config import setupLogging
+from .path_config import get_upload_path, get_carousel_path
 from flask import Flask, request, jsonify, send_file, Response
 from flask_cors import CORS
 import os
@@ -29,7 +30,7 @@ def upload_pdf():
             return jsonify({"error": "No file provided."}), 400
 
         uploaded_image_path = None
-        uploaded_pdf_path = os.path.join(os.getcwd(), 'uploaded_pdf.pdf')
+        uploaded_pdf_path = get_upload_path('uploaded_pdf.pdf')
         file.save(uploaded_pdf_path)        
         extracted_data = extractDataFromPdf(uploaded_pdf_path)
         logging.debug(f"Extracted data: {extracted_data}")
@@ -51,7 +52,7 @@ def upload_image():
         if not image:
             return jsonify({"error": "No image provided."}), 400
 
-        uploaded_image_path = os.path.join(os.getcwd(), 'uploaded_image.png')
+        uploaded_image_path = get_upload_path('uploaded_image.png')
         image.save(uploaded_image_path)
         return jsonify({"message": "Image uploaded successfully."})
     except Exception as e:
@@ -135,8 +136,7 @@ def crop_pdf():
 def get_carousel_images():
     """Get list of carousel images with their status"""
     try:
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        public_path = os.path.join(project_root, 'public')
+        public_path = get_carousel_path()
         
         images = []
         carousel_config_path = os.path.join(public_path, 'carousel_config.json')
@@ -161,6 +161,31 @@ def get_carousel_images():
         logging.error(f"Error getting carousel images: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/carousel-image/<filename>')
+def serve_carousel_image(filename):
+    """Serve carousel images from the configured public path"""
+    try:
+        public_path = get_carousel_path()
+          # Validar que o arquivo é uma imagem do carrossel
+        if not filename.startswith('carrousel') or not filename.endswith('.jpg'):
+            return jsonify({"error": "Invalid filename"}), 400
+        
+        image_path = os.path.join(public_path, filename)
+        
+        if os.path.exists(image_path):
+            return send_file(image_path, mimetype='image/jpeg')
+        else:
+            # Retornar imagem placeholder se não existir
+            placeholder_path = os.path.join(public_path, 'placeholder-image.svg')
+            if os.path.exists(placeholder_path):
+                return send_file(placeholder_path, mimetype='image/svg+xml')
+            else:
+                return jsonify({"error": "Image not found"}), 404
+                
+    except Exception as e:
+        logging.error(f"Error serving carousel image {filename}: {e}")
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/upload-carousel-image', methods=['POST'])
 def upload_carousel_image():
     """Upload a new carousel image"""
@@ -178,8 +203,7 @@ def upload_carousel_image():
         except ValueError:
             return jsonify({"error": "Invalid imageId"}), 400
         
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        public_path = os.path.join(project_root, 'public')
+        public_path = get_carousel_path()
         if not os.path.exists(public_path):
             os.makedirs(public_path)
         
@@ -248,8 +272,7 @@ def toggle_carousel_image():
         if image_id is None or is_active is None:
             return jsonify({"error": "imageId and isActive are required"}), 400
         
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        public_path = os.path.join(project_root, 'public')
+        public_path = get_carousel_path()
         carousel_config_path = os.path.join(public_path, 'carousel_config.json')
         
         if not os.path.exists(carousel_config_path):
@@ -282,8 +305,7 @@ def reorder_carousel_images():
         if source_id is None or target_id is None:
             return jsonify({"error": "sourceId and targetId are required"}), 400
         
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        public_path = os.path.join(project_root, 'public')
+        public_path = get_carousel_path()
         carousel_config_path = os.path.join(public_path, 'carousel_config.json')
         
         if not os.path.exists(carousel_config_path):
@@ -291,44 +313,37 @@ def reorder_carousel_images():
         
         with open(carousel_config_path, 'r', encoding='utf-8') as f:
             config = json.load(f)
-        
         source_img = None
         target_img = None
+        source_index = -1
+        target_index = -1
         
-        for img in config['images']:
+        for i, img in enumerate(config['images']):
             if img['id'] == source_id:
                 source_img = img.copy()
+                source_index = i
             elif img['id'] == target_id:
                 target_img = img.copy()
+                target_index = i
         
-        if not source_img or not target_img:            return jsonify({"error": "Source or target image not found"}), 404
+        if not source_img or not target_img or source_index == -1 or target_index == -1:
+            return jsonify({"error": "Source or target image not found"}), 404
         
-        for img in config['images']:
-            if img['id'] == source_id:
-                img['filename'] = target_img['filename']
-                img['alt'] = target_img['alt']
-                img['isActive'] = target_img['isActive']
-            elif img['id'] == target_id:
-                img['filename'] = source_img['filename']
-                img['alt'] = source_img['alt']
-                img['isActive'] = source_img['isActive']
+        # Troca apenas as posições dos objetos na lista, mantendo os IDs
+        config['images'][source_index], config['images'][target_index] = config['images'][target_index], config['images'][source_index]
         
-        source_file = os.path.join(public_path, f'carrousel{source_id}.jpg')
-        target_file = os.path.join(public_path, f'carrousel{target_id}.jpg')
-        temp_file = os.path.join(public_path, f'temp_carrousel.jpg')
-        
-        if os.path.exists(source_file) and os.path.exists(target_file):
-            shutil.move(source_file, temp_file)
-            shutil.move(target_file, source_file)
-            shutil.move(temp_file, target_file)
-        elif os.path.exists(source_file):
-            shutil.move(source_file, target_file)
-        elif os.path.exists(target_file):
-            shutil.move(target_file, source_file)
+        # Atualiza os IDs para manter a ordem correta
+        config['images'][source_index]['id'] = source_id
+        config['images'][target_index]['id'] = target_id
+          # Não precisamos mover arquivos físicos, pois os nomes dos arquivos 
+        # são definidos pelo filename no config, não pelo ID da posição
+        # Os arquivos físicos mantêm seus nomes originais
+        logging.info(f"Reordering images: source_id={source_id}, target_id={target_id}")
         
         with open(carousel_config_path, 'w', encoding='utf-8') as f:
             json.dump(config, f, indent=2, ensure_ascii=False)
         
+        logging.info("Images reordered successfully")
         return jsonify({"message": "Images reordered successfully"})
     
     except Exception as e:
@@ -345,8 +360,7 @@ def delete_carousel_image():
         if image_id is None:
             return jsonify({"error": "imageId is required"}), 400
         
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        public_path = os.path.join(project_root, 'public')
+        public_path = get_carousel_path()
         carousel_config_path = os.path.join(public_path, 'carousel_config.json')
         
         if not os.path.exists(carousel_config_path):

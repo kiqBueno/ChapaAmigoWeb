@@ -10,6 +10,8 @@ LOGS_DIR=$HOME/logs
 # Criar diretórios necessários
 echo "Criando diretórios necessários..."
 mkdir -p $LOGS_DIR
+mkdir -p "$BACKEND_DIR/uploads"
+mkdir -p "$BASE_DIR/public"
 
 # Instalar dependências Python
 echo "Instalando dependências Python..."

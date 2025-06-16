@@ -346,27 +346,13 @@ class PdfUtils:
                 self._drawText(60 + keyWidth + 10, self.y, "-", font="Helvetica")
                 self.y -= 20
         self.y = max(self.y, 40)
-        
     def _addConfidentialityContract(self):
-        possible_paths = [
-            os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
-            os.path.join(os.path.dirname(__file__), '..', 'static', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
-            '/u279915365/domains/chapaamigo.com.br/public/TERMO_FICHA_CADASTRO_PDF.pdf',
-            os.path.join(os.environ.get('HOME', ''), 'domains', 'chapaamigo.com.br', 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf')
-        ]
+        from .path_config import get_contract_path
         
-        contractPath = None
-        for path in possible_paths:
-            if os.path.exists(path):
-                contractPath = path
-                logging.info(f"Contrato encontrado em: {path}")
-                break
-                
+        contractPath = get_contract_path()
         if not contractPath:
-            logging.error("Contrato não encontrado em nenhum dos caminhos possíveis")
-            paths_checked = "\n".join(possible_paths)
-            logging.error(f"Caminhos verificados:\n{paths_checked}")
             return
+            
         try:
             contractDoc = fitz.open(contractPath)
             for pageNum in range(len(contractDoc)):
@@ -386,7 +372,7 @@ class PdfUtils:
             self.y = self.height - 40
             self._addWatermark()
         except Exception as e:
-            logging.error(f"Error adding confidentiality contract: {e}")    
+            logging.error(f"Error adding confidentiality contract: {e}")
     def _addSummaryTexts(self, key, summaryTexts):
         self._drawText(40, self.y, f"{key}: ", font="Helvetica")
         self.y -= 20

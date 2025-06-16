@@ -44,7 +44,7 @@ const Carousel = () => {
           .filter((img: CarouselImageData) => img.isActive && img.exists)
           .map((img: CarouselImageData, index: number) => ({
             position: index + 1,
-            image: `/${img.filename}?t=${timestamp}`,
+            image: `${BASE_URL}/carousel-image/${img.filename}?t=${timestamp}`,
             alt: img.alt || `Carrossel ${img.id}`,
           }));
 
@@ -52,23 +52,71 @@ const Carousel = () => {
       } else {
         console.warn("Failed to load carousel images from API, using defaults");
         setCarouselItems([
-          { position: 1, image: "/carrousel1.jpg", alt: "Carrossel 1" },
-          { position: 2, image: "/carrousel2.jpg", alt: "Carrossel 2" },
-          { position: 3, image: "/carrousel3.jpg", alt: "Carrossel 3" },
-          { position: 4, image: "/carrousel4.jpg", alt: "Carrossel 4" },
-          { position: 5, image: "/carrousel5.jpg", alt: "Carrossel 5" },
-          { position: 6, image: "/carrousel6.jpg", alt: "Carrossel 6" },
+          {
+            position: 1,
+            image: `${BASE_URL}/carousel-image/carrousel1.jpg`,
+            alt: "Carrossel 1",
+          },
+          {
+            position: 2,
+            image: `${BASE_URL}/carousel-image/carrousel2.jpg`,
+            alt: "Carrossel 2",
+          },
+          {
+            position: 3,
+            image: `${BASE_URL}/carousel-image/carrousel3.jpg`,
+            alt: "Carrossel 3",
+          },
+          {
+            position: 4,
+            image: `${BASE_URL}/carousel-image/carrousel4.jpg`,
+            alt: "Carrossel 4",
+          },
+          {
+            position: 5,
+            image: `${BASE_URL}/carousel-image/carrousel5.jpg`,
+            alt: "Carrossel 5",
+          },
+          {
+            position: 6,
+            image: `${BASE_URL}/carousel-image/carrousel6.jpg`,
+            alt: "Carrossel 6",
+          },
         ]);
       }
     } catch (error) {
       console.error("Error loading carousel images:", error);
       setCarouselItems([
-        { position: 1, image: "/carrousel1.jpg", alt: "Carrossel 1" },
-        { position: 2, image: "/carrousel2.jpg", alt: "Carrossel 2" },
-        { position: 3, image: "/carrousel3.jpg", alt: "Carrossel 3" },
-        { position: 4, image: "/carrousel4.jpg", alt: "Carrossel 4" },
-        { position: 5, image: "/carrousel5.jpg", alt: "Carrossel 5" },
-        { position: 6, image: "/carrousel6.jpg", alt: "Carrossel 6" },
+        {
+          position: 1,
+          image: `${BASE_URL}/carousel-image/carrousel1.jpg`,
+          alt: "Carrossel 1",
+        },
+        {
+          position: 2,
+          image: `${BASE_URL}/carousel-image/carrousel2.jpg`,
+          alt: "Carrossel 2",
+        },
+        {
+          position: 3,
+          image: `${BASE_URL}/carousel-image/carrousel3.jpg`,
+          alt: "Carrossel 3",
+        },
+        {
+          position: 4,
+          image: `${BASE_URL}/carousel-image/carrousel4.jpg`,
+          alt: "Carrossel 4",
+        },
+        {
+          position: 5,
+          image: `${BASE_URL}/carousel-image/carrousel5.jpg`,
+          alt: "Carrossel 5",
+        },
+        {
+          position: 6,
+          image: `${BASE_URL}/carousel-image/carrousel6.jpg`,
+          alt: "Carrossel 6",
+        },
       ]);
     } finally {
       setIsLoading(false);
@@ -98,10 +146,12 @@ const Carousel = () => {
           } as React.CSSProperties
         }
       >
+        {" "}
         <div className="list">
+          {/* Primeiro conjunto de imagens para o loop infinito */}
           {carouselItems.map((item) => (
             <div
-              key={`first-${item.position}`}
+              key={`carousel-first-${item.position}`}
               className="item"
               style={{ "--position": item.position } as React.CSSProperties}
             >
@@ -115,9 +165,10 @@ const Carousel = () => {
               </div>
             </div>
           ))}
+          {/* Segundo conjunto duplicado para efeito de loop contínuo */}
           {carouselItems.map((item) => (
             <div
-              key={`second-${item.position}`}
+              key={`carousel-second-${item.position}`}
               className="item"
               style={{ "--position": item.position } as React.CSSProperties}
             >

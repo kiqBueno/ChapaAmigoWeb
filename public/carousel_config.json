@@ -4,73 +4,85 @@
       "id": 1,
       "filename": "carrousel1.jpg",
       "alt": "Carrossel 1",
-      "isActive": true
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 2,
       "filename": "carrousel2.jpg",
       "alt": "Carrossel 2",
-      "isActive": true
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 3,
       "filename": "carrousel3.jpg",
       "alt": "Carrossel 3",
-      "isActive": true
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 4,
       "filename": "carrousel4.jpg",
       "alt": "Carrossel 4",
-      "isActive": true
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 5,
-      "filename": "carrousel5.jpg",
-      "alt": "Carrossel 5",
-      "isActive": true
+      "filename": "carrousel6.jpg",
+      "alt": "Carrossel 6",
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 6,
-      "filename": "carrousel6.jpg",
-      "alt": "Carrossel 6",
-      "isActive": true
+      "filename": "carrousel5.jpg",
+      "alt": "Carrossel 5",
+      "isActive": true,
+      "exists": true
     },
     {
       "id": 7,
       "filename": "",
       "alt": "Carrossel 7",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     },
     {
       "id": 8,
       "filename": "",
       "alt": "Carrossel 8",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     },
     {
       "id": 9,
       "filename": "",
       "alt": "Carrossel 9",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     },
     {
       "id": 10,
       "filename": "",
       "alt": "Carrossel 10",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     },
     {
       "id": 11,
       "filename": "",
       "alt": "Carrossel 11",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     },
     {
       "id": 12,
       "filename": "",
       "alt": "Carrossel 12",
-      "isActive": false
+      "isActive": false,
+      "exists": false
     }
   ]
 }

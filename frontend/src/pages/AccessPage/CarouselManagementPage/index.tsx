@@ -186,6 +186,8 @@ const CarouselManagementPage: React.FC = () => {
   };
   const swapImages = async (sourceId: number, targetId: number) => {
     try {
+      console.log(`Reordenando imagens: ${sourceId} ↔ ${targetId}`);
+
       const response = await fetch(`${BASE_URL}/reorder-carousel-images`, {
         method: "POST",
         headers: {
@@ -197,18 +199,22 @@ const CarouselManagementPage: React.FC = () => {
       if (response.ok) {
         setMessage("Ordem das imagens atualizada");
         await loadCarouselImages();
+
+        // Atualiza o carrossel principal imediatamente
         window.dispatchEvent(new CustomEvent("carouselUpdated"));
       } else {
-        setMessage("Erro ao reordenar imagens");
+        const errorData = await response.json();
+        setMessage(errorData.error || "Erro ao reordenar imagens");
+        // Recarrega para mostrar o estado correto em caso de erro
         await loadCarouselImages();
       }
     } catch (error) {
       console.error("Erro ao conectar com o servidor:", error);
       setMessage("Erro ao conectar com o servidor");
+      // Recarrega para mostrar o estado correto em caso de erro
       await loadCarouselImages();
     }
   };
-
   const deleteImage = async (imageId: number) => {
     if (!window.confirm(`Tem certeza que deseja apagar a imagem ${imageId}?`)) {
       return;
@@ -233,11 +239,12 @@ const CarouselManagementPage: React.FC = () => {
       setMessage("Erro ao conectar com o servidor");
     }
   };
+
   return (
     <div className="carouselManagementContainer">
       <div className="carouselManagementHeader">
         <h1>Carrossel</h1>
-      </div>
+      </div>{" "}
       <div className="carouselControlsSection">
         <div className="slotCountControl">
           <label htmlFor="slotCount">Quantidade de slots do carrossel:</label>
@@ -335,10 +342,13 @@ const CarouselManagementPage: React.FC = () => {
                 )}
               </div>
               <div className="imagePreview">
+                {" "}
                 {hasImage ? (
                   <img
                     key={`img-${imageId}-${imageData.filename}`}
-                    src={`/carrousel${imageId}.jpg?v=${Date.now()}`}
+                    src={`${BASE_URL}/carousel-image/${
+                      imageData.filename
+                    }?v=${Date.now()}`}
                     alt={`Carrossel ${imageId}`}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =

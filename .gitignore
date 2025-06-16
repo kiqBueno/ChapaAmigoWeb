@@ -35,6 +35,6 @@ env/
 
 # Uploaded files
 uploaded_pdf.pdf
-
+backend/uploads/
 ServerFiles/
 uploaded_image.png
