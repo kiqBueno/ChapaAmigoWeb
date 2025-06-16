@@ -148,7 +148,6 @@ const Carousel = () => {
       >
         {" "}
         <div className="list">
-          {/* Primeiro conjunto de imagens para o loop infinito */}
           {carouselItems.map((item) => (
             <div
               key={`carousel-first-${item.position}`}
@@ -165,7 +164,6 @@ const Carousel = () => {
               </div>
             </div>
           ))}
-          {/* Segundo conjunto duplicado para efeito de loop contínuo */}
           {carouselItems.map((item) => (
             <div
               key={`carousel-second-${item.position}`}

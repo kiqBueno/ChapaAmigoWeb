@@ -200,18 +200,15 @@ const CarouselManagementPage: React.FC = () => {
         setMessage("Ordem das imagens atualizada");
         await loadCarouselImages();
 
-        // Atualiza o carrossel principal imediatamente
         window.dispatchEvent(new CustomEvent("carouselUpdated"));
       } else {
         const errorData = await response.json();
         setMessage(errorData.error || "Erro ao reordenar imagens");
-        // Recarrega para mostrar o estado correto em caso de erro
         await loadCarouselImages();
       }
     } catch (error) {
       console.error("Erro ao conectar com o servidor:", error);
       setMessage("Erro ao conectar com o servidor");
-      // Recarrega para mostrar o estado correto em caso de erro
       await loadCarouselImages();
     }
   };

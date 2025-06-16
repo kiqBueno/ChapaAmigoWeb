@@ -10,5 +10,5 @@ export default defineConfig({
     copyPublicDir: true
   },
   publicDir: 'public',
-  base: './'
+  base: '/'
 })

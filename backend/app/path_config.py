@@ -18,12 +18,12 @@ def get_paths():
         paths = {
             'uploads_dir': os.path.join(base_domain_path, 'backend', 'uploads'),
             'static_dir': os.path.join(base_domain_path, 'backend', 'static'),
-            'public_dir': os.path.join(base_domain_path, 'public'),
+            'public_dir': os.path.join(base_domain_path, 'public_html'),
             'contract_paths': [
                 os.path.join(base_domain_path, 'backend', 'static', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
-                os.path.join(base_domain_path, 'public', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
+                os.path.join(base_domain_path, 'public_html', 'TERMO_FICHA_CADASTRO_PDF.pdf'),
                 '/u279915365/domains/chapaamigo.com.br/backend/static/TERMO_FICHA_CADASTRO_PDF.pdf',
-                '/u279915365/domains/chapaamigo.com.br/public/TERMO_FICHA_CADASTRO_PDF.pdf'
+                '/u279915365/domains/chapaamigo.com.br/public_html/TERMO_FICHA_CADASTRO_PDF.pdf'
             ]
         }
     else:

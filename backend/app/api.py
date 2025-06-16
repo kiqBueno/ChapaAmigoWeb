@@ -1,5 +1,6 @@
 from .processPdf import processPdf, cropPdf
 from .extractPdfData import extractDataFromPdf
+from .unlockPdf import unlockPdf
 from .logging_config import setupLogging
 from .path_config import get_upload_path, get_carousel_path
 from flask import Flask, request, jsonify, send_file, Response
@@ -7,7 +8,6 @@ from flask_cors import CORS
 import os
 import json
 import logging
-import shutil
 from PIL import Image
 from PyPDF2 import PdfWriter
 from io import BytesIO
@@ -113,7 +113,6 @@ def crop_pdf():
         logging.info(f"Cropping PDF: {uploaded_pdf_path}")
         
         try:
-            from app.unlockPdf import unlockPdf
             with open(uploaded_pdf_path, 'rb') as f:
                 unlocked_pdf = unlockPdf(f)
         except Exception as e:
@@ -150,7 +149,8 @@ def get_carousel_images():
                     {'id': i, 'filename': f'carrousel{i}.jpg', 'alt': f'Carrossel {i}', 'isActive': True}
                     for i in range(1, 7)                ]
             }
-            with open(carousel_config_path, 'w', encoding='utf-8') as f:                json.dump(config, f, indent=2, ensure_ascii=False)
+            with open(carousel_config_path, 'w', encoding='utf-8') as f:                
+                json.dump(config, f, indent=2, ensure_ascii=False)
         
         for img_config in config['images']:
             img_path = os.path.join(public_path, img_config['filename'])
@@ -208,17 +208,17 @@ def upload_carousel_image():
             os.makedirs(public_path)
         
         try:
-            img = Image.open(image)
+            image.stream.seek(0)  # Reset stream position
+            img = Image.open(image.stream)
             img.verify()
         except Exception:
             return jsonify({"error": "Invalid image file"}), 400
-        
-        image.seek(0)
+        image.stream.seek(0)  # Reset again for actual use
         
         filename = f'carrousel{image_id}.jpg'
         image_path = os.path.join(public_path, filename)
         
-        img = Image.open(image)
+        img = Image.open(image.stream)
         if img.mode in ('RGBA', 'LA', 'P'):
             img = img.convert('RGB')
         

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const Home = lazy(() => import("../pages/HomePage"));
 const TermsConditionsPage = lazy(() => import("../pages/TermsConditionsPage"));
@@ -28,6 +28,8 @@ const AppRoutes = () => {
           element={<CarouselManagementPage />}
         />
         <Route path="/pagamento" element={<ImportantInfoPage />} />
+        {/* Fallback para rotas não encontradas */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
   );
