@@ -32,20 +32,44 @@
     },
     {
       "id": 6,
-      "filename": "carrousel4.jpg",
-      "alt": "Carrossel 7",
+      "filename": "carrousel6.jpg",
+      "alt": "Carrossel 6",
       "isActive": true
     },
     {
       "id": 7,
       "filename": "",
-      "alt": "Carrossel 6",
+      "alt": "Carrossel 7",
       "isActive": false
     },
     {
       "id": 8,
       "filename": "",
       "alt": "Carrossel 8",
+      "isActive": false
+    },
+    {
+      "id": 9,
+      "filename": "",
+      "alt": "Carrossel 9",
+      "isActive": false
+    },
+    {
+      "id": 10,
+      "filename": "",
+      "alt": "Carrossel 10",
+      "isActive": false
+    },
+    {
+      "id": 11,
+      "filename": "",
+      "alt": "Carrossel 11",
+      "isActive": false
+    },
+    {
+      "id": 12,
+      "filename": "",
+      "alt": "Carrossel 12",
       "isActive": false
     }
   ]
