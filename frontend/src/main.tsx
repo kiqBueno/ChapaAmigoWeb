@@ -9,7 +9,7 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>
 );
 
-// Start of Tawk.to Script
+/*
 const Tawk_API: { [key: string]: unknown } = {};
 setTimeout(() => {
   (function () {
@@ -25,4 +25,4 @@ setTimeout(() => {
     }
   })();
 }, 3000); // Delay loading by 3 seconds
-// End of Tawk.to Script
+*/

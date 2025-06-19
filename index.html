@@ -20,6 +20,7 @@
   <link rel="icon" type="image/svg+xml" href="/LogoMini.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chapa Amigo</title>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 </head>
 
 <body>
@@ -31,6 +32,8 @@
   <!-- End Google Tag Manager (noscript) -->
   <div id="root"></div>
   <script type="module" src="frontend/src/main.tsx"></script>
+  <df-messenger intent="WELCOME" chat-title="ChapaAmigo" agent-id="917c8665-1d1a-45fe-9fcc-d8c5cbfd9f8a"
+    language-code="pt-br"></df-messenger>
 </body>
 
 </html>
