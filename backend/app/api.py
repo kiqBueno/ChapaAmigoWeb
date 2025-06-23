@@ -152,6 +152,9 @@ def get_carousel_images():
             with open(carousel_config_path, 'w', encoding='utf-8') as f:                
                 json.dump(config, f, indent=2, ensure_ascii=False)
         
+        # Validar e corrigir configuração
+        config = validate_carousel_config(config)
+        
         for img_config in config['images']:
             img_path = os.path.join(public_path, img_config['filename'])
             img_config['exists'] = os.path.exists(img_path)
@@ -218,19 +221,23 @@ def upload_carousel_image():
         filename = f'carrousel{image_id}.jpg'
         image_path = os.path.join(public_path, filename)
         
+        logging.info(f"Uploading image for ID {image_id}, filename: {filename}")
+        
         img = Image.open(image.stream)
         if img.mode in ('RGBA', 'LA', 'P'):
             img = img.convert('RGB')
         
         max_size = (1920, 1080)
         if img.size[0] > max_size[0] or img.size[1] > max_size[1]:
-            img.thumbnail(max_size, Image.Resampling.LANCZOS)
+            try:
+                img.thumbnail(max_size, Image.Resampling.LANCZOS)
+            except AttributeError:
+                img.thumbnail(max_size)
         
         img.save(image_path, 'JPEG', quality=85, optimize=True)
         
         carousel_config_path = os.path.join(public_path, 'carousel_config.json')
         config = {"images": []}
-        
         if os.path.exists(carousel_config_path):
             with open(carousel_config_path, 'r', encoding='utf-8') as f:
                 config = json.load(f)
@@ -252,6 +259,9 @@ def upload_carousel_image():
             })
         
         config['images'].sort(key=lambda x: x['id'])
+        
+        # Aplicar validação final da configuração
+        config = validate_carousel_config(config)
         
         with open(carousel_config_path, 'w', encoding='utf-8') as f:
             json.dump(config, f, indent=2, ensure_ascii=False)
@@ -328,13 +338,23 @@ def reorder_carousel_images():
         
         if not source_img or not target_img or source_index == -1 or target_index == -1:
             return jsonify({"error": "Source or target image not found"}), 404
+          # Troca apenas o conteúdo (filename, alt, isActive), mantendo os IDs nas posições
+        source_filename = source_img['filename']
+        source_alt = source_img['alt']
+        source_isActive = source_img['isActive']
         
-        # Troca apenas as posições dos objetos na lista, mantendo os IDs
-        config['images'][source_index], config['images'][target_index] = config['images'][target_index], config['images'][source_index]
+        target_filename = target_img['filename']
+        target_alt = target_img['alt']
+        target_isActive = target_img['isActive']
         
-        # Atualiza os IDs para manter a ordem correta
-        config['images'][source_index]['id'] = source_id
-        config['images'][target_index]['id'] = target_id
+        # Atualiza o conteúdo, mantendo os IDs nas posições originais
+        config['images'][source_index]['filename'] = target_filename
+        config['images'][source_index]['alt'] = target_alt
+        config['images'][source_index]['isActive'] = target_isActive
+        
+        config['images'][target_index]['filename'] = source_filename
+        config['images'][target_index]['alt'] = source_alt
+        config['images'][target_index]['isActive'] = source_isActive
           # Não precisamos mover arquivos físicos, pois os nomes dos arquivos 
         # são definidos pelo filename no config, não pelo ID da posição
         # Os arquivos físicos mantêm seus nomes originais
@@ -389,6 +409,22 @@ def delete_carousel_image():
     except Exception as e:
         logging.error(f"Error deleting carousel image: {e}")
         return jsonify({"error": str(e)}), 500
+
+def validate_carousel_config(config):
+    """Validate and fix carousel configuration to avoid duplicated filenames"""
+    seen_filenames = {}
+    
+    for img_info in config['images']:
+        filename = img_info.get('filename', '')
+        if filename and filename in seen_filenames:
+            # Duplicated filename found, clear it from this entry
+            logging.warning(f"Duplicate filename {filename} found in ID {img_info['id']}, clearing it")
+            img_info['filename'] = ""
+            img_info['isActive'] = False
+        elif filename:
+            seen_filenames[filename] = img_info['id']
+    
+    return config
 
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=8080)

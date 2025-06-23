@@ -30,15 +30,15 @@
     },
     {
       "id": 5,
-      "filename": "carrousel6.jpg",
-      "alt": "Carrossel 6",
+      "filename": "carrousel5.jpg",
+      "alt": "Carrossel 5",
       "isActive": true,
       "exists": true
     },
     {
       "id": 6,
-      "filename": "carrousel5.jpg",
-      "alt": "Carrossel 5",
+      "filename": "carrousel6.jpg",
+      "alt": "Carrossel 6",
       "isActive": true,
       "exists": true
     },

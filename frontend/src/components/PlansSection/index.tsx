@@ -59,8 +59,9 @@ const PlansSection: React.FC<PlansSectionProps> = ({
     },
     {
       title: "Cooperativa",
-      price: 70,
-      description: "Grandes volumes, grandes Profissionais.",
+      price: 0o0,
+      // description: "Grandes volumes, grandes Profissionais.",
+      description: "EM BREVE.",
       commonFeatures: [
         "60 dias grátis",
         "Solicitações em todo território nacional",
