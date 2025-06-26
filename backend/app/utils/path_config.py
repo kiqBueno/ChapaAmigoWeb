@@ -27,7 +27,7 @@ def get_paths():
             ]
         }
     else:
-        project_root = os.path.dirname(os.path.dirname(current_dir))
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
         
         paths = {
             'uploads_dir': project_root,

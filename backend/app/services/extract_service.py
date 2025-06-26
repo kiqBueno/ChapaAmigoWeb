@@ -2,7 +2,7 @@ import re
 import logging
 from PyPDF2 import PdfReader
 from io import BytesIO
-from .logging_config import setupLogging
+from ..utils.logging_config import setupLogging
 
 setupLogging()
 
@@ -190,8 +190,9 @@ def extractDataFromPdf(filePath, password='515608'):
             
             for i in range(len(lines)):
                 line = lines[i].strip()
-                if re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)", line):
-                    cpf = re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)", line).group(1)
+                match = re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)", line)
+                if match:
+                    cpf = match.group(1)
                     rest = line[len(cpf):].strip()
                     
                     parts = rest.split()

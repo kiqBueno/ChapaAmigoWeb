@@ -1,5 +1,5 @@
 import logging
-from .logging_config import setupLogging
+from ..utils.logging_config import setupLogging
 
 setupLogging()
 

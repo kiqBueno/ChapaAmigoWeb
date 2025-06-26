@@ -3,9 +3,9 @@ import tempfile
 import logging
 from typing import Optional
 from io import BytesIO
-from .pdfUtils import PdfUtils
-from .extractPdfData import extractDataFromPdf
-from .unlockPdf import unlockPdf       
+from ..utils.pdfUtils import PdfUtils
+from .extract_service import extractDataFromPdf
+from .unlock_service import unlockPdf       
 from PyPDF2 import PdfReader, PdfWriter
 
 

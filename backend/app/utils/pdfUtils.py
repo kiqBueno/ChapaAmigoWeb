@@ -8,7 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from .imageUtils import cropImage, addTransparency
 from .logging_config import setupLogging
-import fitz
+import fitz  # PyMuPDF # type: ignore
 from PyPDF2 import PdfReader, PdfWriter
 import re
 
@@ -47,7 +47,8 @@ class PdfUtils:
             , "PROCESSOS"
             , "documents"        
         ]
-        self._first_page = True    
+        self._first_page = True
+        self.summaryTexts = []  # Initialize summaryTexts attribute    
     
     def _processSelectedGroups(self, selectedGroups):
         if not selectedGroups:
@@ -114,15 +115,16 @@ class PdfUtils:
 
     def saveSpecificPagesAsImages(self, pdfPath, pdfPassword):
         doc = fitz.open(pdfPath)
-        if (doc.needs_pass):
+        if doc.needs_pass:
             doc.authenticate(pdfPassword)
         keywords = ["Comprovante de Situação Cadastral no CPF", "Sistema Nacional de Informações Criminais", "Portal do BNMP"]
         images = []
         for pageNum in range(len(doc)):
             page = doc.load_page(pageNum)
-            text = page.get_text()
+            text = self._get_page_text(page)
+            
             if any(keyword in text for keyword in keywords):
-                pix = page.get_pixmap(dpi=300)
+                pix = self._get_page_pixmap(page, dpi=300)
                 imgBytes = BytesIO(pix.tobytes())
                 images.append(imgBytes)
         return images
@@ -363,7 +365,7 @@ class PdfUtils:
                 else:
                     self._addWatermark()
                 page = contractDoc.load_page(pageNum)
-                pix = page.get_pixmap(dpi=300)
+                pix = self._get_page_pixmap(page, dpi=300)
                 imgBytes = BytesIO(pix.tobytes())
                 img = ImageReader(imgBytes)
                 self.canvas.drawImage(img, 0, 0, width=self.width, height=self.height)
@@ -445,8 +447,8 @@ class PdfUtils:
 
                     crop_top = page_height * cropTopRatio
                     crop_bottom = page_height * cropBottomRatio
-                    page.mediabox.upper_right = (page_width, page_height - crop_top)
-                    page.mediabox.lower_left = (0, crop_bottom)
+                    page.mediabox.upper_right = [page_width, page_height - crop_top]
+                    page.mediabox.lower_left = [0, crop_bottom]
 
                     writer.add_page(page)
 
@@ -456,3 +458,17 @@ class PdfUtils:
         except Exception as e:
             logging.error(f"Error cropping PDF: {e}")
             raise
+
+    def _get_page_text(self, page):  # type: ignore
+        """Get text from page, handling different PyMuPDF versions"""
+        try:
+            return page.get_text()
+        except AttributeError:
+            return page.getText()
+    
+    def _get_page_pixmap(self, page, dpi=300):  # type: ignore
+        """Get pixmap from page, handling different PyMuPDF versions"""
+        try:
+            return page.get_pixmap(dpi=dpi)
+        except AttributeError:
+            return page.getPixmap(dpi=dpi)
