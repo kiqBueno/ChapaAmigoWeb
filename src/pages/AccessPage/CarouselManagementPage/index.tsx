@@ -72,15 +72,30 @@ const CarouselManagementPage: React.FC = () => {
       setIsLoading(true);
       const timestamp = new Date().getTime();
       const response = await fetch(
-        `${BASE_URL}/carousel-images?t=${timestamp}`
+        `${BASE_URL}/carousel-images?t=${timestamp}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          cache: "no-cache",
+        }
       );
+
       if (response.ok) {
-        const data = await response.json();
-        setImages(data.images || []);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          setImages(data.images || []);
+        } else {
+          setMessage("Erro: Resposta não é JSON válido");
+        }
       } else {
-        setMessage("Erro ao carregar imagens do carrossel");
+        setMessage(`Erro ao carregar imagens do carrossel: ${response.status}`);
       }
-    } catch {
+    } catch (error) {
+      console.error("Error loading carousel images:", error);
       setMessage("Erro ao conectar com o servidor");
     } finally {
       setIsLoading(false);

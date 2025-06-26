@@ -18,6 +18,17 @@ setupLogging()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["https://chapaamigo.com.br", "http://localhost:5173"], "supports_credentials": True}})
 
+@app.after_request
+def after_request(response):
+    if response.mimetype == 'application/json':
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    
+    return response
+
 uploaded_pdf_path = None
 uploaded_image_path = None
 
@@ -159,10 +170,23 @@ def get_carousel_images():
             img_path = os.path.join(public_path, img_config['filename'])
             img_config['exists'] = os.path.exists(img_path)
         
-        return jsonify(config)
+        # Retornar com headers explícitos para garantir Content-Type correto
+        return Response(
+            json.dumps(config, ensure_ascii=False),
+            content_type='application/json; charset=utf-8',
+            headers={
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        )
     except Exception as e:
         logging.error(f"Error getting carousel images: {e}")
-        return jsonify({"error": str(e)}), 500
+        return Response(
+            json.dumps({"error": str(e)}, ensure_ascii=False),
+            status=500,
+            content_type='application/json; charset=utf-8'
+        )
 
 @app.route('/carousel-image/<filename>')
 def serve_carousel_image(filename):
@@ -176,12 +200,16 @@ def serve_carousel_image(filename):
         image_path = os.path.join(public_path, filename)
         
         if os.path.exists(image_path):
-            return send_file(image_path, mimetype='image/jpeg')
+            response = send_file(image_path, mimetype='image/jpeg')
+            response.headers['Cache-Control'] = 'public, max-age=300'  # Cache por 5 minutos
+            return response
         else:
             # Retornar imagem placeholder se não existir
             placeholder_path = os.path.join(public_path, 'placeholder-image.svg')
             if os.path.exists(placeholder_path):
-                return send_file(placeholder_path, mimetype='image/svg+xml')
+                response = send_file(placeholder_path, mimetype='image/svg+xml')
+                response.headers['Cache-Control'] = 'public, max-age=3600'  # Cache por 1 hora
+                return response
             else:
                 return jsonify({"error": "Image not found"}), 404
                 
