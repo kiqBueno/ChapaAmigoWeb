@@ -28,7 +28,6 @@ const AppRoutes = () => {
           element={<CarouselManagementPage />}
         />
         <Route path="/pagamento" element={<ImportantInfoPage />} />
-        {/* Fallback para rotas não encontradas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

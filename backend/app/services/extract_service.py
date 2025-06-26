@@ -54,13 +54,12 @@ def extractDataFromPdf(filePath, password='515608'):
             match = re.search(pattern, text)
             if match:
                 extracted_value = re.sub(r'\s+', ' ', match.group(1).replace('\n', ' ')).strip()
-                extracted_value = re.sub(r'(?<!\S) | (?!\S)', '', extracted_value)  # Remove espaços extras
+                extracted_value = re.sub(r'(?<!\S) | (?!\S)', '', extracted_value)
             else:
                 extracted_value = default
             logging.debug(f"Extracted value for key '{key}': {extracted_value}")
             data[key] = extracted_value
 
-    # Group: Basic Information
     fields = [
         (r"(\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2})", "Data e Hora", "--"),
         (r"Nome:\s*([A-Z\s]+)(?=\s*CPF|$)", "Nome", "--"),
@@ -76,12 +75,10 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"E-MAILS\s*Prioridade\s+E-mail(?:\s*\d+)?\s*([\w\.-]+@[\w\.-]+\.\w+)", "E-mails", "--", True),
     ]
 
-    # Group: Financial Information
     fields += [
         (r"Renda Mensal Presumida\s*R\$\s*([\d\.,]+)", "Renda Mensal Presumida", "--"),
     ]
 
-    # Group: Federal Revenue History
     fields += [
         (r"Situação Cadastral\s*([A-Z]+)", "Situação Cadastral", "--"),
         (r"Inscrito em\s*(\d{2}/\d{2}/\d{4}|--)", "Inscrito em", "--"),
@@ -89,25 +86,21 @@ def extractDataFromPdf(filePath, password='515608'):
         
     ]
 
-    # Group: CTPS Data
     fields += [
         (r"DADOS DA CTPS\s*CTPS\s*([\w\-]*)", "CTPS", "--"),
         (r"Série\s*([\w\-]*)", "Série", "--"),
     ]
 
-    # Group: Electoral Title
     fields += [
         (r"Título de Eleitor\s*([\w\-]*)", "Título de eleitor", "--"),
     ]
 
-    # Group: Passport Data
     fields += [
         (r"Passaporte\s*([\w\-]*)", "Passaporte", "--"),
         (r"País\s*(\w+|-)", "País", "--"),
         (r"Validade\s*(\d{2}/\d{2}/\d{4})", "Validade", "--"),
     ]
 
-    # Group: Social Data
     fields += [
         (r"NIS \(PIS/PASEP\)\s*([\w\-]*)", "Nis (pis/pasep)", "--"),
         (r"NIS - Outros\s*([\w\-]*)", "Nis - outros", "--"),
@@ -116,13 +109,11 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Inscrição Social\s*([\w\s\-]+)(?=\s*Relatório de Pessoa Física|$)", "Inscrição social", "--"),
     ]
 
-    # Group: Payments
     fields += [
         (r"Quantidade de Pagamentos\s*(\d+)", "Quantidade de Pagamentos", "--"),
         (r"Valor Total dos Pagamentos\s*R\$\s*([\d,.]+)", "Valor Total dos Pagamentos", "--"),
     ]
 
-    # Group: Emergency Aid
     fields += [
         (r"Valor total recebido como\s*beneficiario\s*R\$\s*([\d,.]+)", "Valor total recebido como beneficiário", "0"),
         (r"Valor total recebido como\s*responsável\s*R\$\s*([\d,.]+)", "Valor total recebido como responsável", "0"),
@@ -131,7 +122,6 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Última ocorrência\s*([a-z]{3}/\d{4})", "Última ocorrência", "--"),
     ]
 
-    # Group: Legal Processes
     fields += [
         (r"Total de Processos\s*(\d+)", "Total de Processos", "--"),
         (r"Como Requerente\s*(\d+)", "Como Requerente", "--"),
@@ -144,7 +134,7 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"(\d{20}|(?:\d{7}-\d{2}\.\d{4}\.\d{1,2}\.\d{2}\.\d{4}))", "Número do Processo", "--", True),
         (r"Tipo\s*([A-Z\s]+)(?=\s*Status)", "Tipo", "--", True),
         (r"Status\s+([\w\s\-]+?)(?=\s+Papel|\s+Valor da Causa|\s+Envolvidos)", "Status", "--", True),
-        (r"Assunto\s+([\s\S]+?)(?=\s+Tribunal\b|\s+Ano Abertura\b|\s+Status\b|\s+Papel\b|\s+Valor da Causa\b|\s+Envolvidos\b)", "Assunto", "--", True),  # Ajustado para capturar até antes de "Tribunal" ou outros delimitadores
+        (r"Assunto\s+([\s\S]+?)(?=\s+Tribunal\b|\s+Ano Abertura\b|\s+Status\b|\s+Papel\b|\s+Valor da Causa\b|\s+Envolvidos\b)", "Assunto", "--", True),
         (r"Tribunal\s+([^\n]+?(?=\s*(?:Data Abertura|Ano Abertura|$)))", "Tribunal", "--", True),
    
         (r"Papel\s*([A-Z\s]+)(?=\s*Valor)", "Papel", "--", True),
@@ -156,13 +146,11 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Últ\. Movimentação\s*(\d{2}/\d{2}/\d{2}|--)", "Última Movimentação", "--", True),
     ]
 
-    # Group: Parentes
     fields += [
         (r"Parentes - Disponíveis:\s*(\d+)", "Quantidade de Parentes", "--"),
         (r"(?:PARENTES|Parentes)[\s\S]*?(?:CPF[\s\S]*?Nome[\s\S]*?Tipo[\s\S]*?Idade[\s\S]*?Óbito[\s\S]*?PEP[\s\S]*?Renda[\s\S]*?)((?:[\d\.\-]+[\s\S]*?[A-Za-zÀ-ÖØ-öø-ÿ\s]+[\s\S]*?[A-Za-zÀ-ÖØ-öø-ÿ\(\)\s]+[\s\S]*?\d*[\s\S]*?[SN]?[\s\S]*?[SN][\s\S]*?(?:R\$\s*[\d\.]+|-)?[\s\S]*?)(?:SOCIEDADES|Sociedades|$))", "Parentes Dados", "", True),
     ]
 
-    # Group: Report Summary
     fields += [
         (r"ENDEREÇOS\s*Prioridade\s*Tipo Endereço\s*Endereço Completo\s*((?:\s*\d+\s*-\s*[^\n]+)+)", "Endereços", [], True),
         (r"O relatório apresenta informações sobre o indivíduo.*?Este resumo foi gerado automaticamente.*?\.", "Resumo do Relatório", [], True),
@@ -231,7 +219,6 @@ def extractDataFromPdf(filePath, password='515608'):
         data["Parentes PEP"] = peps
         data["Parentes Renda"] = rendas
 
-    # Post-processing for "Assunto"
     if "Assunto" in data and isinstance(data["Assunto"], list):
         processed_assuntos = []
         for assunto in data["Assunto"]:
@@ -246,7 +233,6 @@ def extractDataFromPdf(filePath, password='515608'):
                 processed_assuntos.append(assunto)
         data["Assunto"] = processed_assuntos
 
-    # Post-processing for "Ano de Abertura"
     if "Ano de Abertura" in data and isinstance(data["Ano de Abertura"], list):
         processed_years = []
         for value in data["Ano de Abertura"]:
@@ -257,7 +243,6 @@ def extractDataFromPdf(filePath, password='515608'):
                 processed_years.append(value)
         data["Ano de Abertura"] = processed_years
 
-    # "Número" (phone)
     data["Número"] = extractor.extract_multiple(r"\(\d{2}\) \d{4,5}-\d{4}", "Número", "--")
 
     logging.info("Data extracted successfully")

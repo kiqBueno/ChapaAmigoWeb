@@ -8,7 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from .imageUtils import cropImage, addTransparency
 from .logging_config import setupLogging
-import fitz  # PyMuPDF # type: ignore
+import fitz  # type: ignore
 from PyPDF2 import PdfReader, PdfWriter
 import re
 
@@ -48,7 +48,7 @@ class PdfUtils:
             , "documents"        
         ]
         self._first_page = True
-        self.summaryTexts = []  # Initialize summaryTexts attribute    
+        self.summaryTexts = []  
     
     def _processSelectedGroups(self, selectedGroups):
         if not selectedGroups:
@@ -219,12 +219,10 @@ class PdfUtils:
                         self._ensureSpace(20)
                         self._drawText(60, self.y, f"Familiar {i + 1}:", bold=True)
                         self.y -= 20
-                          # Safe extraction with type checking
                         def safe_get_value(data_list, index):
                             if index < len(data_list) and data_list[index]:
                                 value = data_list[index]
                                 if isinstance(value, list):
-                                    # If it's a list, join the elements or take the first one
                                     return str(value[0]).strip() if value else "-"
                                 return str(value).strip()
                             return "-"
@@ -460,14 +458,12 @@ class PdfUtils:
             raise
 
     def _get_page_text(self, page):  # type: ignore
-        """Get text from page, handling different PyMuPDF versions"""
         try:
             return page.get_text()
         except AttributeError:
             return page.getText()
     
     def _get_page_pixmap(self, page, dpi=300):  # type: ignore
-        """Get pixmap from page, handling different PyMuPDF versions"""
         try:
             return page.get_pixmap(dpi=dpi)
         except AttributeError:

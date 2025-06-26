@@ -137,30 +137,9 @@ const PdfUploadPage = () => {
         pdfFormData
       );
       const extractedName = nameResponse.data.name;
-      const familiares = nameResponse.data.familiares;
 
       console.log("Extracted Name:", extractedName);
-      console.log("Familiares encontrados:", familiares);
 
-      // Exibir informações dos familiares no console
-      if (familiares && familiares.Nomes && familiares.Nomes.length > 0) {
-        console.log("===== INFORMAÇÕES DOS FAMILIARES =====");
-        for (let i = 0; i < familiares.Nomes.length; i++) {
-          console.log(`Familiar ${i + 1}:`);
-          console.log(`  Nome: ${familiares.Nomes[i]}`);
-          console.log(`  CPF: ${familiares.CPFs[i]}`);
-          console.log(`  Tipo: ${familiares.Tipos[i]}`);
-          console.log(`  Idade: ${familiares.Idades[i]}`);
-          console.log(`  Óbito: ${familiares.Obitos[i]}`);
-          console.log(`  PEP: ${familiares.PEPs[i]}`);
-          console.log(`  Renda: ${familiares.Rendas[i]}`);
-          console.log("-----------------------------------");
-        }
-      } else {
-        console.log("Nenhum familiar encontrado no documento.");
-      }
-
-      // Verifica se há uma imagem para upload
       if (image) {
         const imageFormData = new FormData();
         imageFormData.append("image", image);

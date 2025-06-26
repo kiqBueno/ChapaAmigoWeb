@@ -1,6 +1,3 @@
-"""
-PDF Controller - handles PDF related business logic
-"""
 import os
 import json
 import logging
@@ -13,30 +10,24 @@ from ..models.pdf_models import PdfProcessingRequest, ExtractedData
 from ..models.file_upload import FileUpload
 from ..utils.path_config import get_upload_path
 
-class PdfController:
-    """Controller for PDF operations"""
-    
+class PdfController:    
     def __init__(self):
         self.uploaded_pdf_path = None
         self.uploaded_image_path = None
     
     def upload_pdf(self):
-        """Handle PDF upload"""
         try:
             file = request.files.get('file')
             if not file:
                 return jsonify({"error": "No file provided."}), 400
 
-            # Reset image path when new PDF is uploaded
             self.uploaded_image_path = None
             self.uploaded_pdf_path = get_upload_path('uploaded_pdf.pdf')
             file.save(self.uploaded_pdf_path)
             
-            # Extract data from PDF
             extracted_data = extractDataFromPdf(self.uploaded_pdf_path)
             logging.debug(f"Extracted data: {extracted_data}")
             
-            # Create response model
             result = ExtractedData(
                 name=extracted_data.get("Nome", "Unknown"),
                 data=extracted_data
@@ -53,12 +44,10 @@ class PdfController:
             return jsonify({"error": str(e)}), 500
     
     def process_pdf(self):
-        """Handle PDF processing"""
         try:
             if not self.uploaded_pdf_path:
                 return jsonify({"error": "No PDF uploaded."}), 400
             
-            # Parse request parameters
             password = request.form.get('password', '515608')
             use_watermark = request.form.get('useWatermark', 'true') == 'true'
             include_contract = request.form.get('includeContract', 'true') == 'true'
@@ -66,7 +55,6 @@ class PdfController:
             selected_groups = json.loads(request.form.get('selectedGroups', '{}'))
             summary_texts = json.loads(request.form.get('summaryTexts', '[]'))
             
-            # Create processing request model
             processing_request = PdfProcessingRequest(
                 password=password,
                 use_watermark=use_watermark,
@@ -79,9 +67,7 @@ class PdfController:
             current_photo_path = None
             if self.uploaded_image_path and os.path.exists(self.uploaded_image_path):
                 current_photo_path = self.uploaded_image_path
-            
-            # Process PDF
-            output_pdf = processPdf(
+                output_pdf = processPdf(
                 file=self.uploaded_pdf_path,
                 password=processing_request.password,
                 useWatermark=processing_request.use_watermark,
@@ -92,12 +78,10 @@ class PdfController:
                 summaryTexts=processing_request.summary_texts or []
             )
 
-            # Encrypt PDF
             from PyPDF2 import PdfReader
             encrypted_pdf = BytesIO()
             writer = PdfWriter()
             
-            # Read the output PDF properly
             output_pdf.seek(0)
             reader = PdfReader(output_pdf)
             for page in reader.pages:
@@ -120,7 +104,6 @@ class PdfController:
             return jsonify({"error": str(e)}), 500
     
     def crop_pdf(self):
-        """Handle PDF cropping"""
         try:
             if not self.uploaded_pdf_path:
                 return jsonify({"error": "No PDF uploaded."}), 400
@@ -130,7 +113,6 @@ class PdfController:
             crop_box = data.get('cropBox', {})
             password = data.get('password', '515608')
             
-            # Read the PDF file
             with open(self.uploaded_pdf_path, 'rb') as f:
                 pdf_content = BytesIO(f.read())
             
@@ -143,8 +125,6 @@ class PdfController:
             return jsonify({"error": str(e)}), 500
     
     def set_uploaded_image_path(self, path):
-        """Set the uploaded image path"""
         self.uploaded_image_path = path
 
-# Create global instance for backwards compatibility
 pdf_controller = PdfController()

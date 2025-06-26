@@ -1,1 +1,0 @@
-# ChapaAmigo Backend Application Package

@@ -1,18 +1,13 @@
-"""
-Carousel Controller - handles carousel related business logic
-"""
 import logging
 from flask import request, jsonify
 from ..services.carousel_service import CarouselService
 
 class CarouselController:
-    """Controller for carousel operations"""
     
     def __init__(self):
         self.carousel_service = CarouselService()
     
     def get_carousel_config(self):
-        """Get carousel configuration"""
         try:
             config = self.carousel_service.get_carousel_config()
             return jsonify(config)
@@ -21,7 +16,6 @@ class CarouselController:
             return jsonify({"error": str(e)}), 500
     
     def upload_carousel_image(self):
-        """Handle carousel image upload"""
         try:
             image = request.files.get('image')
             if not image:
@@ -47,7 +41,6 @@ class CarouselController:
             return jsonify({"error": str(e)}), 500
     
     def delete_carousel_image(self):
-        """Handle carousel image deletion"""
         try:
             data = request.get_json()
             image_id = data.get('imageId')
@@ -66,7 +59,6 @@ class CarouselController:
             return jsonify({"error": str(e)}), 500
     
     def get_carousel_images(self):
-        """Get list of carousel images"""
         try:
             images = self.carousel_service.get_carousel_images()
             return jsonify({"images": [img.to_dict() for img in images]})
@@ -75,7 +67,6 @@ class CarouselController:
             return jsonify({"error": str(e)}), 500
     
     def toggle_carousel_image(self):
-        """Toggle active status of a carousel image"""
         try:
             from flask import request
             data = request.get_json()
@@ -85,16 +76,13 @@ class CarouselController:
             if image_id is None or is_active is None:
                 return jsonify({"error": "imageId and isActive are required"}), 400
             
-            # Get current config
             config = self.carousel_service.get_carousel_config()
             
-            # Update the specific image
             for img_info in config['images']:
                 if img_info['id'] == image_id:
                     img_info['isActive'] = is_active
                     break
             
-            # Save updated config
             self.carousel_service._save_config(config)
             
             return jsonify({"message": "Image status updated successfully"})
@@ -104,7 +92,6 @@ class CarouselController:
             return jsonify({"error": str(e)}), 500
     
     def reorder_carousel_images(self):
-        """Reorder carousel images"""
         try:
             from flask import request
             data = request.get_json()
@@ -114,7 +101,6 @@ class CarouselController:
             if source_id is None or target_id is None:
                 return jsonify({"error": "sourceId and targetId are required"}), 400
             
-            # Get current config
             config = self.carousel_service.get_carousel_config()
             
             source_img = None
@@ -133,7 +119,6 @@ class CarouselController:
             if not source_img or not target_img or source_index == -1 or target_index == -1:
                 return jsonify({"error": "Source or target image not found"}), 404
             
-            # Troca apenas o conteúdo (filename, alt, isActive), mantendo os IDs nas posições
             source_filename = source_img['filename']
             source_alt = source_img.get('alt', '')
             source_isActive = source_img['isActive']
@@ -142,7 +127,6 @@ class CarouselController:
             target_alt = target_img.get('alt', '')
             target_isActive = target_img['isActive']
             
-            # Atualiza o conteúdo, mantendo os IDs nas posições originais
             config['images'][source_index]['filename'] = target_filename
             config['images'][source_index]['alt'] = target_alt
             config['images'][source_index]['isActive'] = target_isActive
@@ -153,7 +137,6 @@ class CarouselController:
             
             logging.info(f"Reordering images: source_id={source_id}, target_id={target_id}")
             
-            # Save updated config
             self.carousel_service._save_config(config)
             
             logging.info("Images reordered successfully")
@@ -163,5 +146,4 @@ class CarouselController:
             logging.error(f"Error reordering carousel images: {e}")
             return jsonify({"error": str(e)}), 500
 
-# Create global instance
 carousel_controller = CarouselController()

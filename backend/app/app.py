@@ -7,13 +7,11 @@ from .views.image_routes import image_bp
 from .views.carousel_routes import carousel_bp
 
 def create_app():
-    """Factory function to create Flask app"""
     setupLogging()
     
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    # Configure CORS
     CORS(app, resources={
         r"/*": {
             "origins": ["https://chapaamigo.com.br", "http://localhost:5173", "http://127.0.0.1:5173"], 
@@ -21,7 +19,6 @@ def create_app():
         }
     })
     
-    # Register blueprints
     app.register_blueprint(pdf_bp)
     app.register_blueprint(image_bp)
     app.register_blueprint(carousel_bp)
@@ -39,7 +36,6 @@ def create_app():
     
     return app
 
-# For backwards compatibility with the current api.py structure
 app = create_app()
 
 if __name__ == '__main__':

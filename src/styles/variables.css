@@ -56,18 +56,14 @@
   --ease-default: ease;
   --ease-out: ease-out;
 
-  /* ============ DIMENSÕES ============ */
-  /* Larguras */
   --width-logo: 10rem;
   --width-container-md: 75%;
   --width-container-lg: 100%;
   --width-button: 15rem;
 
-  /* Alturas */
   --height-header: 5rem;
   --height-button: 2.5rem;
 
-  /* ============ GRADIENTES ============ */
   --gradient-divider-light: linear-gradient(
     90deg,
     transparent,
@@ -81,6 +77,5 @@
     transparent
   );
 
-  /* ============ OPACIDADES ============ */
   --opacity-muted: 0.8;
 }
