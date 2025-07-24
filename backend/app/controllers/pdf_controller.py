@@ -3,7 +3,7 @@ import json
 import logging
 from flask import request, jsonify, Response
 from io import BytesIO
-from PyPDF2 import PdfWriter
+from PyPDF2 import PdfWriter, PdfReader
 from ..services.pdf_service import processPdf, cropPdf
 from ..services.extract_service import extractDataFromPdf
 from ..models.pdf_models import PdfProcessingRequest, ExtractedData
@@ -67,7 +67,9 @@ class PdfController:
             current_photo_path = None
             if self.uploaded_image_path and os.path.exists(self.uploaded_image_path):
                 current_photo_path = self.uploaded_image_path
-                output_pdf = processPdf(
+                
+            # Process PDF
+            output_pdf = processPdf(
                 file=self.uploaded_pdf_path,
                 password=processing_request.password,
                 useWatermark=processing_request.use_watermark,
@@ -78,7 +80,7 @@ class PdfController:
                 summaryTexts=processing_request.summary_texts or []
             )
 
-            from PyPDF2 import PdfReader
+            # Encrypt PDF
             encrypted_pdf = BytesIO()
             writer = PdfWriter()
             

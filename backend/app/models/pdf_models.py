@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 @dataclass
 class PdfProcessingRequest:
     password: str = '515608'
-    use_atermark: bool = True
+    use_watermark: bool = True
     include_contract: bool = True
     include_documents: bool = True
     selected_groups: Optional[Dict] = None
