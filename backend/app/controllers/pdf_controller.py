@@ -14,6 +14,7 @@ class PdfController:
     def __init__(self):
         self.uploaded_pdf_path = None
         self.uploaded_image_path = None
+        self.extracted_name = None
     
     def upload_pdf(self):
         try:
@@ -32,6 +33,9 @@ class PdfController:
                 name=extracted_data.get("Nome", "Unknown"),
                 data=extracted_data
             )
+            
+            # Store the extracted name for later use
+            self.extracted_name = result.name
             
             return Response(
                 json.dumps({
@@ -93,11 +97,15 @@ class PdfController:
             writer.write(encrypted_pdf)
             encrypted_pdf.seek(0)
 
+            # Generate dynamic filename based on extracted name
+            safe_name = self.extracted_name.replace(" ", "_") if self.extracted_name else "processed_document"
+            filename = f"Relatorio_{safe_name}.pdf"
+
             return Response(
                 encrypted_pdf.read(),
                 mimetype='application/pdf',
                 headers={
-                    'Content-Disposition': 'attachment; filename="processed_document.pdf"'
+                    'Content-Disposition': f'attachment; filename="{filename}"'
                 }
             )
             
@@ -110,17 +118,22 @@ class PdfController:
             if not self.uploaded_pdf_path:
                 return jsonify({"error": "No PDF uploaded."}), 400
             
-            data = request.get_json()
-            page_number = data.get('pageNumber', 1)
-            crop_box = data.get('cropBox', {})
-            password = data.get('password', '515608')
-            
             with open(self.uploaded_pdf_path, 'rb') as f:
                 pdf_content = BytesIO(f.read())
             
             result = cropPdf(pdf_content)
             
-            return jsonify(result)
+            # Generate dynamic filename for crop based on extracted name
+            safe_name = self.extracted_name.replace(" ", "_") if self.extracted_name else "cropped_document"
+            filename = f"{safe_name}_cropped.pdf"
+            
+            return Response(
+                result.read(),
+                mimetype='application/pdf',
+                headers={
+                    'Content-Disposition': f'attachment; filename="{filename}"'
+                }
+            )
             
         except Exception as e:
             logging.error(f"Error cropping PDF: {e}")
