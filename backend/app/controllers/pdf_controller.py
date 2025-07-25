@@ -82,23 +82,13 @@ class PdfController:
                 summaryTexts=processing_request.summary_texts or []
             )
 
-            encrypted_pdf = BytesIO()
-            writer = PdfWriter()
-            
             output_pdf.seek(0)
-            reader = PdfReader(output_pdf)
-            for page in reader.pages:
-                writer.add_page(page)
-                
-            writer.encrypt(processing_request.password)
-            writer.write(encrypted_pdf)
-            encrypted_pdf.seek(0)
 
             safe_name = self.extracted_name.replace(" ", "_") if self.extracted_name else "processed_document"
             filename = f"Relatorio_{safe_name}.pdf"
 
             return Response(
-                encrypted_pdf.read(),
+                output_pdf.read(),
                 mimetype='application/pdf',
                 headers={
                     'Content-Disposition': f'attachment; filename="{filename}"'

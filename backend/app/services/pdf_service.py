@@ -76,8 +76,6 @@ def cropPdf(file: BytesIO) -> BytesIO:
         for page in pages:
             writer.add_page(page)
 
-        writer.encrypt("1234")
-
         outputPdf = BytesIO()
         writer.write(outputPdf)
         outputPdf.seek(0)
