@@ -34,7 +34,6 @@ class PdfController:
                 data=extracted_data
             )
             
-            # Store the extracted name for later use
             self.extracted_name = result.name
             
             return Response(
@@ -72,7 +71,6 @@ class PdfController:
             if self.uploaded_image_path and os.path.exists(self.uploaded_image_path):
                 current_photo_path = self.uploaded_image_path
                 
-            # Process PDF
             output_pdf = processPdf(
                 file=self.uploaded_pdf_path,
                 password=processing_request.password,
@@ -84,7 +82,6 @@ class PdfController:
                 summaryTexts=processing_request.summary_texts or []
             )
 
-            # Encrypt PDF
             encrypted_pdf = BytesIO()
             writer = PdfWriter()
             
@@ -97,7 +94,6 @@ class PdfController:
             writer.write(encrypted_pdf)
             encrypted_pdf.seek(0)
 
-            # Generate dynamic filename based on extracted name
             safe_name = self.extracted_name.replace(" ", "_") if self.extracted_name else "processed_document"
             filename = f"Relatorio_{safe_name}.pdf"
 

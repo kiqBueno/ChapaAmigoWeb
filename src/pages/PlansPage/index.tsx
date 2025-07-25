@@ -52,7 +52,7 @@ const PlansPage = () => {
             <li>Sem taxas escondidas! Apenas uma mensalidade acessível.</li>
           </ul>
         </Section>
-        <Section title="Cooperativa" sectionKey="cooperativa">
+        <Section title="Empresa" sectionKey="empresa">
           <h4>
             Grandes volumes requerem grandes profissionais. Benefícios incluem:
           </h4>
@@ -87,7 +87,7 @@ const PlansPage = () => {
           </h4>
           <h2>
             <em>
-              *Para se tornar uma cooperativa parceira Chapa Amigo, é necessário
+              *Para se tornar uma empresa parceira Chapa Amigo, é necessário
               possuir CNPJ ativo.
             </em>
           </h2>

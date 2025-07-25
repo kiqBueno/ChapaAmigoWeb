@@ -58,7 +58,7 @@ const PlansSection: React.FC<PlansSectionProps> = ({
       features: ["1 solicitação por dia"],
     },
     {
-      title: "Cooperativa",
+      title: "Empresa",
       price: 0o0,
       // description: "Grandes volumes, grandes Profissionais.",
       description: "EM BREVE.",
