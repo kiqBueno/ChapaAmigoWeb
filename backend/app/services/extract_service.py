@@ -136,6 +136,7 @@ def extractDataFromPdf(filePath, password='515608'):
         (r"Status\s+([\w\s\-]+?)(?=\s+Papel|\s+Valor da Causa|\s+Envolvidos)", "Status", "--", True),
         (r"Assunto\s+([\s\S]+?)(?=\s+Tribunal\b|\s+Ano Abertura\b|\s+Status\b|\s+Papel\b|\s+Valor da Causa\b|\s+Envolvidos\b)", "Assunto", "--", True),
         (r"Tribunal\s+([^\n]+?(?=\s*(?:Data Abertura|Ano Abertura|$)))", "Tribunal", "--", True),
+        (r"Tribunal\s+([A-Z0-9\s\-\/]+?)(?=\s*(?:Data Abertura|Ano Abertura|Relatório de Pessoa|\n|$))", "Tribunal", "--", True),
    
         (r"Papel\s*([A-Z\s]+)(?=\s*Valor)", "Papel", "--", True),
         (r"Valor da Causa\s*(?:R\$)?\s*([\d,.]+|--|-)", "Valor da Causa", "--", True),
@@ -166,100 +167,120 @@ def extractDataFromPdf(filePath, password='515608'):
     data["Parentes PEP"] = []
     data["Parentes Renda"] = []
     
+    logging.info(f"Parentes Dados exists: {'Parentes Dados' in data}")
+    if "Parentes Dados" in data:
+        logging.info(f"Parentes Dados type: {type(data['Parentes Dados'])}")
+        logging.info(f"Parentes Dados content: {data['Parentes Dados']}")
+    
     if "Parentes Dados" in data and isinstance(data["Parentes Dados"], list) and data["Parentes Dados"][0] != "ERROR":
         raw_data = data["Parentes Dados"][0]
+        logging.info(f"Processing Parentes raw data: {raw_data[:200]}...")
         
-        parentes_pattern = r"((?:\d{3}\.){2}\d{3}-\d{2}|-)\s+([^\n]+?)\s+((?:MÃE|PAI|IRMÃO\s*\(Ã\)|AVÓ|TIO\s*\(A\)|PRIMO\s*\(A\)|SOBRINHO\s*\(A\))[^\n]*?)\s+(\d+|-)\s+([SN-])\s+([SN])\s+(R\$\s*[\d\.]+|-)"
-        parentes_records = re.findall(parentes_pattern, raw_data)
+        raw_data = raw_data.replace(' SOCIEDADES', '').strip()
         
-        if not parentes_records:
-            parentes_pattern_alt = r"(-)\s+([A-ZÀ-Ü\s]+?)\s+(MÃE|PAI|IRMÃO\s*\(Ã\)|AVÓ|TIO\s*\(A\)|PRIMO\s*\(A\)|SOBRINHO\s*\(A\)|[A-ZÀÂÁÔÖÕÍ]+)\s+(-)\s+(-)\s+([SN])\s+(-)"
-            parentes_records = re.findall(parentes_pattern_alt, raw_data)
+        parentes_records = []
         
-        if not parentes_records:
-            complex_pattern = r"([A-ZÀ-Ü\s]+?)\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+)\s+([SN])\s+([SN])\s+(R\$\s*[\d\.]+|-)"
-            complex_matches = re.findall(complex_pattern, raw_data)
+        parente_pattern = r'(\d{3}\.\d{3}\.\d{3}-\d{2})\s+([A-Z\s]+?)\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|AVÔ|BISAVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+|\-)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)'
+        
+        matches = re.findall(parente_pattern, raw_data)
+        logging.info(f"Found {len(matches)} parente matches with CPF using improved pattern")
+        
+        for match in matches:
+            cpf, nome, tipo, idade, obito, pep, renda = match
+            nome_limpo = nome.strip()
+            nome_limpo = re.sub(r'\s{2,}', ' ', nome_limpo)
+            logging.info(f"Successfully parsed: {cpf} - {nome_limpo} - {tipo}")
+            parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), idade.strip(), obito.strip(), pep.strip(), renda.strip()))
+        
+        alt_pattern = r'(\-)\s+([A-Z\s]+?)\s+(AVÔ|AVÓ|BISAVÓ|BISAVÔ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\)|MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\))\s+(\d+|\-)\s+(\-)\s+([SN\-])\s+(\-)'
+        
+        alt_matches = re.findall(alt_pattern, raw_data)
+        logging.info(f"Found {len(alt_matches)} parente matches without CPF using alternative pattern")
+        
+        for match in alt_matches:
+            cpf, nome, tipo, idade, obito, pep, renda = match
+            nome_limpo = nome.strip()
+            nome_limpo = re.sub(r'\s{2,}', ' ', nome_limpo)
+            logging.info(f"Successfully parsed (no CPF): {cpf} - {nome_limpo} - {tipo}")
+            parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), idade.strip(), obito.strip(), pep.strip(), renda.strip()))
+        
+        flexible_cpf_pattern = r'(\d{3}[\.\-]?\d{3}[\.\-]?\d{3}[\.\-]?\d{2})\s+([A-Z\s]+?)\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|AVÔ|BISAVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+|\-)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)'
+        
+        flexible_matches = re.findall(flexible_cpf_pattern, raw_data)
+        logging.info(f"Found {len(flexible_matches)} parente matches with flexible CPF pattern")
+        
+        for match in flexible_matches:
+            cpf, nome, tipo, idade, obito, pep, renda = match
+            nome_limpo = nome.strip()
+            nome_limpo = re.sub(r'\s{2,}', ' ', nome_limpo)
             
-            for match in complex_matches:
-                nome, tipo, idade, obito, pep, renda = match
-                tipo = re.sub(r'\s+', '', tipo.replace(' (', '(').replace('( ', '(').replace(' )', ')'))
-                parentes_records.append(("-", nome.strip(), tipo, idade, obito, pep, renda))
+            if not any(rec[0] == cpf.strip() and rec[1] == nome_limpo for rec in parentes_records):
+                logging.info(f"Successfully parsed (flexible CPF): {cpf} - {nome_limpo} - {tipo}")
+                parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), idade.strip(), obito.strip(), pep.strip(), renda.strip()))
         
-        if not parentes_records:
-            lines = raw_data.strip().split('\n')
-            parentes_records = []
+        multiline_name_pattern = r'(\d{3}\.\d{3}\.\d{3}-\d{2})\s+([A-Z\s]+?)(?:\n|\s+)([A-Z\s]+?)\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|AVÔ|BISAVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+|\-)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)'
+        
+        multiline_matches = re.findall(multiline_name_pattern, raw_data)
+        logging.info(f"Found {len(multiline_matches)} parente matches with multiline names")
+        
+        for match in multiline_matches:
+            cpf, nome_parte1, nome_parte2, tipo, idade, obito, pep, renda = match
+            nome_completo = f"{nome_parte1.strip()} {nome_parte2.strip()}"
+            nome_limpo = re.sub(r'\s{2,}', ' ', nome_completo).strip()
             
-            line_buffer = ""
+            if not any(rec[0] == cpf.strip() and rec[1] == nome_limpo for rec in parentes_records):
+                logging.info(f"Successfully parsed (multiline name): {cpf} - {nome_limpo} - {tipo}")
+                parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), idade.strip(), obito.strip(), pep.strip(), renda.strip()))
+        
+        no_cpf_pattern = r'(\-)\s+([A-Z\s]+?)\s+(AVÔ|AVÓ|BISAVÓ|BISAVÔ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\)|MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\))\s+(\d+|\-)\s+(\-)\s+([SN\-])\s+(\-)'
+        
+        no_cpf_matches = re.findall(no_cpf_pattern, raw_data)
+        logging.info(f"Found {len(no_cpf_matches)} parente matches without CPF (enhanced pattern)")
+        
+        for match in no_cpf_matches:
+            cpf, nome, tipo, idade, obito, pep, renda = match
+            nome_limpo = nome.strip()
+            nome_limpo = re.sub(r'\s{2,}', ' ', nome_limpo)
             
-            for line in lines:
-                line = line.strip()
-                if not line or line.startswith('CPF') or line == 'SOCIEDADES':
-                    continue
-                
-                if line_buffer:
-                    line_buffer += " " + line
+            if not any(rec[1] == nome_limpo and rec[2] == tipo.strip() for rec in parentes_records):
+                logging.info(f"Successfully parsed (no CPF enhanced): {cpf} - {nome_limpo} - {tipo}")
+                parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), idade.strip(), obito.strip(), pep.strip(), renda.strip()))
+        
+        special_cases = [
+            r'(\d{3}\.\d{3}\.\d{3}-\d{2})\s+([A-Z\s]+?)\s+(TIO\s*\(\s*A\s*\))\s+(\d+\s+\d+)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)',
+            r'(\d{3}\.\d{3}\.\d{3}-\d{2})\s+([A-Z\s]+?)\s+(PRIM\s+O\s*\(\s*A\s*\))\s+(\d+|\-)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)',
+            r'(\d{3}\.\d{3}\.\d{3}-\d{2})\s+([A-Z\s]+?)(?:\s*\n\s*|\s{2,})([A-Z\s]*?)\s+(TIO\s*\(\s*A\s*\)|MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|AVÔ|BISAVÓ|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+|\-)\s+([SN\-])\s+([SN\-])\s+(R\$\s*[\d\.]+|\-)'
+        ]
+        for pattern in special_cases:
+            special_matches = re.findall(pattern, raw_data)
+            logging.info(f"Found {len(special_matches)} special case matches")
+            
+            for match in special_matches:
+                if len(match) == 7:
+                    cpf, nome, tipo, idade, obito, pep, renda = match
+                elif len(match) == 8:
+                    cpf, nome_parte1, nome_parte2, tipo, idade, obito, pep, renda = match
+                    nome = f"{nome_parte1.strip()} {nome_parte2.strip()}"
                 else:
-                    line_buffer = line
-                
-                complete_pattern = r"^((?:\d{3}\.){2}\d{3}-\d{2}|-)\s+(.+?)\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+(\d+|-)\s+([SN-])\s+([SN-])\s+(R\$\s*[\d\.]+|-)$"
-                
-                match = re.match(complete_pattern, line_buffer)
-                if match:
-                    cpf, nome, tipo, idade, obito, pep, renda = match.groups()
-                    tipo = re.sub(r'\s+', '', tipo.replace(' (', '(').replace('( ', '(').replace(' )', ')'))
-                    parentes_records.append((cpf.strip(), nome.strip(), tipo, idade, obito, pep, renda))
-                    line_buffer = ""
                     continue
+                    
+                nome_limpo = nome.strip()
+                nome_limpo = re.sub(r'\s{2,}', ' ', nome_limpo)
                 
-                if len(line_buffer.split()) > 20:
-                    first_line = line_buffer.split()[0:10]
-                    first_line_text = " ".join(first_line)
-                    
-                    old_match = re.match(r"((?:\d{3}\.){2}\d{3}-\d{2}|-)\s+(.+)", first_line_text)
-                    if old_match:
-                        cpf = old_match.group(1)
-                        rest = old_match.group(2).strip()
-                        
-                        renda_match = re.search(r'\s+(R\$\s*[\d\.]+|-)$', rest)
-                        if renda_match:
-                            renda = renda_match.group(1)
-                            rest = rest[:renda_match.start()].strip()
-                        else:
-                            renda = "-"
-                        
-                        pep_match = re.search(r'\s+([SN])$', rest)
-                        if pep_match:
-                            pep = pep_match.group(1)
-                            rest = rest[:pep_match.start()].strip()
-                        else:
-                            pep = "-"
-                        
-                        obito_match = re.search(r'\s+([SN-])$', rest)
-                        if obito_match:
-                            obito = obito_match.group(1)
-                            rest = rest[:obito_match.start()].strip()
-                        else:
-                            obito = "-"
-                        
-                        idade_match = re.search(r'\s+(\d+|-)$', rest)
-                        if idade_match:
-                            idade = idade_match.group(1)
-                            rest = rest[:idade_match.start()].strip()
-                        else:
-                            idade = "-"
-                        
-                        tipo_match = re.search(r'\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))$', rest)
-                        if tipo_match:
-                            tipo = tipo_match.group(1)
-                            tipo = re.sub(r'\s+', '', tipo.replace(' (', '(').replace('( ', '(').replace(' )', ')'))
-                            nome = rest[:tipo_match.start()].strip()
-                        else:
-                            nome = rest
-                            tipo = "-"
-                        
-                        parentes_records.append((cpf, nome, tipo, idade, obito, pep, renda))
-                    
-                    line_buffer = ""
+                if "PRIM O" in tipo:
+                    tipo = "PRIMO(A)"
+                
+                if " " in str(idade) and idade != "-":
+                    idade = str(idade).split()[0]
+                
+                if not any(rec[0] == cpf.strip() and rec[1] == nome_limpo for rec in parentes_records):
+                    logging.info(f"Successfully parsed (special): {cpf} - {nome_limpo} - {tipo}")
+                    parentes_records.append((cpf.strip(), nome_limpo, tipo.strip(), str(idade).strip(), obito.strip(), pep.strip(), renda.strip()))
+        
+        logging.info(f"Total parentes records found: {len(parentes_records)}")
+        
+        for i, record in enumerate(parentes_records):
+            logging.info(f"Registro {i+1}: {record}")
         
         cpfs = []
         nomes = []
@@ -270,30 +291,18 @@ def extractDataFromPdf(filePath, password='515608'):
         rendas = []
         
         for record in parentes_records:
-            cpf = record[0].strip()
-            nome = record[1].strip()
-            tipo = record[2].strip()
-            idade = record[3].strip()
-            obito = record[4].strip()
-            pep = record[5].strip()
-            renda = record[6].strip()
+            cpf, nome, tipo, idade, obito, pep, renda = record
             
             nome_limpo = nome
-        
+            
             cpf_pattern = r'\d{3}\.\d{3}\.\d{3}-\d{2}'
-            cpf_match = re.search(cpf_pattern, nome)
-            if cpf_match:
-                nome_limpo = nome[:cpf_match.start()].strip()
+            nome_limpo = re.sub(cpf_pattern, '', nome_limpo).strip()
             
-            padrao_extra = r'\s+(IRMÃO\s*\(\s*Ã\s*\)|MÃE|PAI|AVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+\d+\s+[SN]\s+[SN]\s+R\$\s*[\d\.]+.*$'
-            nome_limpo = re.sub(padrao_extra, '', nome_limpo).strip()
-            
-            nome_limpo = re.sub(r'\s+\d+\s*$', '', nome_limpo).strip()
-            nome_limpo = re.sub(r'\s+R\$\s*[\d\.]+.*$', '', nome_limpo).strip()
-            nome_limpo = re.sub(r'\s+[SN]\s*$', '', nome_limpo).strip()
+            nome_limpo = re.sub(r'\s+(MÃE|PAI|IRMÃO\s*\(\s*Ã\s*\)|AVÓ|AVÔ|BISAVÓ|TIO\s*\(\s*A\s*\)|PRIMO\s*\(\s*A\s*\)|SOBRINHO\s*\(\s*A\s*\))\s+.*$', '', nome_limpo).strip()
+            nome_limpo = re.sub(r'\s+\d+\s+[SN-]\s+[SN-]\s+.*$', '', nome_limpo).strip()
             
             if len(nome_limpo) < 3:
-                nome_limpo = nome 
+                nome_limpo = nome
                 
             cpfs.append(cpf)
             nomes.append(nome_limpo)
@@ -310,6 +319,9 @@ def extractDataFromPdf(filePath, password='515608'):
         data["Parentes Óbito"] = obitos
         data["Parentes PEP"] = peps
         data["Parentes Renda"] = rendas
+        
+        logging.info(f"Final parentes data - CPFs: {len(cpfs)}, Nomes: {len(nomes)}, Total: {len(nomes)}")
+        logging.info(f"Sample parentes data - Names: {nomes[:3] if nomes else 'None'}")
 
     if "Assunto" in data and isinstance(data["Assunto"], list):
         processed_assuntos = []

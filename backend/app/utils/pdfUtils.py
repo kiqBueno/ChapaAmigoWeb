@@ -28,6 +28,7 @@ class PdfUtils:
         self.width, self.height = letter
         self.y = self.height - 40
         self._registerFonts()
+        self._setDocumentMetadata()
         self.default_order = [
             "contract"
             , "photo"
@@ -48,7 +49,13 @@ class PdfUtils:
             , "documents"        
         ]
         self._first_page = True
-        self.summaryTexts = []  
+        self.summaryTexts = []
+        
+        self.MARGIN_LEFT = 40
+        self.MARGIN_TITLE = 40
+        self.MARGIN_FIELD = 60
+        self.MARGIN_SUBFIELD = 80
+        self.MARGIN_RIGHT = 40  
     
     def _processSelectedGroups(self, selectedGroups):
         if not selectedGroups:
@@ -113,6 +120,26 @@ class PdfUtils:
     def _registerFonts(self):
         pass
 
+    def _setDocumentMetadata(self):
+        try:
+            person_name = self.data.get("Nome", "").strip()
+
+            if not person_name or person_name == "--":
+                title = "Relatório de Pessoa Física"
+            else:
+                title = f"Relatório - {person_name}"
+            
+            self.canvas.setTitle(title)
+            self.canvas.setSubject("Relatório de dados pessoais")
+            self.canvas.setAuthor("ChapaAmigo")
+            self.canvas.setCreator("ChapaAmigo Platform")
+            
+            logging.info(f"PDF metadata set with title: {title}")
+            
+        except Exception as e:
+            logging.error(f"Error setting PDF metadata: {e}")
+            self.canvas.setTitle("Relatório de Pessoa Física")
+
     def saveSpecificPagesAsImages(self, pdfPath, pdfPassword):
         doc = fitz.open(pdfPath)
         if doc.needs_pass:
@@ -132,7 +159,7 @@ class PdfUtils:
     def _drawText(self, x, y, text, font="Helvetica", size=12, bold=False, maxWidth=None):
         fontName = f"{font}-Bold" if bold and not font.endswith("-Bold") else font 
         self.canvas.setFont(fontName, size)
-        maxWidth = maxWidth or (self.width - x - 40)
+        maxWidth = maxWidth or (self.width - x - self.MARGIN_RIGHT)
         text = str(text)
         words = text.split()
         line = ""
@@ -195,18 +222,20 @@ class PdfUtils:
               
     def _drawGroup(self, title, keys):
         self.y -= 20
-        self._drawText(40, self.y, title)
+        self._drawText(self.MARGIN_TITLE, self.y, title)
         self.y -= 20
         if title == "PARENTES":
             if "Quantidade de Parentes" in self.data:
                 quantity_key = "Quantidade de Parentes"
                 self._ensureSpace(20)
                 keyWidth = self.canvas.stringWidth(f"{quantity_key}: ", "Helvetica-Bold", 12)
-                self._drawText(60, self.y, f"{quantity_key}:", bold=True)
-                self.y = self._drawText(60 + keyWidth + 10, self.y, str(self.data[quantity_key]))
+                self._drawText(self.MARGIN_FIELD, self.y, f"{quantity_key}:", bold=True)
+                self.y = self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, str(self.data[quantity_key]))
                 self.y -= 20
                 
                 parente_fields = ["Parentes CPF", "Parentes Nome", "Parentes Tipo", "Parentes Idade", "Parentes Óbito", "Parentes PEP", "Parentes Renda"]
+                logging.info(f"Checking parente fields: {[field for field in parente_fields if field in self.data]}")
+                logging.info(f"All fields present: {all(field in self.data for field in parente_fields)}")
                 if all(field in self.data for field in parente_fields):
                     cpfs = self.data["Parentes CPF"]
                     nomes = self.data["Parentes Nome"]
@@ -215,9 +244,13 @@ class PdfUtils:
                     obitos = self.data["Parentes Óbito"]
                     peps = self.data["Parentes PEP"]
                     rendas = self.data["Parentes Renda"]
+                    
+                    logging.info(f"Parentes data lengths - CPFs: {len(cpfs)}, Nomes: {len(nomes)}")
+                    logging.info(f"Sample nomes: {nomes[:3] if nomes else 'Empty'}")
+                    
                     for i in range(len(nomes)):
                         self._ensureSpace(20)
-                        self._drawText(60, self.y, f"Familiar {i + 1}:", bold=True)
+                        self._drawText(self.MARGIN_FIELD, self.y, f"Familiar {i + 1}:", bold=True)
                         self.y -= 20
                         def safe_get_value(data_list, index):
                             if index < len(data_list) and data_list[index]:
@@ -248,8 +281,8 @@ class PdfUtils:
                         for label, value in familiar_data:
                             self._ensureSpace(20)
                             keyWidth = self.canvas.stringWidth(f"{label}: ", "Helvetica-Bold", 12)
-                            self._drawText(80, self.y, f"{label}:", bold=True)
-                            self.y = self._drawText(80 + keyWidth + 10, self.y, str(value))
+                            self._drawText(self.MARGIN_SUBFIELD, self.y, f"{label}:", bold=True)
+                            self.y = self._drawText(self.MARGIN_SUBFIELD + keyWidth + 10, self.y, str(value))
                             self.y -= 20
                         
                         self.y -= 10
@@ -264,8 +297,8 @@ class PdfUtils:
                 if key == "Total de Processos":
                     self._ensureSpace(20)
                     keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
-                    self._drawText(60, self.y, f"{key}:", bold=True)                    
-                    self.y = self._drawText(60 + keyWidth + 10, self.y, str(text))
+                    self._drawText(self.MARGIN_FIELD, self.y, f"{key}:", bold=True)                    
+                    self.y = self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, str(text))
                     self.y -= 20
                     if int(text) == 0:
                         return
@@ -275,15 +308,15 @@ class PdfUtils:
                     processCount = len(text)
                     for i in range(processCount):
                         self._ensureSpace(20)
-                        self._drawText(60, self.y, f"Processo {i + 1}:", bold=True)
+                        self._drawText(self.MARGIN_FIELD, self.y, f"Processo {i + 1}:", bold=True)
                         self.y -= 20
                         for processKey in ["Número do Processo", "Tipo", "Status", "Papel", "Valor da Causa", "Envolvidos", "Assunto", "Tribunal", "Ano de Abertura", "Data de Encerramento", "Última Atualização", "Última Movimentação"]:
                             if processKey in self.data and len(self.data[processKey]) > i:
                                 value = self.data[processKey][i]
                                 keyWidth = self.canvas.stringWidth(f"{processKey}: ", "Helvetica-Bold", 12)
                                 self._ensureSpace(20)
-                                self._drawText(80, self.y, f"{processKey}:", bold=True)
-                                self.y = self._drawText(80 + keyWidth + 10, self.y, str(value) if value is not None else '-')
+                                self._drawText(self.MARGIN_SUBFIELD, self.y, f"{processKey}:", bold=True)
+                                self.y = self._drawText(self.MARGIN_SUBFIELD + keyWidth + 10, self.y, str(value) if value is not None else '-')
                                 self.y -= 20
                         self.y -= 10
                     return                
@@ -307,8 +340,10 @@ class PdfUtils:
                             self._ensureSpace(20)
                             key_with_colon = "Endereço:"
                             key_width = self.canvas.stringWidth(key_with_colon, "Helvetica-Bold", 12)
-                            self._drawText(60, self.y, key_with_colon, bold=True)
-                            self.y = self._drawText(60 + key_width + 10, self.y, address, maxWidth=self.width - 80)
+                            self._drawText(self.MARGIN_FIELD, self.y, key_with_colon, bold=True)
+                            text_x_position = self.MARGIN_FIELD + key_width + 10
+                            max_width = self.width - text_x_position - self.MARGIN_RIGHT
+                            self.y = self._drawText(text_x_position, self.y, address, maxWidth=max_width)
                             self.y -= 20
                             if self.y < 40:
                                 self.canvas.showPage()
@@ -319,8 +354,8 @@ class PdfUtils:
                     for email in text:
                         self._ensureSpace(20)
                         keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
-                        self._drawText(60, self.y, f"{key}:", bold=True)
-                        self.y = self._drawText(60 + keyWidth + 10, self.y, email)
+                        self._drawText(self.MARGIN_FIELD, self.y, f"{key}:", bold=True)
+                        self.y = self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, email)
                         self.y -= 20                
                 elif isinstance(text, list):
                     if key.startswith("Parentes ") and key != "Parentes Dados":
@@ -329,21 +364,21 @@ class PdfUtils:
                     for item in text:
                         self._ensureSpace(20)
                         keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
-                        self._drawText(60, self.y, f"{key}:", bold=True)                        
-                        self.y = self._drawText(60 + keyWidth + 10, self.y, str(item))
+                        self._drawText(self.MARGIN_FIELD, self.y, f"{key}:", bold=True)                        
+                        self.y = self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, str(item))
                         self.y -= 20
                 else:
                     text = str(text) if text is not None else '-'
                     keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                     self._ensureSpace(20)
-                    self._drawText(60, self.y, f"{key}:", bold=True)
-                    self.y = self._drawText(60 + keyWidth + 10, self.y, text)
+                    self._drawText(self.MARGIN_FIELD, self.y, f"{key}:", bold=True)
+                    self.y = self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, text)
                     self.y -= 20
             else:
                 keyWidth = self.canvas.stringWidth(f"{key}: ", "Helvetica-Bold", 12)
                 self._ensureSpace(20)
-                self._drawText(60, self.y, f"{key}:", bold=True)
-                self._drawText(60 + keyWidth + 10, self.y, "-", font="Helvetica")
+                self._drawText(self.MARGIN_FIELD, self.y, f"{key}:", bold=True)
+                self._drawText(self.MARGIN_FIELD + keyWidth + 10, self.y, "-", font="Helvetica")
                 self.y -= 20
         self.y = max(self.y, 40)
     def _addConfidentialityContract(self):
@@ -374,7 +409,7 @@ class PdfUtils:
         except Exception as e:
             logging.error(f"Error adding confidentiality contract: {e}")
     def _addSummaryTexts(self, key, summaryTexts):
-        self._drawText(40, self.y, f"{key}: ", font="Helvetica")
+        self._drawText(self.MARGIN_TITLE, self.y, f"{key}: ", font="Helvetica")
         self.y -= 20
         if isinstance(summaryTexts, list):
             flatTexts = []
@@ -385,11 +420,11 @@ class PdfUtils:
                 else:
                     flatTexts.append(str(sublist).strip())
             for text in flatTexts:
-                self.y = self._drawText(60, self.y, text, font="Helvetica", size=12, maxWidth=self.width - 80)
+                self.y = self._drawText(self.MARGIN_FIELD, self.y, text, font="Helvetica", size=12, maxWidth=self.width - self.MARGIN_FIELD - self.MARGIN_RIGHT)
                 self.y -= 20
         else:
             text = str(summaryTexts).strip()
-            self.y = self._drawText(60, self.y, text, font="Helvetica", size=12, maxWidth=self.width - 80)
+            self.y = self._drawText(self.MARGIN_FIELD, self.y, text, font="Helvetica", size=12, maxWidth=self.width - self.MARGIN_FIELD - self.MARGIN_RIGHT)
             self.y -= 20
         self.y = max(self.y, 40)
 
