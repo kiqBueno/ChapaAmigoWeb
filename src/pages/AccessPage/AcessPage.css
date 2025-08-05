@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 75vw;
-  margin: auto;
-  margin-top: 5rem;
+  max-width: var(--max-width-container);
+  width: 90%;
+  margin: 5rem auto 0;
   padding: 1.5rem;
 }
 
@@ -67,4 +67,25 @@
 .button3d:active:before,
 .button3d:active:after {
   transform: translate3d(0, 0, -1em);
+}
+
+@media (max-width: 768px) {
+  #accessPageContainer {
+    width: 95%;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #accessPageContainer {
+    width: 98%;
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .button3d {
+    font-size: 14px;
+    padding: 0.75em 1.25em;
+  }
 }

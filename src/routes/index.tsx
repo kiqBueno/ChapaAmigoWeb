@@ -11,6 +11,7 @@ const CarouselManagementPage = lazy(
   () => import("../pages/AccessPage/CarouselManagementPage")
 );
 const ImportantInfoPage = lazy(() => import("../pages/ImportantInfoPage"));
+const NotificationPage = lazy(() => import("../pages/NotificationPage"));
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
           element={<CarouselManagementPage />}
         />
         <Route path="/pagamento" element={<ImportantInfoPage />} />
+        <Route path="/notificacao" element={<NotificationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

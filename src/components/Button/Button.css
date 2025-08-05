@@ -58,7 +58,8 @@
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-normal);
   font-size: var(--font-size-md);
-  width: 25vw;
+  width: 100%;
+  max-width: 20rem;
 }
 
 .btn-secondary:hover {
@@ -132,7 +133,8 @@
 @media (max-width: 768px) {
   .btnHome,
   .btnPrimary.btnHome {
-    width: 35vw;
+    width: 100%;
+    max-width: 15rem;
     font-size: 1.2rem;
     padding: 1rem;
   }

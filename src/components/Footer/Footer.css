@@ -63,7 +63,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #ffffff80;
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 0.5rem;
   text-align: center;
 }
@@ -102,7 +102,7 @@
 
 .footerLogoImage {
   width: 12.5rem;
-  background-color: #ffffffff;
+  background-color: var(--color-white);
   border-radius: 0.5rem;
 }
 
@@ -135,7 +135,7 @@
   }
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1024px) {
   .footerLogoImage {
     width: 10rem;
   }

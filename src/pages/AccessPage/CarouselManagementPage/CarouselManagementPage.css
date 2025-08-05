@@ -1,7 +1,7 @@
 .carouselManagementContainer {
   margin: 1rem 0;
   padding: 5rem 2rem;
-  background: #f8f9fa;
+  background: var(--color-background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
 
 .carouselManagementHeader {
   text-align: center;
-  background: white;
+  background: var(--color-white);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -75,7 +75,7 @@
 }
 
 .carouselItem {
-  background: white;
+  background: var(--color-white);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -146,7 +146,7 @@
 }
 
 .reorderBtn:disabled {
-  background: #ccc;
+  background: var(--color-border-medium);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -165,7 +165,7 @@
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 1rem;
-  background: #f8f9fa;
+  background: var(--color-background-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,7 +242,7 @@
 }
 
 .instructions {
-  background: white;
+  background: var(--color-white);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -316,7 +316,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--color-border-medium);
   transition: 0.4s;
   border-radius: 34px;
 }
@@ -328,7 +328,7 @@
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: var(--color-white);
   transition: 0.4s;
   border-radius: 50%;
 }
@@ -346,7 +346,7 @@
 }
 
 .carouselControlsSection {
-  background: white;
+  background: var(--color-white);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -373,7 +373,7 @@
   border: 2px solid #e0e6ed;
   border-radius: 8px;
   overflow: hidden;
-  background: white;
+  background: var(--color-white);
 }
 
 .numberBtn {
@@ -396,7 +396,7 @@
 }
 
 .numberBtn:disabled {
-  background: #ccc;
+  background: var(--color-border-medium);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -419,11 +419,11 @@
   font-size: 1.1rem;
   font-weight: var(--font-weight-medium);
   color: #0f3558;
-  background: #ffffff;
+  background: var(--color-white);
 }
 
 .numberInput:focus {
-  background: #f8f9fa;
+  background: var(--color-background-light);
 }
 
 .slotCountInfo {
@@ -454,7 +454,7 @@
   font-size: 0.9rem;
   font-weight: var(--font-weight-bold);
   color: #0f3558;
-  background: #f8f9fa;
+  background: var(--color-background-light);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   border: 1px solid #e0e6ed;

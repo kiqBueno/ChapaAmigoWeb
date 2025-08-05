@@ -39,7 +39,7 @@ p {
   justify-content: center;
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1024px) {
   .iconsWithText {
     flex-direction: column;
     gap: var(--spacing-xl);

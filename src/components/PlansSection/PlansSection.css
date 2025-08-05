@@ -44,9 +44,9 @@
   border: var(--color-secondary-dark) var(--border-width-thick) double;
   border-radius: var(--border-radius-lg);
   text-align: start;
-  width: 25vw;
-  max-width: 25vw;
-  min-width: 18vw;
+  width: 100%;
+  max-width: 25rem;
+  min-width: 18rem;
   background-color: var(--color-white);
   padding: 1.5rem;
   position: relative;
@@ -69,7 +69,7 @@
 }
 
 .pricingPlan.plansPage {
-  padding-bottom: 1rem;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
   min-height: auto;
 }
 
@@ -168,8 +168,8 @@ h2 {
 .extraInfoContainer {
   margin-bottom: 1rem;
   padding: 1rem;
-  background-color: #f9f9f9;
-  border: 0.0625rem solid #e6e6e6;
+  background-color: var(--color-background-light);
+  border: 0.0625rem solid var(--color-border-light);
   border-radius: 0.5rem;
   text-align: left;
 }
@@ -200,11 +200,10 @@ h2 {
 
 .downloadSection {
   width: 100%;
-  background-color: white;
-  border-top: 1px solid #e6e6e6;
+  background-color: transparent;
+  border-top: 1px solid var(--color-border-light);
   margin-top: 0.5rem;
   border-radius: 0 0 0.625rem 0.625rem;
-  background-color: transparent;
 }
 
 .downloadButtonsContainer {
@@ -236,7 +235,7 @@ h2 {
 
 #priceContainer .plansPageText .sectionContainer h3 {
   background-color: #003366;
-  color: #ffffff;
+  color: var(--color-white);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -245,11 +244,11 @@ h2 {
   color: var(--color-primary-dark);
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1024px) {
   .pricingPlan {
-    width: calc(50% - 1rem);
     max-width: calc(50% - 1rem);
-    min-width: calc(50% - 1rem);
+    min-width: 15rem;
+    padding: 1.5rem;
   }
 
   .planCardsContainer {
@@ -262,18 +261,17 @@ h2 {
   }
 
   .plansPageText {
-    width: calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
+    max-width: 90%;
     margin: 2rem auto;
     padding: 0 1rem;
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   .pricingPlan {
-    width: calc(80% - 1rem);
-    max-width: calc(80% - 1rem);
-    min-width: calc(80% - 1rem);
+    max-width: 90%;
+    min-width: auto;
+    padding: 1.25rem;
   }
 
   .importantInfo p,
@@ -286,8 +284,7 @@ h2 {
   }
 
   .plansPageText {
-    width: calc(80% - 1rem);
-    max-width: calc(80% - 1rem);
+    max-width: 95%;
     margin: 2rem auto;
     padding: 0 1rem;
   }
@@ -295,15 +292,14 @@ h2 {
 
 @media (max-width: 480px) {
   .pricingPlan {
-    width: calc(90% - 1rem);
+    max-width: 95%;
+    min-width: auto;
+    padding: 1rem;
   }
 
   .planCardsContainer {
     gap: 1.25rem;
-  }
-
-  .pricingPlan .card-content {
-    padding: 0.5rem;
+    padding: 0 0.5rem;
   }
 
   .downloadButtonsContainer {
@@ -320,5 +316,10 @@ h2 {
 
   .downloadSection {
     margin-top: 0.75rem;
+  }
+
+  .plansPageText {
+    max-width: 98%;
+    padding: 0 0.5rem;
   }
 }

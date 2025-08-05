@@ -85,7 +85,7 @@ body.menu-open {
   min-width: 280px;
   max-width: 50%;
   height: calc(100vh - 5rem);
-  background-color: white;
+  background-color: var(--color-white);
   padding: 2rem 2rem 1rem 2rem;
   z-index: 999;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
@@ -112,7 +112,7 @@ body.menu-open {
   display: block;
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1024px) {
   .header {
     padding: 1rem;
   }
@@ -130,7 +130,7 @@ body.menu-open {
     min-width: 280px;
     max-width: calc(100vw - 2rem);
     height: calc(100vh - 5rem);
-    background-color: white;
+    background-color: var(--color-white);
     padding: 2rem 1rem 1rem 1rem;
     z-index: 999;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);

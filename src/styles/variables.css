@@ -11,6 +11,8 @@
   --color-text-primary: #242424;
   --color-text-secondary: #333;
   --color-white: #ffffff;
+  --color-background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --color-background-light: #f8f9fa;
   --color-black: #000000;
 
   --color-border-light: #e6e6e6;
@@ -19,9 +21,13 @@
   --color-border-secondary: #ffca00;
   --color-border-accent: #95a5a6;
 
+  --font-size-sm: 1rem;
   --font-size-md: 1.25rem;
   --font-size-lg: 1.5rem;
+  --font-size-xl: 1.75rem;
   --font-size-2xl: 2rem;
+  --font-size-3xl: 2.5rem;
+  --font-size-4xl: 3rem;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
 
@@ -57,12 +63,20 @@
   --ease-out: ease-out;
 
   --width-logo: 10rem;
+  --width-container-sm: 90%;
   --width-container-md: 75%;
   --width-container-lg: 100%;
   --width-button: 15rem;
+  --max-width-container: 1200px;
 
   --height-header: 5rem;
   --height-button: 2.5rem;
+
+  /* Breakpoints padronizados */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-large: 1200px;
 
   --gradient-divider-light: linear-gradient(
     90deg,
@@ -78,4 +92,51 @@
   );
 
   --opacity-muted: 0.8;
+}
+
+/* Classes de container responsivas padronizadas */
+.container {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.container-sm {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.container-md {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.container-lg {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg {
+    padding: 0 0.75rem;
+  }
 }

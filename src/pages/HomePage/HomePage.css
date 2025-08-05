@@ -59,9 +59,10 @@ html {
   justify-content: center;
   align-items: flex-start;
   height: var(--width-container-lg);
-  width: 50vw;
+  width: 50%;
+  max-width: 50rem;
   color: var(--color-white);
-  padding-left: 2rem;
+  padding: 0 0 0 5rem;
   transition: width var(--transition-normal) var(--ease-default);
 }
 
@@ -70,9 +71,8 @@ html {
 }
 
 .bentoWrapper {
-  max-width: 75rem;
   margin: 0 auto;
-  padding: 5rem 0;
+  padding: 5rem 1rem;
   min-height: 25rem;
 }
 
@@ -82,12 +82,12 @@ html {
   align-items: center;
   height: 75vh;
   margin: auto;
-  padding: 5rem 0 5rem 0;
+  padding: 5rem;
 }
 
 .videoContainer iframe {
   height: var(--width-container-lg);
-  width: var(--width-container-md);
+  width: 100%;
 }
 
 .videoContainer h1 {
@@ -98,7 +98,7 @@ html {
 
 #homeContainer #priceContainer {
   color: var(--color-primary);
-  padding: 5rem 0 5rem 0;
+  padding: 5rem;
 }
 
 .homeButtonsContainer {
@@ -117,9 +117,9 @@ html {
   backface-visibility: hidden;
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1024px) {
   .homeTextContainer {
-    background-position: 97.5%;
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
@@ -137,11 +137,11 @@ html {
   }
 
   .cardsContainer {
-    padding: 5rem 0;
+    padding: 5rem 1rem;
   }
 
   .videoContainer {
-    width: 75vw;
+    width: 75%;
     margin: auto;
     text-align: center;
   }
@@ -149,20 +149,18 @@ html {
   .videoContainer iframe {
     width: 100%;
   }
+
   .homeText {
+    width: 100%;
+    max-width: none;
     color: white;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 0;
+    padding: 5rem;
     position: relative;
     z-index: 2;
-  }
-  .homeText h1,
-  .homeText h2,
-  .homeText p {
-    padding: 0 3rem 0 3rem;
   }
 
   .homeText p {
@@ -175,7 +173,7 @@ html {
     gap: 0.75rem;
     width: 100%;
     flex-wrap: nowrap;
-    padding: 0 3rem 0 3rem;
+    padding: 0;
     margin-top: 1.5rem;
   }
 
@@ -184,55 +182,66 @@ html {
   }
 }
 
-@media (max-width: 900px) {
-  .homeText {
-    width: 65vw;
-  }
-}
-
 @media (max-width: 768px) {
+  .homeText {
+    color: white;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+  }
+
+  .homeText p {
+    font-weight: 600;
+    margin: 0;
+  }
+
   .homeButtonsContainer {
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
     width: 100%;
+    flex-wrap: nowrap;
+    margin-top: 1.5rem;
   }
 
+  .homeButtonsContainer > *,
   .homeButtonsContainer > a,
   .homeButtonsContainer > .download-button-container > a {
+    margin-top: 0 !important;
     width: var(--width-button) !important;
   }
 
   .videoContainer .download-button-container > button {
     width: var(--width-button) !important;
   }
-}
 
-@media (max-width: 700px) {
-  .homeText {
-    width: 80vw;
+  .cardsContainer {
+    padding: 3rem 1rem;
+  }
+
+  .bentoWrapper {
+    padding: 3rem 1rem;
   }
 }
 
-@media (max-width: 500px) {
-  .homeText {
-    width: 90vw;
+@media (max-width: 480px) {
+  .cardsContainer {
+    padding: 2rem 0.75rem;
   }
 
-  .homeButtonsContainer {
-    padding: 0 2rem 0 1rem;
+  .bentoWrapper {
+    padding: 2rem 0.75rem;
   }
-}
-
-@media (max-width: 400px) {
-  .homeText {
-    width: 100vw;
+  #homeContainer #priceContainer {
+    padding: 2rem;
   }
 
-  .homeButtonsContainer {
-    padding: 0;
-  }
-
-  .homeButtonsContainer {
-    padding: 0;
+  .videoContainer {
+    padding: 2rem;
   }
 }
