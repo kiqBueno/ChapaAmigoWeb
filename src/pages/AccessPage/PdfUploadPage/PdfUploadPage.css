@@ -127,3 +127,31 @@
   display: block;
   width: auto;
 }
+
+.pdfUploadPageContainer .selectedFilesPreview {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  max-width: 100%;
+}
+
+.pdfUploadPageContainer .selectedFilesPreview h3 {
+  margin: 0 0 0.5rem 0;
+  color: #0f3558;
+  font-size: 1rem;
+}
+
+.pdfUploadPageContainer .selectedFilesPreview ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.pdfUploadPageContainer .selectedFilesPreview li {
+  margin-bottom: 0.25rem;
+  color: #495057;
+  font-size: 0.9rem;
+}

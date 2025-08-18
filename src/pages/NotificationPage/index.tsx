@@ -122,12 +122,14 @@ const NotificationPage = () => {
           mais cresce no Brasil!
         </h2>
 
-        <button
+        <a
+          href="https://api.whatsapp.com/send?phone=5511933058356"
+          target="_blank"
+          rel="noopener noreferrer"
           className="btnHome btnPrimary btnLarge"
-          onClick={() => alert("Volte ao WhatsApp e responda SIM! 💪")}
         >
           Voltar ao WhatsApp
-        </button>
+        </a>
       </section>
     </div>
   );

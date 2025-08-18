@@ -64,7 +64,7 @@ const customizationLabels: Record<string, string> = {
 };
 
 const PdfUploadPage = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<FileList | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [showCustomization, setShowCustomization] = useState(false);
@@ -93,7 +93,7 @@ const PdfUploadPage = () => {
   };
 
   const resetFileInput = () => {
-    setFile(null);
+    setFiles(null);
     setImage(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -105,49 +105,48 @@ const PdfUploadPage = () => {
       imageInput.value = "";
     }
   };
-  interface FamiliareData {
-    Nomes: string[];
-    CPFs: string[];
-    Tipos: string[];
-    Idades: string[];
-    Obitos: string[];
-    PEPs: string[];
-    Rendas: string[];
-  }
 
-  interface NameResponse {
-    name: string;
-    familiares: FamiliareData;
+  interface MultipleFilesResponse {
+    files_count: number;
+    extracted_names: string[];
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!file) return setMessage("Selecione um Arquivo.");
-    if (!(file instanceof File))
-      return setMessage("Formato Invalido de Arquivo");
-    if (file.type !== "application/pdf")
-      return setMessage("Apenas arquivos .pdf");
+    if (!files || files.length === 0)
+      return setMessage("Selecione pelo menos um arquivo.");
+
+    // Verificar se todos os arquivos são PDFs
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].type !== "application/pdf") {
+        return setMessage(`Arquivo ${files[i].name} não é um PDF válido.`);
+      }
+    }
 
     setLoading(true);
     try {
-      const pdfFormData = new FormData();
-      pdfFormData.append("file", file);
-      const nameResponse = await axios.post<NameResponse>(
-        `${BASE_URL}/upload-pdf`,
-        pdfFormData
-      );
-      const extractedName = nameResponse.data.name;
+      // Enviar todos os arquivos em uma única requisição
+      const multipleFormData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        multipleFormData.append("files", files[i]);
+      }
 
-      console.log("Extracted Name:", extractedName);
+      const multipleResponse = await axios.post<MultipleFilesResponse>(
+        `${BASE_URL}/upload-multiple-pdfs`,
+        multipleFormData
+      );
+
+      const { files_count, extracted_names } = multipleResponse.data;
+      console.log(`Processed ${files_count} files:`, extracted_names);
 
       if (image) {
         const imageFormData = new FormData();
         imageFormData.append("image", image);
-
         await axios.post(`${BASE_URL}/upload-image`, imageFormData);
         console.log("Image uploaded successfully.");
       }
 
+      // Processar usando o primeiro arquivo como referência
       const processFormData = new FormData();
       processFormData.append("password", "515608");
       Object.entries(customizationOptions).forEach(([key, value]) => {
@@ -169,7 +168,9 @@ const PdfUploadPage = () => {
       const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
       const fileName = fileNameMatch
         ? fileNameMatch[1]
-        : `Relatorio_${extractedName.replace(/\s+/g, "_")}.pdf`;
+        : files_count === 1
+        ? `Relatorio_${extracted_names[0].replace(/\s+/g, "_")}.pdf`
+        : `Relatorios_Multiple_Files.zip`;
 
       const url = window.URL.createObjectURL(new Blob([response.data as Blob]));
       const link = document.createElement("a");
@@ -178,78 +179,18 @@ const PdfUploadPage = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
-      setMessage("PDF processed successfully.");
-    } catch (error) {
-      console.error("Error processing PDF:", error);
-      setMessage("Error processing PDF.");
-    } finally {
-      setLoading(false);
-      resetFileInput();
-      setTimeout(() => setMessage(""), 10000);
-    }
-  };
 
-  const handleCrop = async () => {
-    if (!file) return setMessage("Selecione um Arquivo.");
-
-    if (!(file instanceof File) || file.type !== "application/pdf") {
-      return setMessage("Apenas arquivos .pdf são permitidos.");
-    }
-
-    setLoading(true);
-    try {
-      const uploadFormData = new FormData();
-      uploadFormData.append("file", file);
-
-      const uploadResponse = await fetch(`${BASE_URL}/upload-pdf`, {
-        method: "POST",
-        body: uploadFormData,
-        mode: "cors",
-        credentials: "same-origin",
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!uploadResponse.ok) {
-        throw new Error(`HTTP error! status: ${uploadResponse.status}`);
+      // Show appropriate message based on file count
+      if (files_count === 1) {
+        setMessage(`PDF processado com sucesso: ${extracted_names[0]}`);
+      } else {
+        setMessage(
+          `${files_count} PDFs processados e compactados em ZIP com sucesso.`
+        );
       }
-
-      const { name: extractedName } = await uploadResponse.json();
-
-      const cropResponse = await fetch(`${BASE_URL}/crop-pdf`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "same-origin",
-        headers: {
-          Accept: "application/pdf",
-        },
-      });
-
-      if (!cropResponse.ok) {
-        throw new Error(`HTTP error! status: ${cropResponse.status}`);
-      }
-
-      const blob = await cropResponse.blob();
-      const contentDisposition = cropResponse.headers.get(
-        "content-disposition"
-      );
-      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
-      const fileName = fileNameMatch
-        ? fileNameMatch[1]
-        : `${extractedName.replace(/\s+/g, "_")}.pdf`;
-
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setMessage("PDF cropped successfully.");
     } catch (error) {
-      console.error("Error cropping PDF:", error);
-      setMessage("Error cropping PDF.");
+      console.error("Error processing multiple PDFs:", error);
+      setMessage("Error processing multiple PDFs.");
     } finally {
       setLoading(false);
       resetFileInput();
@@ -263,14 +204,27 @@ const PdfUploadPage = () => {
       <form onSubmit={handleSubmit}>
         <div className="pdfUploaderForm">
           <label>
-            Selecionar PDF:
+            Selecionar PDFs (múltiplos arquivos):
             <input
               type="file"
               accept="application/pdf"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              multiple
+              onChange={(e) => setFiles(e.target.files)}
               ref={fileInputRef}
             />
           </label>
+          {files && files.length > 0 && (
+            <div className="selectedFilesPreview">
+              <h3>Arquivos selecionados ({files.length}):</h3>
+              <ul>
+                {Array.from(files).map((file, index) => (
+                  <li key={index}>
+                    {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <label>
             Selecionar Foto (Opcional):
             <input
@@ -292,16 +246,10 @@ const PdfUploadPage = () => {
                 Raspar
               </button>
             </div>
-            <button
-              className="btn-secondary"
-              type="button"
-              onClick={handleCrop}
-            >
-              Cortar
-            </button>
           </div>
         </div>
       </form>
+
       {loading ? <p>Carregando...</p> : message && <p>{message}</p>}
 
       {showCustomization && (

@@ -139,6 +139,10 @@
     padding: 1rem;
   }
 
+  .btnLarge {
+    padding: 1rem !important;
+  }
+
   .btn-plan {
     width: 90%;
     font-size: 1.2rem;

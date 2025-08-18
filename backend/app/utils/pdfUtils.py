@@ -468,30 +468,6 @@ class PdfUtils:
             self.canvas.save()
             self.outputPdf.seek(0)
 
-    def cropPdf(self, inputPdfPath, outputPdfPath, cropTopRatio=0.085, cropBottomRatio=0.085):
-        try:
-            with open(inputPdfPath, 'rb') as inFile:
-                reader = PdfReader(inFile)
-                writer = PdfWriter()
-
-                for page in reader.pages:
-                    page_width = float(page.mediabox[2])
-                    page_height = float(page.mediabox[3])
-
-                    crop_top = page_height * cropTopRatio
-                    crop_bottom = page_height * cropBottomRatio
-                    page.mediabox.upper_right = [page_width, page_height - crop_top]
-                    page.mediabox.lower_left = [0, crop_bottom]
-
-                    writer.add_page(page)
-
-                with open(outputPdfPath, 'wb') as outFile:
-                    writer.write(outFile)
-
-        except Exception as e:
-            logging.error(f"Error cropping PDF: {e}")
-            raise
-
     def _get_page_text(self, page):  # type: ignore
         try:
             return page.get_text()
