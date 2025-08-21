@@ -1,0 +1,350 @@
+.batchUploadPageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: "Arial", sans-serif;
+}
+
+.headerSection {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background: #e9ecef;
+}
+
+.headerSection h1 {
+  color: #0f3558;
+  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Upload Section */
+.uploadSection {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px dashed #dee2e6;
+  transition: border-color 0.3s;
+}
+
+.uploadSection:hover {
+  border-color: #0f3558;
+}
+
+.fileUploadArea {
+  margin-bottom: 1.5rem;
+}
+
+.fileLabel {
+  display: block;
+  font-weight: 600;
+  color: #0f3558;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.fileLabel input[type="file"] {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: white;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.selectedFilesPreview {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.selectedFilesPreview h3 {
+  margin: 0 0 1rem 0;
+  color: #0f3558;
+  font-size: 1.1rem;
+}
+
+.batchRecommendation {
+  background: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.filesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.fileItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.fileName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.fileSize {
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.moreFiles {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 0.5rem;
+}
+
+.totalSize {
+  text-align: right;
+  font-weight: 600;
+  color: #0f3558;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.actionButtons {
+  text-align: center;
+}
+
+.batchUploadPageContainer .btnPrimary {
+  background: linear-gradient(135deg, #0f3558 0%, #1a5f8a 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(15, 53, 88, 0.2);
+}
+
+.batchUploadPageContainer .btnPrimary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1a5f8a 0%, #0f3558 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 53, 88, 0.3);
+}
+
+.batchUploadPageContainer .btnPrimary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Progress Section */
+.progressSection {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745, #20c997);
+  transition: width 0.3s ease;
+}
+
+/* Batch Cards */
+.currentBatchSection,
+.batchHistorySection {
+  margin-bottom: 2rem;
+}
+
+.currentBatchSection h2,
+.batchHistorySection h2 {
+  color: #0f3558;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.batchCard {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.batchCard:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.batchHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.batchId {
+  font-family: "Courier New", monospace;
+  background: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.batchStatus {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.batchProgress {
+  margin-bottom: 1rem;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.batchInfo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.batchDate {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.failedFiles {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.downloadButton {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.downloadButton:hover {
+  background: #218838;
+}
+
+/* Batch List */
+.batchList {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Messages */
+.messageArea {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.messageArea.success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.messageArea.error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .batchUploadPageContainer {
+    padding: 1rem;
+  }
+
+  .backButton {
+    position: static;
+    margin-bottom: 1rem;
+  }
+
+  .headerSection h1 {
+    font-size: 1.8rem;
+  }
+
+  .filesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .batchHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .batchInfo {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

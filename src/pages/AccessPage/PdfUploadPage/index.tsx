@@ -4,6 +4,7 @@ import "../AcessPage.css";
 import "../../../components/Button/Button.css";
 import axios from "axios";
 import { BASE_URL } from "../../../config/apiConfig";
+import BatchUploadPage from "../BatchUploadPage";
 
 type GroupKeys =
   | "CADASTROS BÁSICOS"
@@ -68,11 +69,17 @@ const PdfUploadPage = () => {
   const [image, setImage] = useState<File | null>(null);
   const [message, setMessage] = useState("");
   const [showCustomization, setShowCustomization] = useState(false);
+  const [showBatchUpload, setShowBatchUpload] = useState(false);
   const [customizationOptions, setCustomizationOptions] = useState(
     defaultCustomizationOptions
   );
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // If batch upload is selected, show the batch upload page
+  if (showBatchUpload) {
+    return <BatchUploadPage onBack={() => setShowBatchUpload(false)} />;
+  }
 
   const updateCustomizationOption = (key: string, value: boolean) => {
     setCustomizationOptions((prev) => ({
@@ -201,6 +208,37 @@ const PdfUploadPage = () => {
   return (
     <div className="pdfUploadPageContainer">
       <h1>Gerador de Arquivo</h1>
+
+      {/* Processing Mode Selection */}
+      <div className="processingModeSection">
+        <h2>Selecione o Modo de Processamento</h2>
+        <div className="modeButtons">
+          <div className="modeOption">
+            <h3>📄 Processamento Individual</h3>
+            <p>Para poucos arquivos (até 15-20 PDFs)</p>
+            <p>Processamento direto com download imediato</p>
+            <button
+              className="modeButton"
+              onClick={() => setShowBatchUpload(false)}
+              disabled={showBatchUpload === false}
+            >
+              {showBatchUpload === false ? "✓ Selecionado" : "Selecionar"}
+            </button>
+          </div>
+
+          <div className="modeOption">
+            <h3>🚀 Processamento em Lotes</h3>
+            <p>Para muitos arquivos (até 50 PDFs)</p>
+            <button
+              className="modeButton"
+              onClick={() => setShowBatchUpload(true)}
+            >
+              Selecionar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div className="pdfUploaderForm">
           <label>
@@ -216,6 +254,13 @@ const PdfUploadPage = () => {
           {files && files.length > 0 && (
             <div className="selectedFilesPreview">
               <h3>Arquivos selecionados ({files.length}):</h3>
+              {files.length > 20 && (
+                <div className="largeBatchWarning">
+                  ⚠️ Você selecionou {files.length} arquivos. Para melhor
+                  performance com muitos arquivos, considere usar o{" "}
+                  <strong>Processamento em Lotes</strong>.
+                </div>
+              )}
               <ul>
                 {Array.from(files).map((file, index) => (
                   <li key={index}>

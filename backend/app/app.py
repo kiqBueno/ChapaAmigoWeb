@@ -5,6 +5,7 @@ from .utils.logging_config import setupLogging
 from .views.pdf_routes import pdf_bp
 from .views.image_routes import image_bp
 from .views.carousel_routes import carousel_bp
+from .views.batch_routes import batch_bp
 
 def create_app():
     setupLogging()
@@ -22,6 +23,7 @@ def create_app():
     app.register_blueprint(pdf_bp)
     app.register_blueprint(image_bp)
     app.register_blueprint(carousel_bp)
+    app.register_blueprint(batch_bp)
     
     @app.after_request
     def after_request(response):

@@ -9,6 +9,92 @@
   padding: 1.5rem;
 }
 
+/* Processing Mode Selection */
+.processingModeSection {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.processingModeSection h2 {
+  color: #0f3558;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.modeButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.modeOption {
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.modeOption:hover {
+  border-color: #0f3558;
+  box-shadow: 0 4px 15px rgba(15, 53, 88, 0.1);
+}
+
+.modeOption h3 {
+  color: #0f3558;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.modeOption p {
+  color: #6c757d;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.pdfUploadPageContainer .modeButton {
+  background: linear-gradient(135deg, #0f3558 0%, #1a5f8a 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.pdfUploadPageContainer .modeButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1a5f8a 0%, #0f3558 100%);
+  transform: translateY(-2px);
+}
+
+.pdfUploadPageContainer .modeButton:disabled {
+  background: #28a745;
+  cursor: default;
+  transform: none;
+}
+
+.largeBatchWarning {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .modeButtons {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 .pdfUploadPageContainer h1,
 .pdfUploadPageContainer label {
   color: #333;
