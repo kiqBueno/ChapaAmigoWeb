@@ -44,16 +44,16 @@
     },
     {
       "id": 7,
-      "filename": "",
+      "filename": "carrousel7.jpg",
       "alt": "Carrossel 7",
-      "isActive": false,
+      "isActive": true,
       "exists": false
     },
     {
       "id": 8,
-      "filename": "",
+      "filename": "carrousel8.jpg",
       "alt": "Carrossel 8",
-      "isActive": false,
+      "isActive": true,
       "exists": false
     },
     {
