@@ -2,6 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  padding-top: calc(var(--height-header) + 2rem);
   font-family: "Arial", sans-serif;
 }
 
@@ -13,7 +14,7 @@
 .backButton {
   position: absolute;
   left: 2rem;
-  top: 2rem;
+  top: calc(var(--height-header) + 1rem);
   background: #f8f9fa;
   border: 1px solid #dee2e6;
   padding: 0.5rem 1rem;

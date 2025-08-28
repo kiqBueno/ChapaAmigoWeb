@@ -3,6 +3,40 @@ import axios from "axios";
 import { BASE_URL } from "../../../config/apiConfig";
 import "./BatchUploadPage.css";
 
+type GroupKeys =
+  | "CADASTROS BÁSICOS"
+  | "RENDA"
+  | "HISTÓRICO DA RECEITA FEDERAL"
+  | "DADOS DA CTPS"
+  | "TITULO ELEITORAL"
+  | "DADOS DO PASSAPORTE"
+  | "DADOS SOCIAIS"
+  | "CELULARES E TELEFONES FIXO"
+  | "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA"
+  | "AUXÍLIO EMERGENCIAL"
+  | "PROCESSOS"
+  | "PARENTES"
+  | "ENDEREÇOS"
+  | "RESUMO DO RELATÓRIO";
+
+// Default groups configuration (same as individual processing)
+const defaultSelectedGroups: Record<GroupKeys, string[]> = {
+  "CADASTROS BÁSICOS": ["defaultKey"],
+  RENDA: ["defaultKey"],
+  "HISTÓRICO DA RECEITA FEDERAL": ["defaultKey"],
+  "DADOS DA CTPS": ["defaultKey"],
+  "TITULO ELEITORAL": ["defaultKey"],
+  "DADOS DO PASSAPORTE": ["defaultKey"],
+  "DADOS SOCIAIS": ["defaultKey"],
+  "CELULARES E TELEFONES FIXO": ["defaultKey"],
+  "PAGAMENTOS DO BENEFÍCIO DE PRESTAÇÃO CONTINUADA": ["defaultKey"],
+  "AUXÍLIO EMERGENCIAL": ["defaultKey"],
+  PROCESSOS: ["defaultKey"],
+  PARENTES: ["defaultKey"],
+  ENDEREÇOS: ["defaultKey"],
+  "RESUMO DO RELATÓRIO": ["defaultKey"],
+};
+
 interface BatchJob {
   batch_id: string;
   total_files: number;
@@ -171,7 +205,7 @@ const BatchUploadPage: React.FC<BatchUploadProps> = ({ onBack }) => {
       formData.append("useWatermark", "true");
       formData.append("includeContract", "true");
       formData.append("includeDocuments", "true");
-      formData.append("selectedGroups", "{}");
+      formData.append("selectedGroups", JSON.stringify(defaultSelectedGroups));
       formData.append("summaryTexts", "[]");
 
       const uploadResponse = await axios.post<BatchUploadResponse>(
